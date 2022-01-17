@@ -62,24 +62,29 @@ public class PlayerController : MonoBehaviour
 
     [Header("Control de cámara")]
 
-    Camera cam;
+    public Camera cam;
+
+    [SerializeField] float _sensibilidad = 10;
+
+    [SerializeField] float _multiplicadorSensibilidad = 10;
+
+    float _rotacionX;
+    float _rotacionY;
+
     float MouseX
     {
         get
         {
-            return Input.GetAxisRaw("MouseX");
+            return Input.GetAxisRaw("Mouse X");
         }
     }
     float MouseY
     {
         get
         {
-            return Input.GetAxisRaw("MouseY");
+            return Input.GetAxisRaw("Mouse Y");
         }
     }
-
-    [SerializeField] float _sensibilidadX;
-    [SerializeField] float _sensibilidadY;
 
     #region Métodos privados
 
@@ -89,7 +94,10 @@ public class PlayerController : MonoBehaviour
         _direccionMovimiento = transform.forward * Vertical + transform.right * Horizontal;
 
         //camara
+        _rotacionY += MouseX * _sensibilidad * _multiplicadorSensibilidad;
+        _rotacionX -= MouseY * _sensibilidad * _multiplicadorSensibilidad;
 
+        _rotacionX = Mathf.Clamp(_rotacionX, -90f, 90f);
     }
 
     void MovePlayer()
@@ -97,16 +105,28 @@ public class PlayerController : MonoBehaviour
         _rigidbody.AddForce(_direccionMovimiento.normalized * _velocidad * _multiplicadorVelocidad, ForceMode.Acceleration);
     }
 
+    void RotacionCamara()
+    {
+        cam.transform.localRotation = Quaternion.Euler(_rotacionX, 0, 0);
+        transform.rotation = Quaternion.Euler(0, _rotacionY, 0);
+    }
+
     #endregion
 
     private void Awake()
     {
         _rigidbody = GetComponent<Rigidbody>();
+
+        cam = GameObject.FindGameObjectWithTag("MainCamera").GetComponent<Camera>();
+
+        Cursor.lockState = CursorLockMode.Locked;
+        Cursor.visible = false;
     }
 
     private void Update()
     {
         InputDetection();
+        RotacionCamara();
     }
 
     private void FixedUpdate()
