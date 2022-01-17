@@ -666,13 +666,13 @@ PlayerSettings:
   XboxOneOverrideIdentityPublisher: 
   vrEditorSettings: {}
   cloudServicesEnabled:
-    Analytics: 0
+    Analytics: 1
     Build: 0
-    Collab: 0
+    Collab: 1
     Game Performance: 0
     Purchasing: 0
     UDP: 0
-    UNet: 0
+    UNet: 1
     Unity Ads: 0
   luminIcon:
     m_Name: 
@@ -686,17 +686,12 @@ PlayerSettings:
     m_VersionCode: 1
     m_VersionName: 
   apiCompatibilityLevel: 6
-<<<<<<< HEAD
-  activeInputHandler: 2
-  cloudProjectId: c3f0b85b-6f1b-4bf1-832f-cd89159e3273
-=======
   activeInputHandler: 0
-  cloudProjectId:
->>>>>>> master
+  cloudProjectId: c3f0b85b-6f1b-4bf1-832f-cd89159e3273
   framebufferDepthMemorylessMode: 0
   qualitySettingsNames: []
   projectName: psxhorrorgame
-  organizationId:
+  organizationId: alejandro-ramos-casado
   cloudEnabled: 0
   legacyClampBlendShapeWeights: 0
   virtualTexturingSupportEnabled: 0
