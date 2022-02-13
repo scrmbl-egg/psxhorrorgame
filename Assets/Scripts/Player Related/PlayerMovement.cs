@@ -26,9 +26,9 @@ public class PlayerMovement : MonoBehaviour
     [Header("Ground detection")]
     //
     [SerializeField] Transform _groundCheck;
+    [SerializeField] CapsuleCollider _capsuleCollider;
     [SerializeField] float _groundCheckRadius;
     [SerializeField] LayerMask _canWalkOver;
-    CapsuleCollider _capsuleCollider;
     bool IsGrounded => Physics.CheckSphere(position: _groundCheck.position, radius: _groundCheckRadius, layerMask: _canWalkOver);
     RaycastHit _slopeHit;
     bool IsOnSlope
