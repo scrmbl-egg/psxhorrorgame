@@ -11,10 +11,10 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement")]
     //
-    [SerializeField] Transform _orientation;
-    [SerializeField] float _movementSpeed = 3f;
-    [SerializeField, Range(0f,1f)] float _movementSpeedOnAirMultiplier;
-    [SerializeField] float _airDrag = 2f;
+    [SerializeField] Transform orientation;
+    [SerializeField] float movementSpeed = 3f;
+    [SerializeField, Range(0f,1f)] float movementSpeedOnAirMultiplier;
+    [SerializeField] float airDrag = 2f;
     float _defaultDrag;
     float _movementSpeedMultiplier = 10;
     float Horizontal => Input.GetAxisRaw("Horizontal");
@@ -25,11 +25,13 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Ground detection")]
     //
-    [SerializeField] Transform _groundCheck;
-    [SerializeField] CapsuleCollider _capsuleCollider;
-    [SerializeField] float _groundCheckRadius;
-    [SerializeField] LayerMask _canWalkOver;
-    bool IsGrounded => Physics.CheckSphere(position: _groundCheck.position, radius: _groundCheckRadius, layerMask: _canWalkOver);
+    [SerializeField] Transform groundCheck;
+    [SerializeField] CapsuleCollider capsuleCollider;
+    [SerializeField] float groundCheckRadius;
+    [SerializeField] LayerMask canWalkOver;
+    bool IsGrounded => Physics.CheckSphere(position: groundCheck.position,
+                                           radius: groundCheckRadius,
+                                           layerMask: canWalkOver);
     RaycastHit _slopeHit;
     bool IsOnSlope
     {
@@ -39,8 +41,8 @@ public class PlayerMovement : MonoBehaviour
             bool slopeRay = Physics.Raycast(origin: transform.position,
                                             direction: Vector3.down,
                                             hitInfo: out _slopeHit,
-                                            maxDistance: (_capsuleCollider.height / 2) + .25f,
-                                            layerMask: _canWalkOver);
+                                            maxDistance: (capsuleCollider.height / 2) + .25f,
+                                            layerMask: canWalkOver);
 
             if (!slopeRay) return false; //guard clause
             
@@ -58,7 +60,7 @@ public class PlayerMovement : MonoBehaviour
         _defaultDrag = _rigidBody.drag;
 
         //capsule collider setup
-        _capsuleCollider = GetComponentInChildren<CapsuleCollider>();
+        capsuleCollider = GetComponentInChildren<CapsuleCollider>();
     }
 
     void Update()
@@ -76,7 +78,7 @@ public class PlayerMovement : MonoBehaviour
     {
         //ground check
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(_groundCheck.position, _groundCheckRadius);
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
 
         Gizmos.color = Color.blue;
         if (IsOnSlope)
@@ -92,29 +94,29 @@ public class PlayerMovement : MonoBehaviour
 
     void InputManagement()
     {
-        _movementDirection = _orientation.forward * Vertical + _orientation.right * Horizontal;
+        _movementDirection = orientation.forward * Vertical + orientation.right * Horizontal;
         _movementDirectionOnSlope = Vector3.ProjectOnPlane(_movementDirection, _slopeHit.normal);
     }
 
     void DragManagement()
     {
         if (IsGrounded) _rigidBody.drag = _defaultDrag;
-        else _rigidBody.drag = _airDrag;
+        else _rigidBody.drag = airDrag;
     }
 
     void MovePlayer()
     {
         if (IsGrounded && !IsOnSlope)
         {
-            _rigidBody.AddForce(_movementDirection.normalized * _movementSpeed * _movementSpeedMultiplier, ForceMode.Acceleration);
+            _rigidBody.AddForce(_movementDirection.normalized * movementSpeed * _movementSpeedMultiplier, ForceMode.Acceleration);
         }
         else if (IsGrounded && IsOnSlope)
         {
-            _rigidBody.AddForce(_movementDirectionOnSlope.normalized * _movementSpeed * _movementSpeedMultiplier, ForceMode.Acceleration);
+            _rigidBody.AddForce(_movementDirectionOnSlope.normalized * movementSpeed * _movementSpeedMultiplier, ForceMode.Acceleration);
         }
         else
         {
-            _rigidBody.AddForce(_movementDirection.normalized * _movementSpeedOnAirMultiplier * _movementSpeed * _movementSpeedMultiplier, ForceMode.Acceleration);
+            _rigidBody.AddForce(_movementDirection.normalized * movementSpeedOnAirMultiplier * movementSpeed * _movementSpeedMultiplier, ForceMode.Acceleration);
         }
     }
 

@@ -3,12 +3,12 @@ using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Interfaz para clases que requieran de interacción por parte del jugador.
+/// Interface for classes that require player interaction.
 /// </summary>
 public interface IInteractive
 {
     /// <summary>
-    /// Llama la interacción con el objeto dueño de la clase.
+    /// Calls the interaction within the owner class.
     /// </summary>
     public void Interact();
 }

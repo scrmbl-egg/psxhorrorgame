@@ -6,16 +6,16 @@ public class PlayerProperties : MonoBehaviour, IDamageable
 {
     [Header("Propiedades")]
     //
-    [SerializeField] int _maxPlayerHealth = 100;
+    [SerializeField] int maxPlayerHealth = 100;
     public int PlayerHealth
     {
         get
         {
-            return Mathf.Clamp(PlayerHealth, 0, _maxPlayerHealth);
+            return Mathf.Clamp(PlayerHealth, 0, maxPlayerHealth);
         }
         set
         {
-            PlayerHealth = Mathf.Clamp(value, 0, _maxPlayerHealth);
+            PlayerHealth = Mathf.Clamp(value, 0, maxPlayerHealth);
         }
     }
 

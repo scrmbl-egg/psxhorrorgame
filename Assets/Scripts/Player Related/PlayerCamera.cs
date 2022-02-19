@@ -4,42 +4,42 @@ using UnityEngine;
 
 public class PlayerCamera : MonoBehaviour
 {
-    [Header("Cámara")]
+    [Header("Camera")]
     //
-    [SerializeField] Transform _camHolder;
-    [SerializeField] Transform _orientation;
+    [SerializeField] Transform camHolder;
+    [SerializeField] Transform orientation;
     
-    [Header("Rotación")]
+    [Header("Rotation")]
     //
-    [SerializeField] GameObject _playerViewport;
-    [SerializeField] float _sensitivity = 50;
-    [SerializeField] bool _invertX;
-    [SerializeField] bool _invertY;
+    [SerializeField] GameObject playerViewport;
+    [SerializeField] float sensitivity = 50;
+    [SerializeField] bool invertX;
+    [SerializeField] bool invertY;
     float _sensitivityMultiplier = .01f;
-    float MouseX => Input.GetAxisRaw("Mouse X");
-    float MouseY => Input.GetAxisRaw("Mouse Y");
-    int InvertX
+    public float MouseX => Input.GetAxisRaw("Mouse X");
+    public float MouseY => Input.GetAxisRaw("Mouse Y");
+    public int InvertX
     {
         get
         {
-            if (_invertX) return -1;
+            if (invertX) return -1;
             else return 1;
         }
     }
-    int InvertY
+    public int InvertY
     {
         get
         {
-            if (_invertY) return -1;
+            if (invertY) return -1;
             else return 1;
         }
     }
     float _pitch;
     float _yaw;
 
-    [Header("Campo de visión")]
+    [Header("Field of view")]
     //
-    [SerializeField] float _defaultFov;
+    [SerializeField] float defaultFov;
 
     #region MonoBehaviour
 
@@ -62,20 +62,20 @@ public class PlayerCamera : MonoBehaviour
 
     void InputManagement()
     {
-        _pitch -= MouseY * InvertY * _sensitivity * _sensitivityMultiplier;
+        _pitch -= MouseY * InvertY * sensitivity * _sensitivityMultiplier;
         _pitch = Mathf.Clamp(_pitch, -90f, 90f);
 
-        _yaw += MouseX * InvertX * _sensitivity * _sensitivityMultiplier;
+        _yaw += MouseX * InvertX * sensitivity * _sensitivityMultiplier;
     }
 
     void RotateCamera()
     {
         //rotate camera
-        _camHolder.transform.localRotation = Quaternion.Euler(_pitch, _yaw, 0);
-        _orientation.rotation = Quaternion.Euler(0, _yaw, 0);
+        camHolder.transform.localRotation = Quaternion.Euler(_pitch, _yaw, 0);
+        orientation.rotation = Quaternion.Euler(0, _yaw, 0);
 
         //rotate capsule
-        _playerViewport.transform.rotation = _orientation.rotation;
+        playerViewport.transform.rotation = orientation.rotation;
     }
 
     #endregion

@@ -134,7 +134,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 39975044}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: camPosition
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -167,8 +167,8 @@ GameObject:
   - component: {fileID: 247729166}
   - component: {fileID: 247729165}
   - component: {fileID: 247729164}
-  m_Layer: 3
-  m_Name: playerViewport
+  m_Layer: 0
+  m_Name: playerCapsule
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -296,7 +296,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: ba3035d2e43158e4f8687c6775966b6b, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _cameraPosition: {fileID: 39975044}
+  cameraPosition: {fileID: 39975044}
 --- !u!43 &534486111
 Mesh:
   m_ObjectHideFlags: 0
@@ -470,7 +470,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 557987629}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: groundCheck
   m_TagString: Untagged
   m_Icon: {fileID: -5442936267250999957, guid: 0000000000000000d000000000000000, type: 0}
@@ -1828,7 +1828,7 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 1832893600}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: orientation
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1955,7 +1955,7 @@ GameObject:
   - component: {fileID: 1996250482}
   - component: {fileID: 1996250478}
   - component: {fileID: 1996250481}
-  m_Layer: 3
+  m_Layer: 0
   m_Name: Player
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -1974,16 +1974,16 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a7d93ca2daee5a346b737524ed6a6535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _orientation: {fileID: 1832893600}
-  _movementSpeed: 3
-  _movementSpeedOnAirMultiplier: 0.1
-  _airDrag: 0.5
-  _groundCheck: {fileID: 557987629}
-  _capsuleCollider: {fileID: 247729164}
-  _groundCheckRadius: 0.15
-  _canWalkOver:
+  orientation: {fileID: 1832893600}
+  movementSpeed: 3
+  movementSpeedOnAirMultiplier: 0.263
+  airDrag: 2
+  groundCheck: {fileID: 557987629}
+  capsuleCollider: {fileID: 247729164}
+  groundCheckRadius: 0.15
+  canWalkOver:
     serializedVersion: 2
-    m_Bits: 55
+    m_Bits: 1
 --- !u!4 &1996250479
 Transform:
   m_ObjectHideFlags: 0
@@ -2030,13 +2030,13 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f9b84084d75ff794c8e6d00c08d515e3, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _camHolder: {fileID: 351903926}
-  _orientation: {fileID: 1832893600}
-  _playerViewport: {fileID: 247729162}
-  _sensitivity: 50
-  _invertX: 0
-  _invertY: 0
-  _defaultFov: 0
+  camHolder: {fileID: 351903926}
+  orientation: {fileID: 1832893600}
+  playerViewport: {fileID: 247729162}
+  sensitivity: 50
+  invertX: 0
+  invertY: 0
+  defaultFov: 0
 --- !u!114 &1996250482
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -2049,4 +2049,4 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 95df65c7509fb2e4ca4c8202f47d9425, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  _maxPlayerHealth: 100
+  maxPlayerHealth: 100
