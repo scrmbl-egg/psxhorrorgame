@@ -8,6 +8,7 @@ public class PlayerCamera : MonoBehaviour
     //
     [SerializeField] Transform camHolder;
     [SerializeField] Transform orientation;
+    public Camera Camera;
     
     [Header("Rotation")]
     //
@@ -39,7 +40,8 @@ public class PlayerCamera : MonoBehaviour
 
     [Header("Field of view")]
     //
-    [SerializeField] float defaultFov;
+    [SerializeField] float additionalFovWhenRunning;
+    float defaultFov;
 
     #region MonoBehaviour
 
@@ -48,12 +50,16 @@ public class PlayerCamera : MonoBehaviour
         //cursor setup
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
+
+        //fov
+        defaultFov = Camera.fieldOfView;
     }
 
     void Update()
     {
         InputManagement();
         RotateCamera();
+        RotateViewport();
     }
 
     #endregion
@@ -62,19 +68,21 @@ public class PlayerCamera : MonoBehaviour
 
     void InputManagement()
     {
+        //mouse look
         _pitch -= MouseY * InvertY * sensitivity * _sensitivityMultiplier;
-        _pitch = Mathf.Clamp(_pitch, -90f, 90f);
+        _pitch = Mathf.Clamp(_pitch, -90f, 90f); //clamp pitch up and down
 
         _yaw += MouseX * InvertX * sensitivity * _sensitivityMultiplier;
     }
 
     void RotateCamera()
     {
-        //rotate camera
         camHolder.transform.localRotation = Quaternion.Euler(_pitch, _yaw, 0);
         orientation.rotation = Quaternion.Euler(0, _yaw, 0);
+    }
 
-        //rotate capsule
+    void RotateViewport()
+    {
         playerViewport.transform.rotation = orientation.rotation;
     }
 

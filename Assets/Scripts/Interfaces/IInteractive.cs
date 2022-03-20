@@ -1,9 +1,7 @@
-using System.Collections;
-using System.Collections.Generic;
 using UnityEngine;
 
 /// <summary>
-/// Interface for classes that require player interaction.
+/// Interface for classes that have player interaction.
 /// </summary>
 public interface IInteractive
 {

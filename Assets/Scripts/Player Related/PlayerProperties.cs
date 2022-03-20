@@ -24,6 +24,11 @@ public class PlayerProperties : MonoBehaviour, IDamageable
     {
         PlayerHealth -= damage;
 
+        if (PlayerHealth == 0)
+        {
+            Death();
+        }
+
         //TODO: Add effects when damaged
         //effects
     }

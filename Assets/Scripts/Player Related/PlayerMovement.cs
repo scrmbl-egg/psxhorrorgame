@@ -58,9 +58,6 @@ public class PlayerMovement : MonoBehaviour
         //rigidbody setup
         _rigidBody = GetComponent<Rigidbody>();
         _defaultDrag = _rigidBody.drag;
-
-        //capsule collider setup
-        capsuleCollider = GetComponentInChildren<CapsuleCollider>();
     }
 
     void Update()
