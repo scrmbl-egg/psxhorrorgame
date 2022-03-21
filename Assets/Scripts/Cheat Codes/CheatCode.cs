@@ -4,6 +4,5 @@ using UnityEngine.Events;
 public class CheatCode
 {
     public string Code;
-    public string Message;
     public UnityEvent OnCheatTyped;
 }

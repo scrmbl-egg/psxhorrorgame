@@ -4,8 +4,7 @@ public class CheatManager : MonoBehaviour
 {
     [Header("Properties")]
     [SerializeField, TextArea(2, 5)] string typedCharactersBuffer;
-    [SerializeField] bool displayMessagesInConsole;
-    const string _cheatCodesPrefix = "a3d";
+    const string _cheatCodesPrefix = "id";
     const int _maxCharactersInBuffer = 50;
 
     [Space(10)]
@@ -52,11 +51,6 @@ public class CheatManager : MonoBehaviour
             {
                 cheatCode.OnCheatTyped?.Invoke();
                 typedCharactersBuffer = "";
-
-                if (displayMessagesInConsole)
-                {
-                    Debug.Log(cheatCode.Message);
-                }
             }
         }
     }
