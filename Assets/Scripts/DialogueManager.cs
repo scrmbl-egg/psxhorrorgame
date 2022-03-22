@@ -2,11 +2,12 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using TMPro;
 
 public class DialogueManager : MonoBehaviour
 {
     [Header("Properties")]
-    [SerializeField] Text messageDisplay;
+    [SerializeField] TMP_Text messageDisplay;
     [SerializeField] float charactersPerSecond;
     [SerializeField] float textDurationAfterTyping;
     [SerializeField, Range(0f, 20f)] float fadeOutSpeed;
