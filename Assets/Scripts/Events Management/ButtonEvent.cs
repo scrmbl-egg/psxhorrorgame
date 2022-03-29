@@ -53,10 +53,10 @@ public class ButtonEvent : MonoBehaviour, IInteractive
         for (int i = 0; i < listenerCount; i++)
         {
             string targetName = pressedButton.GetPersistentTarget(i).name;
-            //an object is necessary in the inspector, if not, an exception will be thrown
-
             if (targetName != null)
             {
+                //WARNING: EXPECT EXCEPTIONS WHEN SETTING UP THE INSPECTOR. IT'S COMPLETELY FINE.
+
                 GameObject target = GameObject.Find(targetName);
                 Vector3 origin = pressingArea.bounds.center;
                 Vector3 destination = target.transform.position;
@@ -96,6 +96,7 @@ public class ButtonEvent : MonoBehaviour, IInteractive
     public void Press()
     {
         Debug.Log("Button pressed");
+        pressedButton?.Invoke();
     }
 
     #endregion

@@ -3,17 +3,15 @@ using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
+
+
+
     private void Awake()
     {
-        //Configuracion global de DOTween
-        DOTween.Init(true, true, LogBehaviour.Verbose).SetCapacity(200, 10);
-    }
+        //animations capacity in RAM memory.
 
-    private void Update()
-    {
-        if (Input.GetKeyDown(KeyCode.Escape))
-        {
-            Application.Quit();
-        }
+
+        //TODO: This doesn't belong in the game manager
+        DOTween.Init(true, true, LogBehaviour.Verbose).SetCapacity(200, 10);
     }
 }

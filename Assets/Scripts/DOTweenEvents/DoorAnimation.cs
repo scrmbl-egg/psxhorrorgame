@@ -6,31 +6,25 @@ public class DoorAnimation : MonoBehaviour
 {
     // Start is called before the first frame update
     
-    [SerializeField] AnimationCurve _animCurve;
+    [SerializeField] AnimationCurve animationCurve;
+    [SerializeField, Range(0, 10)] float speed;
+    [SerializeField] Vector3 rotationDegrees;
+    [SerializeField] DOTweenEventType dEventType;
 
-    [Range(0, 10)]
-    [SerializeField] float _speed;
-
-    [SerializeField] Vector3 _degrees;
-
-    [SerializeField] DOTweenEventType _DType;
-
-    private Rigidbody _Rb;
+    private Rigidbody _rigidBody;
 
     private void Awake()
     {
-        _Rb = gameObject.GetComponent<Rigidbody>();
+        _rigidBody = gameObject.GetComponent<Rigidbody>();
 
-        string TEvent = _DType.ToString();
-
-    if (_DType == DOTweenEventType.SimpleRotate)
+        if (dEventType == DOTweenEventType.SimpleRotate)
         {
-            DOTweenEvents.SimpleRotate(_Rb, _degrees, _speed, _animCurve);
+            DOTweenEvents.SimpleRotate(_rigidBody, rotationDegrees, speed, animationCurve);
         }
 
-    if (_DType == DOTweenEventType.SimpleRotateLoop)
+        if (dEventType == DOTweenEventType.SimpleRotateLoop)
         {
-            DOTweenEvents.SimpleRotateLoop(_Rb, _degrees, _speed, _animCurve);
+            DOTweenEvents.SimpleRotateLoop(_rigidBody, rotationDegrees, speed, animationCurve);
         }
     }
 }

@@ -72,9 +72,9 @@ public class TriggerEvent : MonoBehaviour
         int listenerCount = enteredThroughTrigger.GetPersistentEventCount();
         for (int i = 0; i < listenerCount; i++)
         {
-            string targetName = enteredThroughTrigger.GetPersistentTarget(i).name;
-            //an object is necessary in the inspector, if not, an exception will be thrown
+            //WARNING: EXPECT EXCEPTIONS WHEN SETTING UP THE INSPECTOR. IT'S COMPLETELY FINE.
 
+            string targetName = enteredThroughTrigger.GetPersistentTarget(i).name;
             if (targetName != null)
             {
                 GameObject target = GameObject.Find(targetName);

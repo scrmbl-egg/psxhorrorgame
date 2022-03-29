@@ -105,9 +105,9 @@ public class SwitchEvent : MonoBehaviour, IInteractive
         int stateTwoListenersCount = onSwitchStateTwo.GetPersistentEventCount();
         for (int i = 0; i < stateTwoListenersCount; i++)
         {
-            string targetName = onSwitchStateTwo.GetPersistentTarget(i).name;
-            //an object is necessary in the inspector, if not, an exception will be thrown
+            //WARNING: EXPECT EXCEPTIONS WHEN SETTING UP THE INSPECTOR. IT'S COMPLETELY FINE.
 
+            string targetName = onSwitchStateTwo.GetPersistentTarget(i).name;
             if (targetName != null)
             {
                 GameObject target = GameObject.Find(targetName);
@@ -132,8 +132,6 @@ public class SwitchEvent : MonoBehaviour, IInteractive
     }
 
     #endregion
-
-
 
     #endregion
 }

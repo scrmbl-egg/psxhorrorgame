@@ -6,35 +6,23 @@ public class DOTweenEvents
     /// <summary>
     /// Simple rotation with animation curve.
     /// </summary>
-    /// <param name="_Rb"></param>
-    /// <param name="_degrees"></param>
-    /// <param name="_speed"></param>
-    /// <param name="_animCurve"></param>
-    public static void SimpleRotate(Rigidbody _Rb, Vector3 _degrees, float _speed, AnimationCurve _animCurve)
+    /// <param name="rigidbody">Rigidbody to move</param>
+    /// <param name="rotationDegrees">Target rotation relative to the current rotation</param>
+    /// <param name="speed">Speed of the animation</param>
+    /// <param name="animationCurve">Animation curve</param>
+    public static void SimpleRotate(Rigidbody rigidbody, Vector3 rotationDegrees, float speed, AnimationCurve animationCurve)
     {
-        DOTweenModulePhysics.DORotate(_Rb, _degrees, 10 - _speed, RotateMode.Fast).SetEase(_animCurve);
+        DOTweenModulePhysics.DORotate(rigidbody, rotationDegrees, speed, RotateMode.Fast).SetEase(animationCurve);
     }
 
     /// <summary>
     /// Simple infinite rotation with animation curve.
     /// </summary>
-    /// <param name="_Rb"></param>
-    /// <param name="_speed"></param>
-    /// <param name="_animCurve"></param>
-    public static void SimpleRotateLoop(Rigidbody _Rb, Vector3 _degrees, float _speed, AnimationCurve _animCurve)
+    /// <param name="rigidBody">Rigidbody to move</param>
+    /// <param name="speed">Speed of the animation</param>
+    /// <param name="animationCurve">Animation curve</param>
+    public static void SimpleRotateLoop(Rigidbody rigidBody, Vector3 rotationDegrees, float speed, AnimationCurve animationCurve)
     {
-        DOTweenModulePhysics.DORotate(_Rb, _degrees, 10 - _speed, RotateMode.Fast).SetLoops(-1).SetEase(_animCurve);
+        DOTweenModulePhysics.DORotate(rigidBody, rotationDegrees, speed, RotateMode.Fast).SetLoops(-1).SetEase(animationCurve);
     }
-
-    //public static string CallString(DOTweenEventType DType)
-    //{
-    //    string TXT = DType.ToString();
-    //    return TXT;
-    //}
-}
-
-public enum DOTweenEventType
-{
-    SimpleRotate,
-    SimpleRotateLoop
 }
