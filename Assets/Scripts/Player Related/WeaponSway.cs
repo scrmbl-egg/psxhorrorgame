@@ -6,17 +6,17 @@ public class WeaponSway : MonoBehaviour
 {
     [Header("Dependencies")]
     //
-    [SerializeField] PlayerCamera playerCamera;
+    [SerializeField] private PlayerCamera playerCamera;
 
     [Space(10)]
     [Header("Settings")]
     //
-    [SerializeField] float smoothTime;
-    [SerializeField] float swayMultiplier;
+    [SerializeField] private float smoothTime;
+    [SerializeField] private float swayMultiplier;
 
     #region MonoBehaviour
 
-    void Update()
+    private void Update()
     {
         SwayWeapon();
     }
@@ -25,12 +25,15 @@ public class WeaponSway : MonoBehaviour
 
     #region Private methods
 
-    void SwayWeapon()
+    private void SwayWeapon()
     {
         //calculate x and y rotation based on player input
-        Quaternion xRotation = Quaternion.AngleAxis(-playerCamera.MouseY * playerCamera.InvertY, Vector3.right);
-        Quaternion yRotation = Quaternion.AngleAxis(playerCamera.MouseX * playerCamera.InvertX, Vector3.up);
+        float playerMouseYInput = -playerCamera.MouseY * playerCamera.InvertY;
+        float playerMouseXInput = playerCamera.MouseX * playerCamera.InvertX;
 
+
+        Quaternion xRotation = Quaternion.AngleAxis(playerMouseYInput * swayMultiplier, Vector3.right);
+        Quaternion yRotation = Quaternion.AngleAxis(playerMouseXInput * swayMultiplier, Vector3.up);
         Quaternion targetRotation = xRotation * yRotation;
 
         //interpolate

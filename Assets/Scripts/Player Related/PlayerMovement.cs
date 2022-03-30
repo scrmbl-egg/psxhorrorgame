@@ -11,29 +11,29 @@ public class PlayerMovement : MonoBehaviour
 
     [Header("Movement")]
     //
-    [SerializeField] Transform orientation;
-    [SerializeField] float movementSpeed = 3f;
-    [SerializeField, Range(0f,1f)] float movementSpeedOnAirMultiplier;
-    [SerializeField] float airDrag = 2f;
-    float _defaultDrag;
-    float _movementSpeedMultiplier = 10;
-    float Horizontal => Input.GetAxisRaw("Horizontal");
-    float Vertical => Input.GetAxisRaw("Vertical");
-    Vector3 _movementDirection;
-    Vector3 _movementDirectionOnSlope;
-    Rigidbody _rigidBody;
+    [SerializeField] private Transform orientation;
+    [SerializeField] private float movementSpeed = 3f;
+    [SerializeField, Range(0f,1f)] private float movementSpeedOnAirMultiplier;
+    [SerializeField] private float airDrag = 2f;
+    private float _defaultDrag;
+    private float _movementSpeedMultiplier = 10;
+    private float Horizontal => Input.GetAxisRaw("Horizontal");
+    private float Vertical => Input.GetAxisRaw("Vertical");
+    private Vector3 _movementDirection;
+    private Vector3 _movementDirectionOnSlope;
+    private Rigidbody _rigidBody;
 
     [Header("Ground detection")]
     //
-    [SerializeField] Transform groundCheck;
-    [SerializeField] CapsuleCollider capsuleCollider;
-    [SerializeField] float groundCheckRadius;
-    [SerializeField] LayerMask canWalkOver;
-    bool IsGrounded => Physics.CheckSphere(position: groundCheck.position,
-                                           radius: groundCheckRadius,
-                                           layerMask: canWalkOver);
-    RaycastHit _slopeHit;
-    bool IsOnSlope
+    [SerializeField] private Transform groundCheck;
+    [SerializeField] private CapsuleCollider capsuleCollider;
+    [SerializeField] private float groundCheckRadius;
+    [SerializeField] private LayerMask canWalkOver;
+    private bool IsGrounded => Physics.CheckSphere(position: groundCheck.position,
+                                                   radius: groundCheckRadius,
+                                                   layerMask: canWalkOver);
+    private RaycastHit _slopeHit;
+    private bool IsOnSlope
     {
         get
         {
@@ -53,25 +53,25 @@ public class PlayerMovement : MonoBehaviour
 
     #region MonoBehaviour
 
-    void Awake()
+    private void Awake()
     {
         //rigidbody setup
         _rigidBody = GetComponent<Rigidbody>();
         _defaultDrag = _rigidBody.drag;
     }
 
-    void Update()
+    private void Update()
     {
         InputManagement();
         DragManagement();
     }
 
-    void FixedUpdate()
+    private void FixedUpdate()
     {
         MovePlayer();
     }
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         //ground check
         Gizmos.color = Color.red;
@@ -89,19 +89,19 @@ public class PlayerMovement : MonoBehaviour
 
     #region Private methods
 
-    void InputManagement()
+    private void InputManagement()
     {
         _movementDirection = orientation.forward * Vertical + orientation.right * Horizontal;
         _movementDirectionOnSlope = Vector3.ProjectOnPlane(_movementDirection, _slopeHit.normal);
     }
 
-    void DragManagement()
+    private void DragManagement()
     {
         if (IsGrounded) _rigidBody.drag = _defaultDrag;
         else _rigidBody.drag = airDrag;
     }
 
-    void MovePlayer()
+    private void MovePlayer()
     {
         if (IsGrounded && !IsOnSlope)
         {

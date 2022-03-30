@@ -14,20 +14,20 @@ public class ButtonEvent : MonoBehaviour, IInteractive
 {
     [Header("Configuration / Dependencies")]
     //
-    [SerializeField] bool pressIsRepeatable;
-    [SerializeField] bool showEventListeners = true;
-    [SerializeField] Color gizmoColor;
-    [SerializeField] Collider pressingArea;
-    bool _eventHasBeenExecuted;
+    [SerializeField] private bool pressIsRepeatable;
+    [SerializeField] private bool showEventListeners = true;
+    [SerializeField] private Color gizmoColor;
+    [SerializeField] private Collider pressingArea;
+    private bool _eventHasBeenExecuted;
 
     [Space(10)]
     [Header("Events")]
     //
-    [SerializeField] UnityEvent pressedButton;
+    [SerializeField] private UnityEvent pressedButton;
 
     #region MonoBehaviour
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Gizmos.color = gizmoColor;
         Gizmos.DrawCube(pressingArea.bounds.center, pressingArea.bounds.size);
@@ -42,7 +42,7 @@ public class ButtonEvent : MonoBehaviour, IInteractive
 
     #region Private methods
 
-    void DrawLinesTowardEventListeners()
+    private void DrawLinesTowardEventListeners()
     {
         //pointer color removes transparency from the original gizmo color
         Color pointerColor = new Color(gizmoColor.r, gizmoColor.g, gizmoColor.b, 1);

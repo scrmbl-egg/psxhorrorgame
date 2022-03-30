@@ -4,20 +4,20 @@ public class CheatManager : MonoBehaviour
 {
     [Header("Properties")]
     [SerializeField, TextArea(2, 5)] string typedCharactersBuffer;
-    const string _cheatCodesPrefix = "id";
-    const int _maxCharactersInBuffer = 50;
+    private const string CHEAT_CODES_PREFIX = "id";
+    private const int MAX_CHARACTERS_IN_BUFFER = 50;
 
     [Space(10)]
     [SerializeField] CheatCode[] cheatCodes;
 
     #region MonoBehaviour
 
-    void Awake()
+    private void Awake()
     {
         
     }
 
-    void Update()
+    private void Update()
     {
         InputManagement();
         CheatCodeCheck();
@@ -27,13 +27,13 @@ public class CheatManager : MonoBehaviour
 
     #region Private methods
 
-    void InputManagement()
+    private void InputManagement()
     {
         foreach (char character in Input.inputString)
         {
             typedCharactersBuffer += character;
 
-            bool bufferIsFull = typedCharactersBuffer.Length >= _maxCharactersInBuffer;
+            bool bufferIsFull = typedCharactersBuffer.Length >= MAX_CHARACTERS_IN_BUFFER;
             if (bufferIsFull)
             {
                 //remove first character
@@ -42,11 +42,11 @@ public class CheatManager : MonoBehaviour
         }
     }
 
-    void CheatCodeCheck()
+    private void CheatCodeCheck()
     {
         foreach (CheatCode cheatCode in cheatCodes)
         {
-            bool cheatCodeIsTyped = typedCharactersBuffer.ToLower().EndsWith(_cheatCodesPrefix.ToLower() + cheatCode.Code.ToLower());
+            bool cheatCodeIsTyped = typedCharactersBuffer.ToLower().EndsWith(CHEAT_CODES_PREFIX.ToLower() + cheatCode.Code.ToLower());
             if (cheatCodeIsTyped)
             {
                 cheatCode.OnCheatTyped?.Invoke();

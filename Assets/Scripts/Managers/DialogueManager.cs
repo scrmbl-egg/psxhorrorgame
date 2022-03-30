@@ -7,19 +7,19 @@ using TMPro;
 public class DialogueManager : MonoBehaviour
 {
     [Header("Properties")]
-    [SerializeField] TMP_Text messageDisplay;
-    [SerializeField] float charactersPerSecond;
-    [SerializeField] float textDurationAfterTyping;
-    [SerializeField, Range(0f, 20f)] float fadeOutSpeed;
-    string _currentText;
-    float _currentDisplayOpacity;
+    [SerializeField] private TMP_Text messageDisplay;
+    [SerializeField] private float charactersPerSecond;
+    [SerializeField] private float textDurationAfterTyping;
+    [SerializeField, Range(0f, 20f)] private float fadeOutSpeed;
+    private string _currentText;
+    private float _currentDisplayOpacity;
 
     [Header("Fun Stuff")]
-    [SerializeField] Color cheatMessageColor;
+    [SerializeField] private Color cheatMessageColor;
 
     #region MonoBehaviour
 
-    void Update()
+    private void Update()
     {
         MessageDisplayManagement();
     }
@@ -57,7 +57,7 @@ public class DialogueManager : MonoBehaviour
     #endregion
     #region Private methods
 
-    void MessageDisplayManagement()
+    private void MessageDisplayManagement()
     {
         _currentDisplayOpacity = Mathf.Clamp01(_currentDisplayOpacity);
 
@@ -70,7 +70,7 @@ public class DialogueManager : MonoBehaviour
         messageDisplay.text = _currentText;
     }
 
-    IEnumerator TypeEffect(string text)
+    private IEnumerator TypeEffect(string text)
     {
         //empty text and put full opacity
         _currentText = string.Empty;

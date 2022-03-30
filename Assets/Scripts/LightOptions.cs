@@ -6,13 +6,13 @@ public class LightOptions : MonoBehaviour
 {
     [Header("Properties")]
     //
-    [SerializeField] AnimationCurve curve;
-    [SerializeField] float time;
-    Light _light;
+    [SerializeField] private AnimationCurve curve;
+    [SerializeField] private float time;
+    private Light _light;
 
     #region MonoBehaviour
 
-    void Awake()
+    private void Awake()
     {
         _light = GetComponent<Light>();
     }

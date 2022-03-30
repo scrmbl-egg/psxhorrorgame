@@ -7,39 +7,32 @@ public class Door : MonoBehaviour, IInteractive
 {
     [Header("Door Properties")]
     //
-    [SerializeField] bool isLocked = false;
-    [SerializeField] string isLockedMessage;
-    public bool Locked
+    [SerializeField] private bool isLocked = false;
+    [SerializeField] private string isLockedMessage;
+    public bool IsLocked
     {
         get => isLocked;
         set => isLocked = value;
     }
+    public bool IsOpen { get; private set; }
+    private Rigidbody _rigidBody;
 
     [Space(10)]
     [Header("Animation Properties")]
     //
-    [SerializeField] AnimationCurve animationCurve;
-    [SerializeField, Range(0, _maxTime)] float time;
-    [SerializeField] Vector3 rotationDegrees;
-    Vector3 _startEulerRotation;
-    const float _maxTime = 100;
-
-    //dependencies
-    Rigidbody _rigidBody;
-    
-    public bool IsOpen { get; private set; }
+    [SerializeField] private AnimationCurve animationCurve;
+    [SerializeField, Range(0, MAX_TIME)] private float time;
+    [SerializeField] private Vector3 rotationDegrees;
+    private Vector3 _startEulerRotation;
+    private const float MAX_TIME = 10;
 
     #region MonoBehaviour
 
-    void Awake()
+    private void Awake()
     {
         _rigidBody = GetComponent<Rigidbody>();
 
         _startEulerRotation = transform.eulerAngles;
-    }
-
-    void OnDrawGizmos()
-    {
     }
 
     #endregion
@@ -49,7 +42,7 @@ public class Door : MonoBehaviour, IInteractive
 
     public void Interact()
     {
-        if (Locked)
+        if (IsLocked)
         {
             Debug.Log("This door is locked!");
         }
@@ -73,7 +66,7 @@ public class Door : MonoBehaviour, IInteractive
         Vector3 targetEulerRotation = _startEulerRotation + rotationDegrees;
 
         IsOpen = true;
-        DOTweenEvents.SimpleRotate(_rigidBody, targetEulerRotation, time * Time.deltaTime, animationCurve);
+        DOTweenEvents.SimpleRotate(_rigidBody, targetEulerRotation, time, animationCurve);
     }
 
     public void Close()
@@ -81,7 +74,7 @@ public class Door : MonoBehaviour, IInteractive
         Vector3 targetEulerRotation = _startEulerRotation;
 
         IsOpen = false;
-        DOTweenEvents.SimpleRotate(_rigidBody, targetEulerRotation, time * Time.deltaTime, animationCurve);
+        DOTweenEvents.SimpleRotate(_rigidBody, targetEulerRotation, time, animationCurve);
     }
 
     #endregion

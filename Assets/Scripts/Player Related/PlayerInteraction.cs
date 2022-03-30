@@ -8,23 +8,23 @@ public class PlayerInteraction : MonoBehaviour
     //TODO: Make a global input class or make use of the new input system and delete this header
     [Header("Input")]
     //
-    [SerializeField] KeyCode interactionKey = KeyCode.E;
+    [SerializeField] private KeyCode interactionKey = KeyCode.E;
 
     [Header("Properties / Dependencies")]
     //
-    [SerializeField] Camera playerCamera;
-    [SerializeField, Min(.5f)] float interactionRange;
-    [SerializeField] LayerMask interactionLayers;
-    [SerializeField] bool showGizmoRay;
+    [SerializeField] private Camera playerCamera;
+    [SerializeField, Min(.5f)] private float interactionRange;
+    [SerializeField] private LayerMask interactionLayers;
+    [SerializeField] private bool showGizmoRay;
 
     #region MonoBehaviour
 
-    void Update()
+    private void Update()
     {
         InputManagement();
     }
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         if (showGizmoRay)
         {
@@ -37,7 +37,7 @@ public class PlayerInteraction : MonoBehaviour
 
     #region Private methods
 
-    void InputManagement()
+    private void InputManagement()
     {
         if (Input.GetKeyDown(interactionKey))
         {

@@ -16,20 +16,20 @@ public class SwitchEvent : MonoBehaviour, IInteractive
 {
     [Header("Configuration / Dependencies")]
     //
-    [SerializeField] bool showEventListeners = true;
-    [SerializeField] Color gizmoColor;
-    [SerializeField] Collider pressingArea;
-    bool _switchIsPulled;
+    [SerializeField] private bool showEventListeners = true;
+    [SerializeField] private Color gizmoColor;
+    [SerializeField] private Collider pressingArea;
+    private bool _switchIsPulled;
 
     [Space(10)]
     [Header("Events")]
     //
-    [SerializeField] UnityEvent onSwitchStateOne;
-    [SerializeField] UnityEvent onSwitchStateTwo;
+    [SerializeField] private UnityEvent onSwitchStateOne;
+    [SerializeField] private UnityEvent onSwitchStateTwo;
 
     #region MonoBehaviour
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Gizmos.color = gizmoColor;
 
@@ -45,7 +45,7 @@ public class SwitchEvent : MonoBehaviour, IInteractive
 
     #region Private methods
 
-    void PullInteraction()
+    private void PullInteraction()
     {
         if (_switchIsPulled)
         {
@@ -57,19 +57,19 @@ public class SwitchEvent : MonoBehaviour, IInteractive
         }
     }
 
-    void FirstPull()
+    private void FirstPull()
     {
         onSwitchStateOne?.Invoke();
         _switchIsPulled = true;
     }
 
-    void SecondPull()
+    private void SecondPull()
     {
         onSwitchStateTwo?.Invoke();
         _switchIsPulled = false;
     }
 
-    void DrawLinesTowardEventListeners()
+    private void DrawLinesTowardEventListeners()
     {
         #region State One Listeners
 

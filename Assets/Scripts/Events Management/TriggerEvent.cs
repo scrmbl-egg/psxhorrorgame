@@ -14,21 +14,21 @@ public class TriggerEvent : MonoBehaviour
 {
     [Header("Configuration / Dependencies")]
     //
-    [SerializeField] bool actionIsRepeatable;
-    [SerializeField] bool showEventListeners = true;
-    [SerializeField] Color gizmoColor;
-    [SerializeField] Collider trigger;
-    bool _eventHasBeenExecuted;
+    [SerializeField] private bool actionIsRepeatable;
+    [SerializeField] private bool showEventListeners = true;
+    [SerializeField] private Color gizmoColor;
+    [SerializeField] private Collider trigger;
+    private bool _eventHasBeenExecuted;
 
     [Space(10)]
     [Header("Events")]
     //
-    [SerializeField] UnityEvent enteredThroughTrigger;
+    [SerializeField] private UnityEvent enteredThroughTrigger;
 
     #region MonoBehaviour
-    void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter(Collider other)
     {
-        bool colliderIsPlayer = other.transform.parent.TryGetComponent(out PlayerProperties player);
+        bool colliderIsPlayer = other.transform.parent.TryGetComponent(out PlayerThing player);
 
         if (colliderIsPlayer)
         {
@@ -47,7 +47,7 @@ public class TriggerEvent : MonoBehaviour
         }
     }
 
-    void OnDrawGizmos()
+    private void OnDrawGizmos()
     {
         Gizmos.color = gizmoColor;
 
@@ -62,7 +62,7 @@ public class TriggerEvent : MonoBehaviour
 
     #region Private methods
 
-    void DrawLinesTowardEventListeners()
+    private void DrawLinesTowardEventListeners()
     {
         //pointer color removes transparency from the original gizmo color
         Color pointerColor = new Color(gizmoColor.r, gizmoColor.g, gizmoColor.b, 1);

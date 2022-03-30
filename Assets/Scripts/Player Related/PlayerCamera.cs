@@ -6,17 +6,17 @@ public class PlayerCamera : MonoBehaviour
 {
     [Header("Camera")]
     //
-    [SerializeField] Transform camHolder;
-    [SerializeField] Transform orientation;
-    public Camera Camera;
+    [SerializeField] private Transform camHolder;
+    [SerializeField] private Transform orientation;
+    public Camera Cam;
     
     [Header("Rotation")]
     //
-    [SerializeField] GameObject playerViewport;
-    [SerializeField] float sensitivity = 50;
-    [SerializeField] bool invertX;
-    [SerializeField] bool invertY;
-    float _sensitivityMultiplier = .01f;
+    [SerializeField] private GameObject playerViewport;
+    [SerializeField] private float sensitivity = 50;
+    [SerializeField] private bool invertX;
+    [SerializeField] private bool invertY;
+    private float _sensitivityMultiplier = .01f;
     public float MouseX => Input.GetAxisRaw("Mouse X");
     public float MouseY => Input.GetAxisRaw("Mouse Y");
     public int InvertX
@@ -35,27 +35,27 @@ public class PlayerCamera : MonoBehaviour
             else return 1;
         }
     }
-    float _pitch;
-    float _yaw;
+    private float _pitch;
+    private float _yaw;
 
     [Header("Field of view")]
     //
-    [SerializeField] float additionalFovWhenRunning;
-    float defaultFov;
+    [SerializeField] private float additionalFovWhenRunning;
+    private float defaultFov;
 
     #region MonoBehaviour
 
-    void Awake()
+    private void Awake()
     {
         //cursor setup
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
         //fov
-        defaultFov = Camera.fieldOfView;
+        defaultFov = Cam.fieldOfView;
     }
 
-    void Update()
+    private void Update()
     {
         InputManagement();
         RotateCamera();
@@ -66,7 +66,7 @@ public class PlayerCamera : MonoBehaviour
 
     #region Private methods
 
-    void InputManagement()
+    private void InputManagement()
     {
         //mouse look
         _pitch -= MouseY * InvertY * sensitivity * _sensitivityMultiplier;
@@ -75,13 +75,13 @@ public class PlayerCamera : MonoBehaviour
         _yaw += MouseX * InvertX * sensitivity * _sensitivityMultiplier;
     }
 
-    void RotateCamera()
+    private void RotateCamera()
     {
         camHolder.transform.localRotation = Quaternion.Euler(_pitch, _yaw, 0);
         orientation.rotation = Quaternion.Euler(0, _yaw, 0);
     }
 
-    void RotateViewport()
+    private void RotateViewport()
     {
         playerViewport.transform.rotation = orientation.rotation;
     }
