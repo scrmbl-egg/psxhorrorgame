@@ -48,14 +48,8 @@ public class Door : MonoBehaviour, IInteractive
         }
         else
         {
-            if (!IsOpen)
-            {
-                Open();
-            }
-            else
-            {
-                Close();
-            }
+            if (!IsOpen) Open();
+            else Close();
         }
     }
     

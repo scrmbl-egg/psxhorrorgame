@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(PlayerCamera))]
+[RequireComponent(typeof(PlayerLook))]
 public class PlayerInteraction : MonoBehaviour
 {
     //TODO: Make a global input class or make use of the new input system and delete this header

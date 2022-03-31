@@ -4,7 +4,7 @@ using UnityEngine;
 
 [RequireComponent(
     typeof(PlayerMovement),
-    typeof(PlayerCamera),
+    typeof(PlayerLook),
     typeof(PlayerInteraction)
     )]
 public class PlayerThing : LivingThing
