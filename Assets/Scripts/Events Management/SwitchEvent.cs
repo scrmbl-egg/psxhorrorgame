@@ -26,6 +26,7 @@ public class SwitchEvent : MonoBehaviour, IInteractive
     //
     [SerializeField] private UnityEvent onSwitchStateOne;
     [SerializeField] private UnityEvent onSwitchStateTwo;
+    [SerializeField] private Vector3 gizmoStateTwoOffset;
 
     #region MonoBehaviour
 
@@ -78,6 +79,8 @@ public class SwitchEvent : MonoBehaviour, IInteractive
         Gizmos.color = stateOneListenerColor;
 
         //cycle through unity event targets and point towards their position
+        Vector3 lineOrigin1 = pressingArea.bounds.center;
+
         int stateOneListenersCount = onSwitchStateOne.GetPersistentEventCount();
         for (int i = 0; i < stateOneListenersCount; i++)
         {
@@ -87,10 +90,9 @@ public class SwitchEvent : MonoBehaviour, IInteractive
             if (targetName != null)
             {
                 GameObject target = GameObject.Find(targetName);
-                Vector3 origin = pressingArea.bounds.center;
                 Vector3 destination = target.transform.position;
 
-                Gizmos.DrawLine(origin, destination);
+                Gizmos.DrawLine(lineOrigin1, destination);
             }
         }
 
@@ -101,7 +103,9 @@ public class SwitchEvent : MonoBehaviour, IInteractive
         Color stateTwoListenerColor = new Color(1 - gizmoColor.r, 1 - gizmoColor.g, 1 - gizmoColor.b, 1);
         Gizmos.color = stateTwoListenerColor;
 
-        //cycle through unity event targets and point towards their position
+        //cycle through unity event targets and point towards their position with an offset
+        Vector3 lineOrigin2 = pressingArea.bounds.center + gizmoStateTwoOffset;
+
         int stateTwoListenersCount = onSwitchStateTwo.GetPersistentEventCount();
         for (int i = 0; i < stateTwoListenersCount; i++)
         {
@@ -111,10 +115,9 @@ public class SwitchEvent : MonoBehaviour, IInteractive
             if (targetName != null)
             {
                 GameObject target = GameObject.Find(targetName);
-                Vector3 origin = pressingArea.bounds.center;
-                Vector3 destination = target.transform.position;
+                Vector3 destination = target.transform.position + gizmoStateTwoOffset;
 
-                Gizmos.DrawLine(origin, destination);
+                Gizmos.DrawLine(lineOrigin2, destination);
             }
         }
 

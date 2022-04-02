@@ -53,6 +53,7 @@ MonoBehaviour:
   onSwitchStateTwo:
     m_PersistentCalls:
       m_Calls: []
+  gizmoStateTwoOffset: {x: 0.03, y: 0.03, z: 0}
 --- !u!65 &3920975299668939329
 BoxCollider:
   m_ObjectHideFlags: 0

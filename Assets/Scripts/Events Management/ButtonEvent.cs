@@ -49,6 +49,8 @@ public class ButtonEvent : MonoBehaviour, IInteractive
         Gizmos.color = pointerColor;
 
         //cycle through unity event targets and point towards their position
+        Vector3 lineOrigin = pressingArea.bounds.center;
+
         int listenerCount = pressedButton.GetPersistentEventCount();
         for (int i = 0; i < listenerCount; i++)
         {
@@ -58,10 +60,9 @@ public class ButtonEvent : MonoBehaviour, IInteractive
                 //WARNING: EXPECT EXCEPTIONS WHEN SETTING UP THE INSPECTOR. IT'S COMPLETELY FINE.
 
                 GameObject target = GameObject.Find(targetName);
-                Vector3 origin = pressingArea.bounds.center;
                 Vector3 destination = target.transform.position;
 
-                Gizmos.DrawLine(origin, destination);
+                Gizmos.DrawLine(lineOrigin, destination);
             }
         }
     }
