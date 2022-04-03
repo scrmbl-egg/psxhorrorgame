@@ -50,7 +50,6 @@ public class PlayerInteraction : MonoBehaviour
             if (objectIsInRange)
             {
                 bool isInteractive = hit.collider.TryGetComponent(out IInteractive interactiveObject);
-
                 if (isInteractive)
                 {
                     interactiveObject.Interact();

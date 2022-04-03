@@ -169,13 +169,13 @@ MonoBehaviour:
     m_Value: 2
   ditherThreshold:
     m_OverrideState: 1
-    m_Value: 5.22
+    m_Value: 5
   ditherStrength:
     m_OverrideState: 1
     m_Value: 1
   ditherScale:
     m_OverrideState: 1
-    m_Value: 2
+    m_Value: 0.6
 --- !u!114 &7781780535004499336
 MonoBehaviour:
   m_ObjectHideFlags: 3

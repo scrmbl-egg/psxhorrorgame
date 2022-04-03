@@ -9,17 +9,14 @@ public class EnemyThing : LivingThing
     [SerializeField] private float movementSpeed;
     [SerializeField] private int minDamage;
     [SerializeField] private int maxDamage;
-    public float MovementSpeed { get; private set; }
-    public int CurrentDamage { get; private set; }
+    public float MovementSpeed => movementSpeed;
+    public int Damage => Random.Range(minDamage, maxDamage + 1);
 
     #region Public methods
 
     public virtual void Attack()
     {
-        int randomDamage = Random.Range(minDamage, maxDamage + 1);
-
-        CurrentDamage = randomDamage;
-        Debug.Log($"{ThingName}: I attack.");
+        Debug.Log($"{ThingName}: I attack with {Damage} damage");
     }
 
     public override void DeathEffect()

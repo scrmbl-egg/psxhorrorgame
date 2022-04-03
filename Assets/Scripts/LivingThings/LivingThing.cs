@@ -12,23 +12,23 @@ public class LivingThing : MonoBehaviour
 
     public string ThingName => thingName;
     public int MaxHealth => maxHealth;
-    public int CurrentHealth
+    public int Health
     {
         get
         {
-            return Mathf.Clamp(CurrentHealth, 0, maxHealth);
+            return Mathf.Clamp(Health, 0, maxHealth);
         }
         set
         {
-            int previousHealth = CurrentHealth;
+            int previousHealth = Health;
 
-            CurrentHealth = Mathf.Clamp(value, 0, maxHealth);
+            Health = Mathf.Clamp(value, 0, maxHealth);
 
             //effects management
-            if (CurrentHealth == 0) DeathEffect();
+            if (Health == 0) DeathEffect();
 
-            if (previousHealth > CurrentHealth) DamageEffect();
-            else if (previousHealth < CurrentHealth) HealingEffect();
+            if (previousHealth > Health) DamageEffect();
+            else if (previousHealth < Health) HealingEffect();
         }
     }
 
