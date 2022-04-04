@@ -14,10 +14,7 @@ public class LivingThing : MonoBehaviour
     public int MaxHealth => maxHealth;
     public int Health
     {
-        get
-        {
-            return Mathf.Clamp(Health, 0, maxHealth);
-        }
+        get => Mathf.Clamp(Health, 0, maxHealth);
         set
         {
             int previousHealth = Health;

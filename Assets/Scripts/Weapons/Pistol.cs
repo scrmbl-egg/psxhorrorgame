@@ -9,7 +9,7 @@ public class Pistol : MagazinesGun
     //
     [SerializeField] private Transform playerCam;
     [SerializeField] private Transform muzzle;
-    [SerializeField] private GameObject BulletHole;
+    [SerializeField] private GameObject bulletHoleDecal;
 
     #region MonoBehaviour
 
@@ -27,27 +27,6 @@ public class Pistol : MagazinesGun
     public override void Fire()
     {
         base.Fire();
-
-        Ray shotRay = new Ray(origin: playerCam.position,
-                              direction: RandomSpread(playerCam.forward));
-        bool objectIsReached = Physics.Raycast(ray: shotRay,
-                                               hitInfo: out RaycastHit hit,
-                                               maxDistance: WeaponRange,
-                                               layerMask: RaycastLayers);
-
-        if (objectIsReached)
-        {
-            bool enemyIsHit = hit.transform.TryGetComponent(out EnemyThing enemy);
-            if (enemyIsHit)
-            {
-                enemy.Health -= WeaponDamage;
-            }
-
-            Instantiate(BulletHole, hit.point, Quaternion.LookRotation(hit.normal));
-            BulletHole.transform.parent = hit.transform;
-
-            Debug.Log(hit.point);
-        }
     }
 
     #endregion

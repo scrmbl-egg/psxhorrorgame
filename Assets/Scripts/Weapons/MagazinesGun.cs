@@ -62,6 +62,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         if (theresNoBulletsInMag) return;
 
         CurrentLoadedRounds--;
+
     }
 
     #endregion
