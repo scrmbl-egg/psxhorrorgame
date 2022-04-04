@@ -14,6 +14,7 @@ public class Pistol : MagazinesGun
 
     private void Update()
     {
+        if (Input.GetKeyDown(KeyCode.R)) AddMagazine(Random.Range(1, MaxMagazineCapacity + 1));
         if (Input.GetButtonDown("Fire1")) Fire();
     }
 

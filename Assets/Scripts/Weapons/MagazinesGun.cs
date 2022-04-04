@@ -16,7 +16,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     public int CurrentLoadedRounds
     {
         get => currentLoadedRounds;
-        set => currentLoadedRounds = Mathf.Clamp(value, 0, maxAmountOfMagazines);
+        set => currentLoadedRounds = Mathf.Clamp(value, 0, maxMagazineCapacity);
     }
     public int MaxMagazineCapacity => maxMagazineCapacity;
     public int CurrentAmountOfMagazines
@@ -40,10 +40,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
     private void Update()
     {
-        if (Input.GetKeyDown(KeyCode.R))
-        {
-            AddMagazine(3);
-        }
+
     }
 
     #endregion
@@ -77,7 +74,8 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         if (thereAreMagazinesAvailable)
         {
             //extract current mag and add it to ammo list
-            Magazines.Add(CurrentLoadedRounds);
+            bool theresStillRoundsInMag = CurrentLoadedRounds > 0;
+            if (theresStillRoundsInMag) Magazines.Add(CurrentLoadedRounds);
             
             //sorts list from least to greatest
             Magazines.Sort();
@@ -109,9 +107,13 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         Magazines.Sort();
 
         bool magazineListIsFull = Magazines.Count == Magazines.Capacity;
-        if (magazineListIsFull) Magazines.RemoveAt(0);
+        if (magazineListIsFull)
+        {
+            Magazines.RemoveAt(0);
+        }
 
         Magazines.Add(ammo);
+        Debug.Log($"added magazine with {ammo} rounds");
     }
 
     #endregion
