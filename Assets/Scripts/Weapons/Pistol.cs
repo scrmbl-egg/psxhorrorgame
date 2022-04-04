@@ -9,6 +9,7 @@ public class Pistol : MagazinesGun
     //
     [SerializeField] private Transform playerCam;
     [SerializeField] private Transform muzzle;
+    [SerializeField] private GameObject BulletHole;
 
     #region MonoBehaviour
 
@@ -41,6 +42,9 @@ public class Pistol : MagazinesGun
             {
                 enemy.Health -= WeaponDamage;
             }
+
+            Instantiate(BulletHole, hit.point, Quaternion.LookRotation(hit.normal));
+            BulletHole.transform.parent = hit.transform;
 
             Debug.Log(hit.point);
         }
