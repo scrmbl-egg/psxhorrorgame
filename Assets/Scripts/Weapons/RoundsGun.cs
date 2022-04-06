@@ -15,11 +15,12 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
     [SerializeField] private int maxLoadedRounds;
     [SerializeField] private int currentTotalAmmo;
     [SerializeField] private int maxTotalAmmo;
+    private const int ONE_IN_THE_CHAMBER = 1;
 
     public int CurrentLoadedRounds
     {
         get => currentLoadedRounds;
-        set => currentLoadedRounds = Mathf.Clamp(value, 0, maxLoadedRounds);
+        set => currentLoadedRounds = Mathf.Clamp(value, 0, maxLoadedRounds + ONE_IN_THE_CHAMBER);
     }
     public int MaxLoadedRounds => maxLoadedRounds;
     public int CurrentTotalAmmo
@@ -28,6 +29,15 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
         set => currentTotalAmmo = Mathf.Clamp(value, 0, maxTotalAmmo);
     }
     public int MaxTotalAmmo => maxTotalAmmo;
+
+    #region MonoBehaviour
+
+    private void Update()
+    {
+        InputManagement();
+    }
+
+    #endregion
 
     #region Public methods
 
@@ -40,12 +50,43 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
 
     public virtual void Fire()
     {
-        bool gunIsEmpty = CurrentLoadedRounds == 0;
-        if (gunIsEmpty)
+        bool gunHasAmmo = CurrentLoadedRounds > 0;
+        if (gunHasAmmo)
+        {
+            //TODO: SHOOT RAYCASTS HERE
+            for (int i = 0; i < PelletsPerShot; i++)
+            {
+                Ray shot = new Ray(origin: RaycastOrigin.position,
+                                   direction: RandomSpread(RaycastOrigin.forward));
+                bool objectIsInRange = Physics.Raycast(ray: shot,
+                                                       hitInfo: out RaycastHit hit,
+                                                       maxDistance: WeaponRange,
+                                                       layerMask: RaycastLayers);
+
+                if (objectIsInRange)
+                {
+                    bool enemyIsHit = hit.transform.TryGetComponent(out EnemyThing enemy);
+                    if (enemyIsHit)
+                    {
+                        enemy.Health -= WeaponDamage / PelletsPerShot;
+                    }
+                    else
+                    {
+                        //bullet hole
+                        int randomBulletHole = Random.Range(0, BulletHoleDecals.Length);
+                        GameObject bulletHole = Instantiate(original: BulletHoleDecals[randomBulletHole],
+                                                            position: hit.point,
+                                                            rotation: Quaternion.LookRotation(hit.normal));
+                        bulletHole.transform.SetParent(hit.transform);
+                    }
+                }
+            }
+
+            CurrentLoadedRounds--;
+        }
+        else
         {
             //play empty sound
-
-            return;
         }
     }
 
@@ -54,8 +95,14 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
 
     public virtual void Reload()
     {
-        bool noAmmoLeft = CurrentTotalAmmo == 0;
-        if (noAmmoLeft) return;
+        bool theresAmmoLeft = CurrentTotalAmmo > 0;
+        bool weaponIsNotFull = CurrentLoadedRounds < MaxLoadedRounds + ONE_IN_THE_CHAMBER;
+
+        if (theresAmmoLeft && weaponIsNotFull)
+        {
+            CurrentTotalAmmo--;
+            CurrentLoadedRounds++;
+        }
     }
 
     public virtual void CheckAmmo()
@@ -64,6 +111,17 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
     }
 
     #endregion
+
+    #endregion
+    #region Private methods
+
+    private void InputManagement()
+    {
+        //TODO: USE INPUT MANAGER BUTTON INSTEAD OF KEYCODE ONCE FINISHED
+        if (Input.GetKeyDown(KeyCode.R)) Reload();
+        if (Input.GetKeyDown(KeyCode.F)) CheckAmmo();
+        if (Input.GetButtonDown("Fire1")) Fire();
+    }
 
     #endregion
 }

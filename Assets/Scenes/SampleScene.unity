@@ -538,7 +538,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh25436
+  m_Name: pb_Mesh24932
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2889,7 +2889,7 @@ GameObject:
   - component: {fileID: 1129151195}
   - component: {fileID: 1129151198}
   - component: {fileID: 1129151197}
-  - component: {fileID: 1129151196}
+  - component: {fileID: 1129151199}
   m_Layer: 7
   m_Name: ExampleGun
   m_TagString: Untagged
@@ -2912,40 +2912,6 @@ Transform:
   m_Father: {fileID: 1016312248}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &1129151196
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInstance: {fileID: 0}
-  m_PrefabAsset: {fileID: 0}
-  m_GameObject: {fileID: 1129151194}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 5270c6aca3b96c04cbf109836342c100, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  weaponName: Pistol
-  shotOrigin: {fileID: 0}
-  pelletsPerShot: 0
-  meleeDamage: 10
-  minWeaponDamage: 27
-  maxWeaponDamage: 34
-  meeleeRange: 0.8
-  weaponRange: 74.03
-  horizontalSpread: 1.6
-  verticalSpread: 2.5
-  raycastLayers:
-    serializedVersion: 2
-    m_Bits: 1
-  currentLoadedRounds: 0
-  maxMagazineCapacity: 10
-  currentAmountOfMagazines: 6
-  maxAmountOfMagazines: 7
-  magazines: 
-  playerCam: {fileID: 1260054600}
-  muzzle: {fileID: 737409928}
-  bulletHoleDecal: {fileID: 8116752626919692808, guid: 421ed7084c12e2f43ad851158fdf7176,
-    type: 3}
 --- !u!23 &1129151197
 MeshRenderer:
   m_ObjectHideFlags: 0
@@ -2996,6 +2962,37 @@ MeshFilter:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1129151194}
   m_Mesh: {fileID: 10202, guid: 0000000000000000e000000000000000, type: 0}
+--- !u!114 &1129151199
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1129151194}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: f71d54b53fdd63c42acb887468ca654a, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  weaponName: Shotgun
+  raycastOrigin: {fileID: 1260054600}
+  pelletsPerShot: 6
+  meleeDamage: 10
+  minWeaponDamage: 69
+  maxWeaponDamage: 115
+  meeleeRange: 3.18
+  weaponRange: 2048
+  horizontalSpread: 1.1
+  verticalSpread: 4
+  raycastLayers:
+    serializedVersion: 2
+    m_Bits: 1
+  bulletHoleDecals:
+  - {fileID: 8116752626919692808, guid: 421ed7084c12e2f43ad851158fdf7176, type: 3}
+  currentLoadedRounds: 5
+  maxLoadedRounds: 6
+  currentTotalAmmo: 30
+  maxTotalAmmo: 50
 --- !u!1 &1179235882
 GameObject:
   m_ObjectHideFlags: 0
@@ -3545,7 +3542,7 @@ GameObject:
   - component: {fileID: 1260054602}
   - component: {fileID: 1260054601}
   m_Layer: 0
-  m_Name: World Camera
+  m_Name: MainCamera
   m_TagString: MainCamera
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -4970,6 +4967,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: ButtonEvent
       objectReference: {fileID: 0}
+    - target: {fileID: 27853218862262910, guid: 33dd346b767a38348b8b3da6f05bff4d,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 27853218862262911, guid: 33dd346b767a38348b8b3da6f05bff4d,
         type: 3}
       propertyPath: m_IsTrigger
@@ -5115,6 +5117,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: SwitchEvent
       objectReference: {fileID: 0}
+    - target: {fileID: 3920975299668939330, guid: 4721005e3f2e92a4597641fb5eb379ac,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
+      objectReference: {fileID: 0}
     - target: {fileID: 3920975299668939359, guid: 4721005e3f2e92a4597641fb5eb379ac,
         type: 3}
       propertyPath: m_RootOrder
@@ -5189,6 +5196,11 @@ PrefabInstance:
         type: 3}
       propertyPath: m_Name
       value: TriggerEvent
+      objectReference: {fileID: 0}
+    - target: {fileID: 6019355035846432201, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
+        type: 3}
+      propertyPath: m_Layer
+      value: 8
       objectReference: {fileID: 0}
     - target: {fileID: 6019355035846432204, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}

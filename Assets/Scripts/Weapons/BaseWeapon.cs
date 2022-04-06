@@ -11,9 +11,9 @@ public class BaseWeapon : MonoBehaviour
     //
     [SerializeField] private string weaponName;
     [Space(2)]
-    [SerializeField] private Transform shotOrigin;
+    [SerializeField] private Transform raycastOrigin;
     [Space(2)]
-    [SerializeField] private int pelletsPerShot;
+    [SerializeField] private int pelletsPerShot = 1;
     [Space(2)]
     [SerializeField] private int meleeDamage;
     [SerializeField] private int minWeaponDamage;
@@ -26,14 +26,17 @@ public class BaseWeapon : MonoBehaviour
     [SerializeField, Range(0f, 45f)] private float verticalSpread;
     [Space(2)]
     [SerializeField] private LayerMask raycastLayers;
+    [SerializeField] private GameObject[] bulletHoleDecals;
 
     public string WeaponName => weaponName;
-    public Transform ShotOrigin => shotOrigin;
+    public Transform RaycastOrigin => raycastOrigin;
+    public int PelletsPerShot => pelletsPerShot;
     public int MeleeDamage => meleeDamage;
     public int WeaponDamage => Random.Range(minWeaponDamage, maxWeaponDamage + 1);
     public float MeleeRange => meeleeRange;
     public float WeaponRange => weaponRange;
     public LayerMask RaycastLayers => raycastLayers;
+    public GameObject[] BulletHoleDecals => bulletHoleDecals;
 
     #region Public methods
 
@@ -46,11 +49,13 @@ public class BaseWeapon : MonoBehaviour
         float randomHorizontalSpread = Random.Range(-hDegrees, hDegrees);
         float randomVerticalSpread = Random.Range(-vDegrees, vDegrees);
 
-        spreadVector = Quaternion.AngleAxis(randomHorizontalSpread, Vector3.up) * spreadVector; //horizontal spread
-        spreadVector = Quaternion.AngleAxis(randomVerticalSpread, Vector3.right) * spreadVector; //vertical spread
+        spreadVector = Quaternion.AngleAxis(randomHorizontalSpread, RaycastOrigin.up) * spreadVector; //horizontal spread
+        spreadVector = Quaternion.AngleAxis(randomVerticalSpread, RaycastOrigin.right) * spreadVector; //vertical spread
 
         return spreadVector;
     }
+
+
 
     #endregion
 }
