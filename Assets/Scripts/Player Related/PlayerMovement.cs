@@ -1,13 +1,12 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerMovement : MonoBehaviour
 {
-    //[Header("Keybinds")]
-    ////
-    //[SerializeField] KeyCode _sprintKey = KeyCode.LeftShift;
-    //[SerializeField] KeyCode _crouchKey = KeyCode.LeftControl;
+    //input
+    PlayerInputActions _playerInputActions;
 
     [Header("Movement")]
     //
@@ -17,8 +16,8 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private float airDrag = 2f;
     private float _defaultDrag;
     private float _movementSpeedMultiplier = 10;
-    private float Horizontal => Input.GetAxisRaw("Horizontal");
-    private float Vertical => Input.GetAxisRaw("Vertical");
+    //private float Horizontal => Input.GetAxisRaw("Horizontal");
+    //private float Vertical => Input.GetAxisRaw("Vertical");
     private Vector3 _movementDirection;
     private Vector3 _movementDirectionOnSlope;
     private Rigidbody _rigidBody;
@@ -52,13 +51,26 @@ public class PlayerMovement : MonoBehaviour
     }
 
     #region MonoBehaviour
-
     private void Awake()
     {
+        //input
+        _playerInputActions = new PlayerInputActions();
+
         //rigidbody setup
         _rigidBody = GetComponent<Rigidbody>();
         _defaultDrag = _rigidBody.drag;
     }
+
+    private void OnEnable()
+    {
+        _playerInputActions.PlayerThing.Move.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _playerInputActions.PlayerThing.Move.Disable();
+    }
+
 
     private void Update()
     {
@@ -91,7 +103,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void InputManagement()
     {
-        _movementDirection = orientation.forward * Vertical + orientation.right * Horizontal;
+        Vector2 input = _playerInputActions.PlayerThing.Move.ReadValue<Vector2>();
+
+        _movementDirection = orientation.forward * input.y + orientation.right * input.x;
         _movementDirectionOnSlope = Vector3.ProjectOnPlane(_movementDirection, _slopeHit.normal);
     }
 

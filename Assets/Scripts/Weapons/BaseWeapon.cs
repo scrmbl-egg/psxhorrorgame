@@ -54,8 +54,5 @@ public class BaseWeapon : MonoBehaviour
 
         return spreadVector;
     }
-
-
-
     #endregion
 }

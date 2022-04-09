@@ -40,24 +40,17 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         Magazines.Capacity = MaxAmountOfMagazines;
     }
 
-    private void Update()
-    {
-        InputManagement();
-    }
-
     #endregion
 
     #region Public methods
 
     #region IWeapon
 
-    [ContextMenu("Melee")]
     public virtual void MeleeAttack()
     {
         //meelee attack
     }
 
-    [ContextMenu("Fire")]
     public virtual void Fire()
     {
         bool thereAreBulletsInMag = CurrentLoadedRounds > 0;
@@ -101,7 +94,6 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     #endregion
     #region IGun
 
-    [ContextMenu("Reload")]
     public virtual void Reload()
     {
         bool thereAreMagazinesAvailable = Magazines.Count > 0;
@@ -136,7 +128,6 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         }
     }
 
-    [ContextMenu("Ammocheck")]
     public virtual void CheckAmmo()
     {
         Debug.Log($"ammo: {CurrentLoadedRounds} | {Magazines.Count}");
@@ -159,17 +150,6 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
         Magazines.Add(ammo);
         Debug.Log($"added magazine with {ammo} rounds");
-    }
-
-    #endregion
-    #region Private methods
-
-    private void InputManagement()
-    {
-        //TODO: USE INPUT MANAGER BUTTON INSTEAD OF KEYCODE ONCE FINISHED
-        if (Input.GetKeyDown(KeyCode.R)) Reload();
-        if (Input.GetKeyDown(KeyCode.F)) CheckAmmo();
-        if (Input.GetButtonDown("Fire1")) Fire();
     }
 
     #endregion

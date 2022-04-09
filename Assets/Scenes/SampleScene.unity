@@ -538,7 +538,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh24932
+  m_Name: pb_Mesh25576
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -777,7 +777,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh25398
+  m_Name: pb_Mesh25538
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -1902,7 +1902,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   smooth: 4
-  intensity: 8
+  intensity: -8
 --- !u!1 &1020694972
 GameObject:
   m_ObjectHideFlags: 0
@@ -4357,9 +4357,6 @@ MonoBehaviour:
   orientation: {fileID: 1832893600}
   Cam: {fileID: 1260054603}
   playerViewport: {fileID: 247729162}
-  sensitivity: 50
-  invertX: 0
-  invertY: 0
   additionalFovWhenRunning: 0
 --- !u!114 &1996250482
 MonoBehaviour:
@@ -4387,8 +4384,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 6633603614a7df64f90d32aff3541f75, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  interactionKey: 101
-  playerCamera: {fileID: 1260054603}
+  playerCam: {fileID: 1260054600}
   interactionRange: 3
   interactionLayers:
     serializedVersion: 2
@@ -4532,7 +4528,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh25466
+  m_Name: pb_Mesh25606
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

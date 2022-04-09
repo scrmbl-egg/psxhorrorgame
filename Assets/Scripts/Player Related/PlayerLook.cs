@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class PlayerLook : MonoBehaviour
 {
+    //input
+    PlayerInputActions _playerInputActions;
+
     [Header("Camera")]
     //
     [SerializeField] private Transform camHolder;
@@ -13,28 +17,6 @@ public class PlayerLook : MonoBehaviour
     [Header("Rotation")]
     //
     [SerializeField] private GameObject playerViewport;
-    [SerializeField] private float sensitivity = 50;
-    [SerializeField] private bool invertX;
-    [SerializeField] private bool invertY;
-    private float _sensitivityMultiplier = .01f;
-    public float MouseX => Input.GetAxisRaw("Mouse X");
-    public float MouseY => Input.GetAxisRaw("Mouse Y");
-    public int InvertX
-    {
-        get
-        {
-            if (invertX) return -1;
-            else return 1;
-        }
-    }
-    public int InvertY
-    {
-        get
-        {
-            if (invertY) return -1;
-            else return 1;
-        }
-    }
     private float _pitch;
     private float _yaw;
 
@@ -47,12 +29,25 @@ public class PlayerLook : MonoBehaviour
 
     private void Awake()
     {
+        //input
+        _playerInputActions = new PlayerInputActions();
+        
         //cursor setup
         Cursor.lockState = CursorLockMode.Locked;
         Cursor.visible = false;
 
         //fov
         defaultFov = Cam.fieldOfView;
+    }
+
+    private void OnEnable()
+    {
+        _playerInputActions.PlayerThing.Look.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _playerInputActions.PlayerThing.Look.Disable();
     }
 
     private void Update()
@@ -68,11 +63,13 @@ public class PlayerLook : MonoBehaviour
 
     private void InputManagement()
     {
+        Vector2 input = _playerInputActions.PlayerThing.Look.ReadValue<Vector2>();
+
         //mouse look
-        _pitch -= MouseY * InvertY * sensitivity * _sensitivityMultiplier;
+        _pitch -= input.y;
         _pitch = Mathf.Clamp(_pitch, -90f, 90f); //clamp pitch up and down
 
-        _yaw += MouseX * InvertX * sensitivity * _sensitivityMultiplier;
+        _yaw += input.x;
     }
 
     private void RotateCamera()

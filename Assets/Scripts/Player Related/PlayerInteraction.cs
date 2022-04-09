@@ -1,27 +1,40 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 [RequireComponent(typeof(PlayerLook))]
 public class PlayerInteraction : MonoBehaviour
 {
-    //TODO: Make a global input class or make use of the new input system and delete this header
-    [Header("Input")]
-    //
-    [SerializeField] private KeyCode interactionKey = KeyCode.E;
+    //input
+    PlayerInputActions _playerInputActions;
 
     [Header("Properties / Dependencies")]
     //
-    [SerializeField] private Camera playerCamera;
+    [SerializeField] private Transform playerCam;
     [SerializeField, Min(.5f)] private float interactionRange;
     [SerializeField] private LayerMask interactionLayers;
     [SerializeField] private bool showGizmoRay;
 
     #region MonoBehaviour
 
-    private void Update()
+    private void Awake()
     {
-        InputManagement();
+        _playerInputActions = new PlayerInputActions();
+    }
+
+    private void OnEnable()
+    {
+        //input
+        _playerInputActions.PlayerThing.Interact.Enable();
+        _playerInputActions.PlayerThing.Interact.started += PerformInteraction;
+    }
+
+    private void OnDisable()
+    {
+        //input
+        _playerInputActions.PlayerThing.Interact.Disable();
+        _playerInputActions.PlayerThing.Interact.started -= PerformInteraction;
     }
 
     private void OnDrawGizmos()
@@ -29,7 +42,8 @@ public class PlayerInteraction : MonoBehaviour
         if (showGizmoRay)
         {
             Gizmos.color = Color.yellow;
-            Gizmos.DrawRay(playerCamera.transform.position, playerCamera.transform.forward * interactionRange);
+            Gizmos.DrawRay(from: playerCam.transform.position,
+                           direction: playerCam.transform.forward * interactionRange);
         }
     }
 
@@ -37,23 +51,21 @@ public class PlayerInteraction : MonoBehaviour
 
     #region Private methods
 
-    private void InputManagement()
+    private void PerformInteraction(InputAction.CallbackContext ctx)
     {
-        if (Input.GetKeyDown(interactionKey))
+        if (ctx.started)
         {
-            bool objectIsInRange = Physics.Raycast(origin: playerCamera.transform.position,
-                                                   direction: playerCamera.transform.forward,
+            Ray ray = new Ray(origin: playerCam.transform.position,
+                              direction: playerCam.transform.forward);
+            bool objectIsInRange = Physics.Raycast(ray: ray,
                                                    hitInfo: out RaycastHit hit,
                                                    maxDistance: interactionRange,
                                                    layerMask: interactionLayers);
 
             if (objectIsInRange)
             {
-                bool isInteractive = hit.collider.TryGetComponent(out IInteractive interactiveObject);
-                if (isInteractive)
-                {
-                    interactiveObject.Interact();
-                }
+                bool isInteractive = hit.transform.TryGetComponent(out IInteractive interactiveObject);
+                if (isInteractive) interactiveObject.Interact();
             }
         }
     }

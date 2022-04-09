@@ -1,9 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 public class WeaponSway : MonoBehaviour
 {
+    //input
+    PlayerInputActions _playerInputActions;
+
     [Header("Settings")]
     //
     [SerializeField] private float smooth;
@@ -15,7 +19,19 @@ public class WeaponSway : MonoBehaviour
 
     private void Awake()
     {
+        _playerInputActions = new PlayerInputActions();
+
         _originalLocalRotation = transform.localRotation;
+    }
+
+    private void OnEnable()
+    {
+        _playerInputActions.PlayerThing.Look.Enable();
+    }
+
+    private void OnDisable()
+    {
+        _playerInputActions.PlayerThing.Look.Disable();
     }
 
     private void Update()
@@ -37,11 +53,10 @@ public class WeaponSway : MonoBehaviour
         ///removes the random snapping completely, while making the intensity difference
         ///between frame rates completely trivial.
 
-        float xInput = Input.GetAxisRaw("Mouse X");
-        float yInput = Input.GetAxisRaw("Mouse Y") * -1;
+        Vector2 input = _playerInputActions.PlayerThing.Look.ReadValue<Vector2>();
 
-        float clampedXInput = Mathf.Clamp(xInput, -1, 1);
-        float clampedYInput = Mathf.Clamp(yInput, -1, 1);
+        float clampedXInput = Mathf.Clamp(input.x, -1, 1);
+        float clampedYInput = Mathf.Clamp(input.y, -1, 1) * -1;
         float clampedSmooth = Mathf.Clamp01(smooth * SMOOTH_MULTIPLIER);
 
         //calculate rotations
@@ -54,7 +69,5 @@ public class WeaponSway : MonoBehaviour
                                                    b: targetRotation,
                                                    t: clampedSmooth);
     }
-
     #endregion
-
 }

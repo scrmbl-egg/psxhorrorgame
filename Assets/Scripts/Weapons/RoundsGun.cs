@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.InputSystem;
 
 /// <summary>
 /// Class for guns that are loaded with individual
@@ -30,15 +31,6 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
     }
     public int MaxTotalAmmo => maxTotalAmmo;
 
-    #region MonoBehaviour
-
-    private void Update()
-    {
-        InputManagement();
-    }
-
-    #endregion
-
     #region Public methods
 
     #region IWeapon
@@ -53,7 +45,6 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
         bool gunHasAmmo = CurrentLoadedRounds > 0;
         if (gunHasAmmo)
         {
-            //TODO: SHOOT RAYCASTS HERE
             for (int i = 0; i < PelletsPerShot; i++)
             {
                 Ray shot = new Ray(origin: RaycastOrigin.position,
@@ -72,7 +63,7 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
                     }
                     else
                     {
-                        //bullet hole
+                        //spawn bullet hole decals
                         int randomBulletHole = Random.Range(0, BulletHoleDecals.Length);
                         GameObject bulletHole = Instantiate(original: BulletHoleDecals[randomBulletHole],
                                                             position: hit.point,
@@ -111,17 +102,6 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
     }
 
     #endregion
-
-    #endregion
-    #region Private methods
-
-    private void InputManagement()
-    {
-        //TODO: USE INPUT MANAGER BUTTON INSTEAD OF KEYCODE ONCE FINISHED
-        if (Input.GetKeyDown(KeyCode.R)) Reload();
-        if (Input.GetKeyDown(KeyCode.F)) CheckAmmo();
-        if (Input.GetButtonDown("Fire1")) Fire();
-    }
 
     #endregion
 }
