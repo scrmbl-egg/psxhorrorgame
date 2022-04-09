@@ -1901,8 +1901,103 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 939ec1a284f7ba341ad156bbaae81832, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  smooth: 4
-  intensity: -8
+  smooth: 10
+  intensity: -6
+  bobX:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 25.15524
+      outSlope: 25.15524
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.14353599
+    - serializedVersion: 3
+      time: 0.25002056
+      value: 0
+      inSlope: -27.326702
+      outSlope: -27.326702
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.12720406
+    - serializedVersion: 3
+      time: 0.5000411
+      value: 0
+      inSlope: 26.065477
+      outSlope: 26.065477
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.1495105
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 1
+    m_RotationOrder: 4
+  xRange: 0.0445
+  bobY:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 0.044787392
+      outSlope: 0.044787392
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.10894485
+    - serializedVersion: 3
+      time: 1
+      value: 0
+      inSlope: 0.0443862
+      outSlope: 0.0443862
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.10392696
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 1
+    m_RotationOrder: 4
+  yRange: 0.044
+  bobZ:
+    serializedVersion: 2
+    m_Curve:
+    - serializedVersion: 3
+      time: 0
+      value: 0
+      inSlope: 25.15524
+      outSlope: 25.15524
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0
+      outWeight: 0.14353599
+    - serializedVersion: 3
+      time: 0.12378535
+      value: 0
+      inSlope: -27.326702
+      outSlope: -27.326702
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.33333334
+      outWeight: 0.12720406
+    - serializedVersion: 3
+      time: 0.2475707
+      value: 0
+      inSlope: 26.065477
+      outSlope: 26.065477
+      tangentMode: 0
+      weightedMode: 0
+      inWeight: 0.1495105
+      outWeight: 0
+    m_PreInfinity: 2
+    m_PostInfinity: 1
+    m_RotationOrder: 4
+  zRange: 0.0211
+  duration: 4.5
+  slerpTime: 2.9
 --- !u!1 &1020694972
 GameObject:
   m_ObjectHideFlags: 0
@@ -2920,7 +3015,7 @@ MeshRenderer:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1129151194}
   m_Enabled: 1
-  m_CastShadows: 1
+  m_CastShadows: 0
   m_ReceiveShadows: 1
   m_DynamicOccludee: 1
   m_StaticShadowCaster: 0
@@ -2932,7 +3027,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 85ddc73ca9f030e49b6e32916c6b89b5, type: 2}
+  - {fileID: -3033667219593020291, guid: 9549f75e9d333504d84f0a299e4931a1, type: 3}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -4388,7 +4483,7 @@ MonoBehaviour:
   interactionRange: 3
   interactionLayers:
     serializedVersion: 2
-    m_Bits: 1
+    m_Bits: 257
   showGizmoRay: 1
 --- !u!1 &2014474134
 GameObject:
