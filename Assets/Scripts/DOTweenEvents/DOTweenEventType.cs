@@ -1,5 +1,6 @@
 ﻿public enum DOTweenEventType
 {
     SimpleRotate,
-    SimpleRotateLoop
+    SimpleRotateLoop,
+    Bobbing
 }
