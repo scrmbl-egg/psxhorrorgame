@@ -9,6 +9,9 @@ using UnityEngine.InputSystem;
 /// </summary>
 public class RoundsGun : BaseWeapon, IWeapon, IGun
 {
+    //input
+    PlayerInputActions _playerInputActions;
+    
     [Space(10)]
     [Header("Ammunition Settings")]
     //
@@ -30,6 +33,41 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
         set => currentTotalAmmo = Mathf.Clamp(value, 0, maxTotalAmmo);
     }
     public int MaxTotalAmmo => maxTotalAmmo;
+
+    public bool IsAiming { get; private set; }
+
+    #region MonoBehaviour
+
+    private void Awake()
+    {
+        _playerInputActions = new PlayerInputActions();
+    }
+
+    private void OnEnable()
+    {
+        _playerInputActions.PlayerThing.Fire.Enable();
+        _playerInputActions.PlayerThing.Aim.Enable();
+
+        _playerInputActions.PlayerThing.Aim.performed += AimDetection;
+        _playerInputActions.PlayerThing.Aim.canceled += AimDetection;
+        _playerInputActions.PlayerThing.Fire.started += FireDetection;
+        _playerInputActions.PlayerThing.Reload.performed += ReloadDetection;
+        _playerInputActions.PlayerThing.CheckAmmo.performed += CheckAmmoDetection;
+    }
+
+    private void OnDisable()
+    {
+        _playerInputActions.PlayerThing.Fire.Disable();
+        _playerInputActions.PlayerThing.Aim.Disable();
+
+        _playerInputActions.PlayerThing.Aim.performed -= AimDetection;
+        _playerInputActions.PlayerThing.Aim.canceled -= AimDetection;
+        _playerInputActions.PlayerThing.Fire.started -= FireDetection;
+        _playerInputActions.PlayerThing.Reload.performed -= ReloadDetection;
+        _playerInputActions.PlayerThing.CheckAmmo.performed -= CheckAmmoDetection;
+    }
+
+    #endregion
 
     #region Public methods
 
@@ -63,12 +101,7 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
                     }
                     else
                     {
-                        //spawn bullet hole decals
-                        int randomBulletHole = Random.Range(0, BulletHoleDecals.Length);
-                        GameObject bulletHole = Instantiate(original: BulletHoleDecals[randomBulletHole],
-                                                            position: hit.point,
-                                                            rotation: Quaternion.LookRotation(hit.normal));
-                        bulletHole.transform.SetParent(hit.transform);
+                        SpawnRandomBulletHole(hit);
                     }
                 }
             }
@@ -99,6 +132,34 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
     public virtual void CheckAmmo()
     {
         Debug.Log($"AMMO: {CurrentLoadedRounds} | {CurrentTotalAmmo}");
+    }
+
+    #endregion
+
+    #endregion
+    #region Private methods
+
+    #region Input detection
+
+    private void AimDetection(InputAction.CallbackContext ctx)
+    {
+        if (ctx.performed) IsAiming = true;
+        if (ctx.canceled) IsAiming = false;
+    }
+
+    private void FireDetection(InputAction.CallbackContext ctx)
+    {
+        if (IsAiming && ctx.started) Fire();
+    }
+
+    private void ReloadDetection(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started) Reload();
+    }
+
+    private void CheckAmmoDetection(InputAction.CallbackContext ctx)
+    {
+        if (ctx.started) CheckAmmo();
     }
 
     #endregion

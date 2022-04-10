@@ -54,5 +54,14 @@ public class BaseWeapon : MonoBehaviour
 
         return spreadVector;
     }
+
+    public void SpawnRandomBulletHole(RaycastHit raycastHit)
+    {
+        int randomBulletHole = Random.Range(0, BulletHoleDecals.Length);
+        GameObject bulletHole = Instantiate(original: BulletHoleDecals[randomBulletHole],
+                                            position: raycastHit.point,
+                                            rotation: Quaternion.LookRotation(raycastHit.normal));
+        bulletHole.transform.SetParent(raycastHit.transform);
+    }
     #endregion
 }

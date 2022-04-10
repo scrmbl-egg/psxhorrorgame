@@ -27,14 +27,14 @@ public class PlayerInteraction : MonoBehaviour
     {
         //input
         _playerInputActions.PlayerThing.Interact.Enable();
-        _playerInputActions.PlayerThing.Interact.started += PerformInteraction;
+        _playerInputActions.PlayerThing.Interact.started += InteractDetection;
     }
 
     private void OnDisable()
     {
         //input
         _playerInputActions.PlayerThing.Interact.Disable();
-        _playerInputActions.PlayerThing.Interact.started -= PerformInteraction;
+        _playerInputActions.PlayerThing.Interact.started -= InteractDetection;
     }
 
     private void OnDrawGizmos()
@@ -51,22 +51,24 @@ public class PlayerInteraction : MonoBehaviour
 
     #region Private methods
 
-    private void PerformInteraction(InputAction.CallbackContext ctx)
+    private void InteractDetection(InputAction.CallbackContext ctx)
     {
-        if (ctx.started)
-        {
-            Ray ray = new Ray(origin: playerCam.transform.position,
-                              direction: playerCam.transform.forward);
-            bool objectIsInRange = Physics.Raycast(ray: ray,
-                                                   hitInfo: out RaycastHit hit,
-                                                   maxDistance: interactionRange,
-                                                   layerMask: interactionLayers);
+        if (ctx.started) PerformInteraction();
+    }
 
-            if (objectIsInRange)
-            {
-                bool isInteractive = hit.transform.TryGetComponent(out IInteractive interactiveObject);
-                if (isInteractive) interactiveObject.Interact();
-            }
+    private void PerformInteraction()
+    {
+        Ray ray = new Ray(origin: playerCam.transform.position,
+                          direction: playerCam.transform.forward);
+        bool objectIsInRange = Physics.Raycast(ray: ray,
+                                               hitInfo: out RaycastHit hit,
+                                               maxDistance: interactionRange,
+                                               layerMask: interactionLayers);
+
+        if (objectIsInRange)
+        {
+            bool isInteractive = hit.transform.TryGetComponent(out IInteractive interactiveObject);
+            if (isInteractive) interactiveObject.Interact();
         }
     }
 

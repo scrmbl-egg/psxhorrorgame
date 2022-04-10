@@ -74,12 +74,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
                     }
                     else
                     {
-                        //bullet hole
-                        int randomBulletHole = Random.Range(0, BulletHoleDecals.Length);
-                        GameObject bulletHole = Instantiate(original: BulletHoleDecals[randomBulletHole],
-                                                            position: hit.point,
-                                                            rotation: Quaternion.LookRotation(hit.normal));
-                        bulletHole.transform.SetParent(hit.transform);
+                        SpawnRandomBulletHole(hit);
                     }
                 }
             }
@@ -88,6 +83,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         }
         else
         {
+            //play an empty mag sound
         }
     }
 
@@ -143,6 +139,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         Magazines.Sort();
 
         bool magazineListIsFull = Magazines.Count == Magazines.Capacity;
+
         if (magazineListIsFull)
         {
             Magazines.RemoveAt(0);
@@ -151,6 +148,11 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         Magazines.Add(ammo);
         Debug.Log($"added magazine with {ammo} rounds");
     }
+
+    #endregion
+    #region Private methods
+
+   
 
     #endregion
 }
