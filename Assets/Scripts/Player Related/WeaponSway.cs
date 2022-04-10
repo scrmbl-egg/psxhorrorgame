@@ -2,7 +2,6 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.InputSystem;
-using DG.Tweening;
 
 public class WeaponSway : MonoBehaviour
 {
@@ -16,18 +15,6 @@ public class WeaponSway : MonoBehaviour
     Quaternion _originalLocalRotation;
     const float SMOOTH_MULTIPLIER = 0.01f;
 
-    [Header("Bobbing")]
-    //[SerializeField] private float _resetRecoverT = .25f;
-    //[SerializeField] private float bobScale = .1f;
-    //[SerializeField] private float bobSpeed = 3f;
-
-    [SerializeField] private AnimationCurve animationCurve;
-    [SerializeField] private float lastPosition;
-    [SerializeField] private float animationTime;
-    private Tween BobbingTween;
-
-    private Vector3 _restPos;
-
     #region MonoBehaviour
 
     private void Awake()
@@ -35,33 +22,21 @@ public class WeaponSway : MonoBehaviour
         _playerInputActions = new PlayerInputActions();
 
         _originalLocalRotation = transform.localRotation;
-
-        _restPos = transform.localPosition;
-
-        BobbingTween = transform.DOLocalMoveY(lastPosition, animationTime).SetLoops(-1).SetEase(animationCurve);
-
-        //if (dEventType == DOTweenEventType.Bobbing)
-        //{
-        //    _bobbingTween = DOTweenModulePhysics.DOMoveY(_rb ,_lastPosition, _animTime).SetLoops(-1).SetEase(_animCurve);
-        //}
     }
 
     private void OnEnable()
     {
         _playerInputActions.PlayerThing.Look.Enable();
-        _playerInputActions.PlayerThing.Move.Enable();
     }
 
     private void OnDisable()
     {
         _playerInputActions.PlayerThing.Look.Disable();
-        _playerInputActions.PlayerThing.Move.Disable();
     }
 
     private void Update()
     {
         Sway();
-        Bobbing();
     }
 
     #endregion
@@ -93,35 +68,6 @@ public class WeaponSway : MonoBehaviour
         transform.localRotation = Quaternion.Slerp(a: transform.localRotation,
                                                    b: targetRotation,
                                                    t: clampedSmooth);
-    }
-    #endregion
-
-    #region Bobbing
-    private void Bobbing()
-    {
-        Vector2 input = _playerInputActions.PlayerThing.Move.ReadValue<Vector2>();
-
-        if (input.magnitude > Mathf.Epsilon)
-        {
-            DOTween.Play(BobbingTween);
-        }
-        else
-        {
-            transform.localPosition = Vector3.zero;
-        }
-        //if (input.magnitude > Mathf.Epsilon)
-        //{
-        //    float scale = 2 / (3 - Mathf.Cos(2 * Time.time));
-        //    transform.localPosition = new Vector3(
-        //                transform.localPosition.x + bobScale * (scale * Mathf.Cos(Time.time * bobScale) * Time.deltaTime),
-        //                transform.localPosition.y + bobScale * (scale * Mathf.Sin(2 * Time.time * bobSpeed) / 2 * Time.deltaTime),
-        //                transform.localPosition.z
-        //            );
-        //}else
-        //{
-        //    transform.DOLocalMove(_restPos, _resetRecoverT);
-        //}
-        
     }
     #endregion
 }
