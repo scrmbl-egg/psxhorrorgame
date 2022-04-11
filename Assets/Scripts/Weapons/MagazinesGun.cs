@@ -8,9 +8,9 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     [Header("Ammunition Settings")]
     //
     [SerializeField] private int currentLoadedRounds;
-    [SerializeField] private int maxMagazineCapacity;
+    [SerializeField, Min(1)] private int maxMagazineCapacity;
     [SerializeField] private int currentAmountOfMagazines;
-    [SerializeField] private int maxAmountOfMagazines;
+    [SerializeField, Min(1)] private int maxAmountOfMagazines;
     [Space(2)]
     [SerializeField] private List<int> magazines = new List<int>();
     private const int ONE_IN_THE_CHAMBER = 1;
@@ -33,11 +33,15 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         set => magazines = value;
     }
 
+    public bool IsAiming { get; set; }
+
     #region MonoBehaviour
 
     private void Awake()
     {
         Magazines.Capacity = MaxAmountOfMagazines;
+
+        FillGunWithRandomMags();
     }
 
     #endregion
@@ -67,10 +71,10 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
                 if (objectIsInRange)
                 {
-                    bool enemyIsHit = hit.transform.TryGetComponent(out EnemyThing enemy);
-                    if (enemyIsHit)
+                    bool livingThingIsHit = hit.transform.TryGetComponent(out LivingThing target);
+                    if (livingThingIsHit)
                     {
-                        enemy.Health -= WeaponDamage / PelletsPerShot;
+                        target.Health -= WeaponDamage / PelletsPerShot;
                     }
                     else
                     {
@@ -152,7 +156,17 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     #endregion
     #region Private methods
 
-   
+    private void FillGunWithRandomMags()
+    {
+        bool magsShouldBeSpawned = CurrentAmountOfMagazines <= 0;
+        if (magsShouldBeSpawned) return;
+
+        for (int i = 0; i < CurrentAmountOfMagazines; i++)
+        {
+            int randomAmountOfBullets = Random.Range(1, MaxMagazineCapacity + 1);
+            Magazines.Add(randomAmountOfBullets);
+        }
+    }
 
     #endregion
 }

@@ -37,6 +37,7 @@ public class LivingThing : MonoBehaviour
     public virtual void DeathEffect()
     {
         Debug.Log($"{name}: i have died");
+        Destroy(gameObject);
     }
 
     /// <summary>

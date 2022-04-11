@@ -13,14 +13,14 @@ public class BaseWeapon : MonoBehaviour
     [Space(2)]
     [SerializeField] private Transform raycastOrigin;
     [Space(2)]
-    [SerializeField] private int pelletsPerShot = 1;
+    [SerializeField, Min(1)] private int pelletsPerShot = 1;
     [Space(2)]
-    [SerializeField] private int meleeDamage;
-    [SerializeField] private int minWeaponDamage;
-    [SerializeField] private int maxWeaponDamage;
+    [SerializeField, Min(1)] private int meleeDamage;
+    [SerializeField, Min(1)] private int minWeaponDamage;
+    [SerializeField, Min(1)] private int maxWeaponDamage;
     [Space(2)]
-    [SerializeField] private float meeleeRange;
-    [SerializeField] private float weaponRange;
+    [SerializeField, Min(float.Epsilon)] private float meeleeRange;
+    [SerializeField, Min(float.Epsilon)] private float weaponRange;
     [Space(2)]
     [SerializeField, Range(0f, 45f)] private float horizontalSpread;
     [SerializeField, Range(0f, 45f)] private float verticalSpread;

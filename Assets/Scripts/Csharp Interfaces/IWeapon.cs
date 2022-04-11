@@ -5,6 +5,8 @@ using UnityEngine.InputSystem;
 /// </summary>
 public interface IWeapon
 {
+    public bool IsAiming { get; set; }
+
     /// <summary>
     /// Melee attacks with the weapon.
     /// </summary>

@@ -34,37 +34,13 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
     }
     public int MaxTotalAmmo => maxTotalAmmo;
 
-    public bool IsAiming { get; private set; }
+    public bool IsAiming { get; set; }
 
     #region MonoBehaviour
 
     private void Awake()
     {
         _playerInputActions = new PlayerInputActions();
-    }
-
-    private void OnEnable()
-    {
-        _playerInputActions.PlayerThing.Fire.Enable();
-        _playerInputActions.PlayerThing.Aim.Enable();
-
-        _playerInputActions.PlayerThing.Aim.performed += AimDetection;
-        _playerInputActions.PlayerThing.Aim.canceled += AimDetection;
-        _playerInputActions.PlayerThing.Fire.started += FireDetection;
-        _playerInputActions.PlayerThing.Reload.performed += ReloadDetection;
-        _playerInputActions.PlayerThing.CheckAmmo.performed += CheckAmmoDetection;
-    }
-
-    private void OnDisable()
-    {
-        _playerInputActions.PlayerThing.Fire.Disable();
-        _playerInputActions.PlayerThing.Aim.Disable();
-
-        _playerInputActions.PlayerThing.Aim.performed -= AimDetection;
-        _playerInputActions.PlayerThing.Aim.canceled -= AimDetection;
-        _playerInputActions.PlayerThing.Fire.started -= FireDetection;
-        _playerInputActions.PlayerThing.Reload.performed -= ReloadDetection;
-        _playerInputActions.PlayerThing.CheckAmmo.performed -= CheckAmmoDetection;
     }
 
     #endregion
@@ -94,10 +70,10 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
 
                 if (objectIsInRange)
                 {
-                    bool enemyIsHit = hit.transform.TryGetComponent(out EnemyThing enemy);
-                    if (enemyIsHit)
+                    bool livingThingIsHit = hit.transform.TryGetComponent(out LivingThing target);
+                    if (livingThingIsHit)
                     {
-                        enemy.Health -= WeaponDamage / PelletsPerShot;
+                        target.Health -= WeaponDamage / PelletsPerShot;
                     }
                     else
                     {
@@ -132,34 +108,6 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
     public virtual void CheckAmmo()
     {
         Debug.Log($"AMMO: {CurrentLoadedRounds} | {CurrentTotalAmmo}");
-    }
-
-    #endregion
-
-    #endregion
-    #region Private methods
-
-    #region Input detection
-
-    private void AimDetection(InputAction.CallbackContext ctx)
-    {
-        if (ctx.performed) IsAiming = true;
-        if (ctx.canceled) IsAiming = false;
-    }
-
-    private void FireDetection(InputAction.CallbackContext ctx)
-    {
-        if (IsAiming && ctx.started) Fire();
-    }
-
-    private void ReloadDetection(InputAction.CallbackContext ctx)
-    {
-        if (ctx.started) Reload();
-    }
-
-    private void CheckAmmoDetection(InputAction.CallbackContext ctx)
-    {
-        if (ctx.started) CheckAmmo();
     }
 
     #endregion

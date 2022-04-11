@@ -81,6 +81,14 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
                     ""interactions"": ""Hold""
+                },
+                {
+                    ""name"": ""NavigateGuns"",
+                    ""type"": ""PassThrough"",
+                    ""id"": ""7e6c1897-09c7-454a-9da0-b94807858522"",
+                    ""expectedControlType"": ""Axis"",
+                    ""processors"": ""Clamp(min=-1,max=1)"",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -168,6 +176,17 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",
+                    ""action"": ""Look"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""51c5ec16-980f-4194-9938-e932564cb7cc"",
+                    ""path"": ""<Joystick>/stick"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": """",
                     ""action"": ""Look"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
@@ -303,6 +322,28 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""action"": ""Run"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e947eefa-6229-4aff-b89e-5bcede0530e6"",
+                    ""path"": ""<Mouse>/scroll/y"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""NavigateGuns"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""712dd18b-bed2-4922-a729-7aa36964bfac"",
+                    ""path"": ""<Gamepad>/dpad/x"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""NavigateGuns"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -347,6 +388,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         m_PlayerThing_Aim = m_PlayerThing.FindAction("Aim", throwIfNotFound: true);
         m_PlayerThing_Reload = m_PlayerThing.FindAction("Reload", throwIfNotFound: true);
         m_PlayerThing_CheckAmmo = m_PlayerThing.FindAction("CheckAmmo", throwIfNotFound: true);
+        m_PlayerThing_NavigateGuns = m_PlayerThing.FindAction("NavigateGuns", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -404,6 +446,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerThing_Aim;
     private readonly InputAction m_PlayerThing_Reload;
     private readonly InputAction m_PlayerThing_CheckAmmo;
+    private readonly InputAction m_PlayerThing_NavigateGuns;
     public struct PlayerThingActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -416,6 +459,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         public InputAction @Aim => m_Wrapper.m_PlayerThing_Aim;
         public InputAction @Reload => m_Wrapper.m_PlayerThing_Reload;
         public InputAction @CheckAmmo => m_Wrapper.m_PlayerThing_CheckAmmo;
+        public InputAction @NavigateGuns => m_Wrapper.m_PlayerThing_NavigateGuns;
         public InputActionMap Get() { return m_Wrapper.m_PlayerThing; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -449,6 +493,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @CheckAmmo.started -= m_Wrapper.m_PlayerThingActionsCallbackInterface.OnCheckAmmo;
                 @CheckAmmo.performed -= m_Wrapper.m_PlayerThingActionsCallbackInterface.OnCheckAmmo;
                 @CheckAmmo.canceled -= m_Wrapper.m_PlayerThingActionsCallbackInterface.OnCheckAmmo;
+                @NavigateGuns.started -= m_Wrapper.m_PlayerThingActionsCallbackInterface.OnNavigateGuns;
+                @NavigateGuns.performed -= m_Wrapper.m_PlayerThingActionsCallbackInterface.OnNavigateGuns;
+                @NavigateGuns.canceled -= m_Wrapper.m_PlayerThingActionsCallbackInterface.OnNavigateGuns;
             }
             m_Wrapper.m_PlayerThingActionsCallbackInterface = instance;
             if (instance != null)
@@ -477,6 +524,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @CheckAmmo.started += instance.OnCheckAmmo;
                 @CheckAmmo.performed += instance.OnCheckAmmo;
                 @CheckAmmo.canceled += instance.OnCheckAmmo;
+                @NavigateGuns.started += instance.OnNavigateGuns;
+                @NavigateGuns.performed += instance.OnNavigateGuns;
+                @NavigateGuns.canceled += instance.OnNavigateGuns;
             }
         }
     }
@@ -509,5 +559,6 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         void OnAim(InputAction.CallbackContext context);
         void OnReload(InputAction.CallbackContext context);
         void OnCheckAmmo(InputAction.CallbackContext context);
+        void OnNavigateGuns(InputAction.CallbackContext context);
     }
 }
