@@ -9,25 +9,35 @@ public class LivingThing : MonoBehaviour
     //
     [SerializeField] private string thingName;
     [SerializeField] private int maxHealth = 100;
+    [SerializeField] private int health;
 
     public string ThingName => thingName;
     public int MaxHealth => maxHealth;
     public int Health
     {
-        get => Mathf.Clamp(Health, 0, maxHealth);
+        get => Mathf.Clamp(health, 0, maxHealth);
         set
         {
-            int previousHealth = Health;
+            int previousHealth = health;
 
-            Health = Mathf.Clamp(value, 0, maxHealth);
+            health = Mathf.Clamp(value, 0, maxHealth);
 
             //effects management
-            if (Health == 0) DeathEffect();
+            if (health == 0) DeathEffect();
 
-            if (previousHealth > Health) DamageEffect();
-            else if (previousHealth < Health) HealingEffect();
+            if (previousHealth > health) DamageEffect();
+            else if (previousHealth < health) HealingEffect();
         }
     }
+
+    #region MonoBehaviour
+
+    private void Awake()
+    {
+        health = MaxHealth;
+    }
+
+    #endregion
 
     #region Public methods
 
@@ -36,7 +46,7 @@ public class LivingThing : MonoBehaviour
     /// </summary>
     public virtual void DeathEffect()
     {
-        Debug.Log($"{name}: i have died");
+        Debug.Log($"{ThingName}: i have died");
         Destroy(gameObject);
     }
 
@@ -45,7 +55,7 @@ public class LivingThing : MonoBehaviour
     /// </summary>
     public virtual void DamageEffect()
     {
-        Debug.Log($"{name}: i have been damaged");
+        Debug.Log($"{ThingName}: i have been damaged");
     }
 
     /// <summary>
@@ -53,7 +63,7 @@ public class LivingThing : MonoBehaviour
     /// </summary>
     public virtual void HealingEffect()
     {
-        Debug.Log($"{name}: i have been healed");
+        Debug.Log($"{ThingName}: i have been healed");
     }
 
     #endregion

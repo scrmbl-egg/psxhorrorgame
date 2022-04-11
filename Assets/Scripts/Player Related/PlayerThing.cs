@@ -12,8 +12,6 @@ public class PlayerThing : LivingThing
 
     public override void DeathEffect()
     {
-        base.DeathEffect();
-
         //death effects
     }
 
