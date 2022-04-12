@@ -7,7 +7,7 @@ using UnityEngine.InputSystem;
 public class PlayerInteraction : MonoBehaviour
 {
     //input
-    PlayerInputActions _playerInputActions;
+    private PlayerInputActions _playerInputActions;
 
     [Header("Properties / Dependencies")]
     //

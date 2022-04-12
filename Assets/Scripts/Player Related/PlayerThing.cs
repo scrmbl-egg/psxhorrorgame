@@ -9,7 +9,6 @@ using UnityEngine;
     )]
 public class PlayerThing : LivingThing
 {
-
     public override void DeathEffect()
     {
         //death effects
@@ -28,5 +27,4 @@ public class PlayerThing : LivingThing
 
         //healing effects
     }
-
 }

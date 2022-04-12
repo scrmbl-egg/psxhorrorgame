@@ -1,17 +1,13 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
 /// <summary>
 /// Class for guns that are loaded with individual
 /// rounds rather than being loaded with magazines.
 /// </summary>
 public class RoundsGun : BaseWeapon, IWeapon, IGun
-{
-    //input
-    PlayerInputActions _playerInputActions;
-    
+{   
     [Space(10)]
     [Header("Ammunition Settings")]
     //
@@ -35,15 +31,6 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
     public int MaxTotalAmmo => maxTotalAmmo;
 
     public bool IsAiming { get; set; }
-
-    #region MonoBehaviour
-
-    private void Awake()
-    {
-        _playerInputActions = new PlayerInputActions();
-    }
-
-    #endregion
 
     #region Public methods
 

@@ -1,18 +1,18 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
-using UnityEngine.InputSystem;
 
+[RequireComponent(typeof(PlayerMovement))]
 public class PlayerLook : MonoBehaviour
 {
     //input
-    PlayerInputActions _playerInputActions;
+    private PlayerInputActions _playerInputActions;
 
     [Header("Camera")]
     //
     [SerializeField] private Transform camHolder;
     [SerializeField] private Transform orientation;
-    public Camera Cam;
+    [SerializeField] Camera cam;
     
     [Header("Rotation")]
     //
@@ -22,8 +22,10 @@ public class PlayerLook : MonoBehaviour
 
     [Header("Field of view")]
     //
-    [SerializeField] private float additionalFovWhenRunning;
-    private float defaultFov;
+    [SerializeField] private PlayerMovement player;
+    [SerializeField, Min(float.Epsilon)] private float additionalFovWhenRunning;
+    [SerializeField, Min(float.Epsilon)] private float fovLerpingTime;
+    private float _defaultFov;
 
     #region MonoBehaviour
 
@@ -37,7 +39,7 @@ public class PlayerLook : MonoBehaviour
         Cursor.visible = false;
 
         //fov
-        defaultFov = Cam.fieldOfView;
+        _defaultFov = cam.fieldOfView;
     }
 
     private void OnEnable()
@@ -52,8 +54,9 @@ public class PlayerLook : MonoBehaviour
 
     private void Update()
     {
-        InputManagement();
+        ManageInput();
         RotateCamera();
+        ManageFov();
         RotateViewport();
     }
 
@@ -61,7 +64,7 @@ public class PlayerLook : MonoBehaviour
 
     #region Private methods
 
-    private void InputManagement()
+    private void ManageInput()
     {
         Vector2 input = _playerInputActions.PlayerThing.Look.ReadValue<Vector2>();
 
@@ -76,6 +79,18 @@ public class PlayerLook : MonoBehaviour
     {
         camHolder.transform.localRotation = Quaternion.Euler(_pitch, _yaw, 0);
         orientation.rotation = Quaternion.Euler(0, _yaw, 0);
+    }
+
+    private void ManageFov()
+    {
+        float runningFov = _defaultFov + additionalFovWhenRunning;
+        float t = Time.deltaTime * fovLerpingTime;
+        
+        float lerpTowardsRunningFov = Mathf.Lerp(cam.fieldOfView, runningFov, t);
+        float lerpTowardsDefaultFov = Mathf.Lerp(cam.fieldOfView, _defaultFov, t);
+
+        if (player.IsRunning) cam.fieldOfView = lerpTowardsRunningFov;
+        else cam.fieldOfView = lerpTowardsDefaultFov;
     }
 
     private void RotateViewport()

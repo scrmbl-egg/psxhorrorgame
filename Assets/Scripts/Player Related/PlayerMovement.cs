@@ -6,7 +6,7 @@ using UnityEngine.InputSystem;
 public class PlayerMovement : MonoBehaviour
 {
     //input
-    PlayerInputActions _playerInputActions;
+    private PlayerInputActions _playerInputActions;
 
     [Header("Movement")]
     //
@@ -86,9 +86,9 @@ public class PlayerMovement : MonoBehaviour
 
     private void Update()
     {
-        MovementInputManagement();
-        SpeedManagement();
-        DragManagement();
+        ManageMovement();
+        ManageSpeed();
+        ManageDrag();
     }
 
     private void FixedUpdate()
@@ -126,7 +126,7 @@ public class PlayerMovement : MonoBehaviour
 
     #endregion
 
-    private void MovementInputManagement()
+    private void ManageMovement()
     {
         Vector2 input = _playerInputActions.PlayerThing.Move.ReadValue<Vector2>();
 
@@ -134,7 +134,7 @@ public class PlayerMovement : MonoBehaviour
         _movementDirectionOnSlope = Vector3.ProjectOnPlane(_movementDirection, _slopeHit.normal);
     }
 
-    private void SpeedManagement()
+    private void ManageSpeed()
     {
         float runningSpeed = defaultMovementSpeed * movementWhenRunningMultiplier;
         float t = Time.deltaTime * movementLerpingTime;
@@ -146,7 +146,7 @@ public class PlayerMovement : MonoBehaviour
         else _currentMovementSpeed = lerpTowardsDefaultSpeed;
     }
 
-    private void DragManagement()
+    private void ManageDrag()
     {
         if (IsGrounded) _rigidBody.drag = _defaultDrag;
         else _rigidBody.drag = airDrag;
