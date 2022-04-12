@@ -52,6 +52,7 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
     public virtual void MeleeAttack()
     {
         //melee attack
+        Debug.Log($"{WeaponName}: Melee attack");
     }
 
     public virtual void Fire()

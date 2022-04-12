@@ -11,16 +11,21 @@ public class PlayerMovement : MonoBehaviour
     [Header("Movement")]
     //
     [SerializeField] private Transform orientation;
-    [SerializeField] private float movementSpeed = 3f;
-    [SerializeField, Range(0f,1f)] private float movementSpeedOnAirMultiplier;
+    [Space(2)]
+    [SerializeField] private float defaultMovementSpeed = 2f;
+    [Space(2)]
+    [SerializeField, Range(1, 5)] private float movementWhenRunningMultiplier;
+    [SerializeField] private float movementLerpingTime;
+    [SerializeField, Range(0, 1)] private float movementSpeedOnAirMultiplier;
     [SerializeField] private float airDrag = 2f;
+    private float _currentMovementSpeed;
     private float _defaultDrag;
-    private float _movementSpeedMultiplier = 10;
-    //private float Horizontal => Input.GetAxisRaw("Horizontal");
-    //private float Vertical => Input.GetAxisRaw("Vertical");
+    private const float MOVEMENT_SPEED_MULTIPLIER = 10;
     private Vector3 _movementDirection;
     private Vector3 _movementDirectionOnSlope;
     private Rigidbody _rigidBody;
+
+    public bool IsRunning { get; private set; }
 
     [Header("Ground detection")]
     //
@@ -64,17 +69,25 @@ public class PlayerMovement : MonoBehaviour
     private void OnEnable()
     {
         _playerInputActions.PlayerThing.Move.Enable();
+        _playerInputActions.PlayerThing.Run.Enable();
+
+        _playerInputActions.PlayerThing.Run.started += RunDetection;
+        _playerInputActions.PlayerThing.Run.canceled += RunDetection;
     }
 
     private void OnDisable()
     {
         _playerInputActions.PlayerThing.Move.Disable();
-    }
+        _playerInputActions.PlayerThing.Run.Disable();
 
+        _playerInputActions.PlayerThing.Run.started -= RunDetection;
+        _playerInputActions.PlayerThing.Run.canceled -= RunDetection;
+    }
 
     private void Update()
     {
-        InputManagement();
+        MovementInputManagement();
+        SpeedManagement();
         DragManagement();
     }
 
@@ -101,12 +114,36 @@ public class PlayerMovement : MonoBehaviour
 
     #region Private methods
 
-    private void InputManagement()
+    #region Input
+
+    private void RunDetection(InputAction.CallbackContext ctx)
+    {
+        bool playerIsMoving = _movementDirection != Vector3.zero;
+
+        if (ctx.started && playerIsMoving) IsRunning = true;
+        if (ctx.canceled) IsRunning = false;
+    }
+
+    #endregion
+
+    private void MovementInputManagement()
     {
         Vector2 input = _playerInputActions.PlayerThing.Move.ReadValue<Vector2>();
 
         _movementDirection = orientation.forward * input.y + orientation.right * input.x;
         _movementDirectionOnSlope = Vector3.ProjectOnPlane(_movementDirection, _slopeHit.normal);
+    }
+
+    private void SpeedManagement()
+    {
+        float runningSpeed = defaultMovementSpeed * movementWhenRunningMultiplier;
+        float t = Time.deltaTime * movementLerpingTime;
+
+        float lerpTowardsRunningSpeed = Mathf.Lerp(_currentMovementSpeed, runningSpeed, t);
+        float lerpTowardsDefaultSpeed = Mathf.Lerp(_currentMovementSpeed, defaultMovementSpeed, t);
+
+        if (IsRunning) _currentMovementSpeed = lerpTowardsRunningSpeed;
+        else _currentMovementSpeed = lerpTowardsDefaultSpeed;
     }
 
     private void DragManagement()
@@ -119,15 +156,18 @@ public class PlayerMovement : MonoBehaviour
     {
         if (IsGrounded && !IsOnSlope)
         {
-            _rigidBody.AddForce(_movementDirection.normalized * movementSpeed * _movementSpeedMultiplier, ForceMode.Acceleration);
+            Vector3 movement = _movementDirection * _currentMovementSpeed * MOVEMENT_SPEED_MULTIPLIER;
+            _rigidBody.AddForce(movement, ForceMode.Acceleration);
         }
         else if (IsGrounded && IsOnSlope)
         {
-            _rigidBody.AddForce(_movementDirectionOnSlope.normalized * movementSpeed * _movementSpeedMultiplier, ForceMode.Acceleration);
+            Vector3 movement = _movementDirectionOnSlope * _currentMovementSpeed * MOVEMENT_SPEED_MULTIPLIER;
+            _rigidBody.AddForce(movement, ForceMode.Acceleration);
         }
-        else
+        else //player is in the air
         {
-            _rigidBody.AddForce(_movementDirection.normalized * movementSpeedOnAirMultiplier * movementSpeed * _movementSpeedMultiplier, ForceMode.Acceleration);
+            Vector3 movement = _movementDirection * movementSpeedOnAirMultiplier * _currentMovementSpeed * MOVEMENT_SPEED_MULTIPLIER;
+            _rigidBody.AddForce(movement, ForceMode.Acceleration);
         }
     }
 

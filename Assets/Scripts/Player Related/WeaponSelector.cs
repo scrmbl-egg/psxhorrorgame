@@ -6,7 +6,11 @@ using UnityEngine.InputSystem;
 public class WeaponSelector : MonoBehaviour
 {
     //input
-    PlayerInputActions _playerInputActions;
+    private PlayerInputActions _playerInputActions;
+
+    [Header("Dependencies")]
+    //
+    [SerializeField] private PlayerMovement player;
 
     [Header("Weapons")]
     //
@@ -64,31 +68,47 @@ public class WeaponSelector : MonoBehaviour
 
     private void AimDetection(InputAction.CallbackContext ctx)
     {
-        bool selectedWeaponHasWeaponInterface = weaponList[selectedWeapon].TryGetComponent(out IWeapon weapon);
+        //player won't be able to aim if he is running
 
-        if (ctx.performed && selectedWeaponHasWeaponInterface) weapon.IsAiming = true;
-        if (ctx.canceled && selectedWeaponHasWeaponInterface) weapon.IsAiming = false;
+        bool selectedWeaponHasWeaponInterface = weaponList[selectedWeapon].TryGetComponent(out IWeapon weapon);
+        bool isAbleToAim = !player.IsRunning && selectedWeaponHasWeaponInterface;
+
+        if (ctx.performed && isAbleToAim) weapon.IsAiming = true;
+        if (ctx.canceled && isAbleToAim) weapon.IsAiming = false;
     }
 
     private void FireDetection(InputAction.CallbackContext ctx)
     {
-        bool selectedWeaponHasWeaponInterface = weaponList[selectedWeapon].TryGetComponent(out IWeapon weapon);
+        //player must be aiming in order to shoot, if he's not aiming, then do a melee attack
 
-        if (ctx.started && selectedWeaponHasWeaponInterface && weapon.IsAiming) weapon.Fire();
+        bool selectedWeaponHasWeaponInterface = weaponList[selectedWeapon].TryGetComponent(out IWeapon weapon);
+        bool isAbleToShoot = !player.IsRunning && selectedWeaponHasWeaponInterface && weapon.IsAiming;
+        bool isAbleToMelee = !player.IsRunning && selectedWeaponHasWeaponInterface;
+
+        if (ctx.started && isAbleToShoot) weapon.Fire();
+        else if (ctx.started && isAbleToMelee) weapon.MeleeAttack();
     }
 
     private void ReloadDetection(InputAction.CallbackContext ctx)
     {
-        bool selectedWeaponHasGunInterface = weaponList[selectedWeapon].TryGetComponent(out IGun gun);
+        ///player can't run and reload at the same time.
+        ///player must stop running in order to reload.
 
-        if (ctx.performed && selectedWeaponHasGunInterface) gun.Reload();
+        bool selectedWeaponHasGunInterface = weaponList[selectedWeapon].TryGetComponent(out IGun gun);
+        bool isAbleToReload = !player.IsRunning && selectedWeaponHasGunInterface;
+
+        if (ctx.performed && isAbleToReload) gun.Reload();
     }
 
     private void CheckAmmoDetection(InputAction.CallbackContext ctx)
     {
+        ///player can't run and check ammo at the same time.
+        ///player must stop running in order to check ammo.
+        
         bool selectedWeaponHasGunInterface = weaponList[selectedWeapon].TryGetComponent(out IGun gun);
+        bool isAbleToCheckAmmo = !player.IsRunning && selectedWeaponHasGunInterface;
 
-        if (ctx.performed && selectedWeaponHasGunInterface) gun.CheckAmmo();
+        if (ctx.performed && isAbleToCheckAmmo) gun.CheckAmmo();
     }
 
     #endregion
@@ -108,15 +128,18 @@ public class WeaponSelector : MonoBehaviour
 
         if (input > 0)
         {
+            //select next weapon
             selectedWeapon++;
             if (selectedWeapon >= weaponList.Count) selectedWeapon = 0;
         }
         else if (input < 0)
         {
+            //select previous weapon
             selectedWeapon--;
             if (selectedWeapon < 0) selectedWeapon = weaponList.Count - 1;
         }
 
+        //cycle through weapons and activate the one selected
         weaponList[selectedWeapon].gameObject.SetActive(true);
         for (int i = 0; i < weaponList.Count; i++)
         {

@@ -8,6 +8,11 @@ public class WeaponMovement : MonoBehaviour
     //input
     PlayerInputActions _playerInputActions;
 
+    [Header("Dependencies")]
+    //
+    [SerializeField] private PlayerMovement player;
+
+    [Space(10)]
     [Header("Sway Settings")]
     //
     [SerializeField] private float smooth;
@@ -25,7 +30,9 @@ public class WeaponMovement : MonoBehaviour
     [SerializeField, Range(0, 0.2f)] private float zRange;
     [Space(2)]
     [SerializeField, Min(float.Epsilon)] private float duration;
-    [SerializeField] private float slerpTime;
+    [SerializeField, Range(1, 5)] private float bobSpeedWhenRunning;
+    [SerializeField] private float lerpTime;
+    private float _currentBobSpeed = 1;
     private float _curveEvaluation;
 
     #region MonoBehaviour
@@ -107,10 +114,17 @@ public class WeaponMovement : MonoBehaviour
         Vector2 input = _playerInputActions.PlayerThing.Move.ReadValue<Vector2>();
         float movementIntensity = Mathf.Clamp01(input.magnitude);
 
-        //curve
+        //curves and bob speed
         const float CURVE_TIME = 1;
 
-        _curveEvaluation += Time.deltaTime / duration;
+        float t = Time.deltaTime * lerpTime;
+        float lerpTowardsRunningBob = Mathf.Lerp(_currentBobSpeed, bobSpeedWhenRunning, t);
+        float lerpTowardsDefaultBob = Mathf.Lerp(_currentBobSpeed, 1, t);
+
+        if (player.IsRunning) _currentBobSpeed = lerpTowardsRunningBob;
+        else _currentBobSpeed = lerpTowardsDefaultBob;
+
+        _curveEvaluation += (Time.deltaTime * _currentBobSpeed) / (duration);
         if (_curveEvaluation >= CURVE_TIME) _curveEvaluation = 0;
 
         //animation
@@ -118,7 +132,7 @@ public class WeaponMovement : MonoBehaviour
                                           y: bobY.Evaluate(_curveEvaluation) * yRange,
                                           z: bobZ.Evaluate(_curveEvaluation) * zRange) * movementIntensity;
 
-        transform.localPosition = Vector3.Slerp(transform.localPosition, newPosition, slerpTime * Time.deltaTime);
+        transform.localPosition = Vector3.Slerp(transform.localPosition, newPosition, t);
     }
 
     #endregion

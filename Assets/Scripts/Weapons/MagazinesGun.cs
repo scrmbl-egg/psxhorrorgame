@@ -53,6 +53,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     public virtual void MeleeAttack()
     {
         //meelee attack
+        Debug.Log($"{WeaponName}: Meelee attack");
     }
 
     public virtual void Fire()
@@ -130,7 +131,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
     public virtual void CheckAmmo()
     {
-        Debug.Log($"ammo: {CurrentLoadedRounds} | {Magazines.Count}");
+        Debug.Log($"AMMO: {CurrentLoadedRounds} | {Magazines.Count} magazines");
     }
 
     #endregion
