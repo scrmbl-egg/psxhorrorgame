@@ -34,6 +34,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     }
 
     public bool IsAiming { get; set; }
+    public bool IsCovering { get; set; }
 
     #region MonoBehaviour
 

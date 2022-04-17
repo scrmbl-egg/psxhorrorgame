@@ -32,12 +32,15 @@ public class WeaponSelector : MonoBehaviour
         _playerInputActions.PlayerThing.Reload.Enable();
         _playerInputActions.PlayerThing.CheckAmmo.Enable();
         _playerInputActions.PlayerThing.NavigateGuns.Enable();
+        _playerInputActions.PlayerThing.Cover.Enable();
 
         _playerInputActions.PlayerThing.Aim.performed += AimDetection;
         _playerInputActions.PlayerThing.Aim.canceled += AimDetection;
         _playerInputActions.PlayerThing.Fire.started += FireDetection;
         _playerInputActions.PlayerThing.Reload.performed += ReloadDetection;
         _playerInputActions.PlayerThing.CheckAmmo.performed += CheckAmmoDetection;
+        _playerInputActions.PlayerThing.Cover.started += CoverDetection;
+        _playerInputActions.PlayerThing.Cover.canceled += CoverDetection;
     }
 
     private void OnDisable()
@@ -47,12 +50,15 @@ public class WeaponSelector : MonoBehaviour
         _playerInputActions.PlayerThing.Reload.Disable();
         _playerInputActions.PlayerThing.CheckAmmo.Disable();
         _playerInputActions.PlayerThing.NavigateGuns.Disable();
+        _playerInputActions.PlayerThing.Cover.Disable();
 
         _playerInputActions.PlayerThing.Aim.performed -= AimDetection;
         _playerInputActions.PlayerThing.Aim.canceled -= AimDetection;
         _playerInputActions.PlayerThing.Fire.started -= FireDetection;
         _playerInputActions.PlayerThing.Reload.performed -= ReloadDetection;
         _playerInputActions.PlayerThing.CheckAmmo.performed -= CheckAmmoDetection;
+        _playerInputActions.PlayerThing.Cover.started -= CoverDetection;
+        _playerInputActions.PlayerThing.Cover.canceled -= CoverDetection;
     }
 
     private void Update()
@@ -74,7 +80,7 @@ public class WeaponSelector : MonoBehaviour
         bool isAbleToAim = !player.IsRunning && selectedWeaponHasWeaponInterface;
 
         if (ctx.performed && isAbleToAim) weapon.IsAiming = true;
-        if (ctx.canceled && isAbleToAim) weapon.IsAiming = false;
+        if (ctx.canceled || !isAbleToAim) weapon.IsAiming = false;
     }
 
     private void FireDetection(InputAction.CallbackContext ctx)
@@ -104,11 +110,23 @@ public class WeaponSelector : MonoBehaviour
     {
         ///player can't run and check ammo at the same time.
         ///player must stop running in order to check ammo.
-        
         bool selectedWeaponHasGunInterface = weaponList[selectedWeapon].TryGetComponent(out IGun gun);
         bool isAbleToCheckAmmo = !player.IsRunning && selectedWeaponHasGunInterface;
 
         if (ctx.performed && isAbleToCheckAmmo) gun.CheckAmmo();
+    }
+
+    private void CoverDetection(InputAction.CallbackContext ctx)
+    {
+        ///player can't run and cover at the same time.
+        ///player must stop running in order to cover himself.
+        ///covering disables the ability to aim, shoot, reload, and check ammo
+
+        bool selectedWeaponHasWeaponInterface = weaponList[selectedWeapon].TryGetComponent(out IWeapon weapon);
+        bool isAbleToCover = !player.IsRunning && selectedWeaponHasWeaponInterface;
+
+        if (ctx.started && isAbleToCover) weapon.IsCovering = true;
+        else if (ctx.canceled || !isAbleToCover) weapon.IsCovering = false;
     }
 
     #endregion

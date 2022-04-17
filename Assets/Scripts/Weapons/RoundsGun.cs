@@ -31,6 +31,7 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
     public int MaxTotalAmmo => maxTotalAmmo;
 
     public bool IsAiming { get; set; }
+    public bool IsCovering { get; set; }
 
     #region Public methods
 

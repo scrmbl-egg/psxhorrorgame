@@ -76,6 +76,14 @@
                     "expectedControlType": "Axis",
                     "processors": "Clamp(min=-1,max=1)",
                     "interactions": ""
+                },
+                {
+                    "name": "Cover",
+                    "type": "Button",
+                    "id": "d186f424-11c6-4d94-80ec-c059e94055fd",
+                    "expectedControlType": "Button",
+                    "processors": "",
+                    "interactions": ""
                 }
             ],
             "bindings": [
@@ -329,6 +337,28 @@
                     "processors": "",
                     "groups": "Gamepad",
                     "action": "NavigateGuns",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "ce3da64b-802a-483c-af7c-f719e71c47d5",
+                    "path": "<Keyboard>/space",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "KeyboardMouse",
+                    "action": "Cover",
+                    "isComposite": false,
+                    "isPartOfComposite": false
+                },
+                {
+                    "name": "",
+                    "id": "e592a3d6-c0f1-419a-8adc-268830f7b446",
+                    "path": "<Gamepad>/buttonSouth",
+                    "interactions": "",
+                    "processors": "",
+                    "groups": "Gamepad",
+                    "action": "Cover",
                     "isComposite": false,
                     "isPartOfComposite": false
                 }

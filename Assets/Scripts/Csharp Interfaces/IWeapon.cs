@@ -6,6 +6,7 @@ using UnityEngine.InputSystem;
 public interface IWeapon
 {
     public bool IsAiming { get; set; }
+    public bool IsCovering { get; set; }
 
     /// <summary>
     /// Melee attacks with the weapon.

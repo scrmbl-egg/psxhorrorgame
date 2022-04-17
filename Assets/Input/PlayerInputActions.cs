@@ -89,6 +89,14 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""expectedControlType"": ""Axis"",
                     ""processors"": ""Clamp(min=-1,max=1)"",
                     ""interactions"": """"
+                },
+                {
+                    ""name"": ""Cover"",
+                    ""type"": ""Button"",
+                    ""id"": ""d186f424-11c6-4d94-80ec-c059e94055fd"",
+                    ""expectedControlType"": ""Button"",
+                    ""processors"": """",
+                    ""interactions"": """"
                 }
             ],
             ""bindings"": [
@@ -344,6 +352,28 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""action"": ""NavigateGuns"",
                     ""isComposite"": false,
                     ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""ce3da64b-802a-483c-af7c-f719e71c47d5"",
+                    ""path"": ""<Keyboard>/space"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""KeyboardMouse"",
+                    ""action"": ""Cover"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
+                },
+                {
+                    ""name"": """",
+                    ""id"": ""e592a3d6-c0f1-419a-8adc-268830f7b446"",
+                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""interactions"": """",
+                    ""processors"": """",
+                    ""groups"": ""Gamepad"",
+                    ""action"": ""Cover"",
+                    ""isComposite"": false,
+                    ""isPartOfComposite"": false
                 }
             ]
         }
@@ -389,6 +419,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         m_PlayerThing_Reload = m_PlayerThing.FindAction("Reload", throwIfNotFound: true);
         m_PlayerThing_CheckAmmo = m_PlayerThing.FindAction("CheckAmmo", throwIfNotFound: true);
         m_PlayerThing_NavigateGuns = m_PlayerThing.FindAction("NavigateGuns", throwIfNotFound: true);
+        m_PlayerThing_Cover = m_PlayerThing.FindAction("Cover", throwIfNotFound: true);
     }
 
     public void Dispose()
@@ -447,6 +478,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
     private readonly InputAction m_PlayerThing_Reload;
     private readonly InputAction m_PlayerThing_CheckAmmo;
     private readonly InputAction m_PlayerThing_NavigateGuns;
+    private readonly InputAction m_PlayerThing_Cover;
     public struct PlayerThingActions
     {
         private @PlayerInputActions m_Wrapper;
@@ -460,6 +492,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         public InputAction @Reload => m_Wrapper.m_PlayerThing_Reload;
         public InputAction @CheckAmmo => m_Wrapper.m_PlayerThing_CheckAmmo;
         public InputAction @NavigateGuns => m_Wrapper.m_PlayerThing_NavigateGuns;
+        public InputAction @Cover => m_Wrapper.m_PlayerThing_Cover;
         public InputActionMap Get() { return m_Wrapper.m_PlayerThing; }
         public void Enable() { Get().Enable(); }
         public void Disable() { Get().Disable(); }
@@ -496,6 +529,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @NavigateGuns.started -= m_Wrapper.m_PlayerThingActionsCallbackInterface.OnNavigateGuns;
                 @NavigateGuns.performed -= m_Wrapper.m_PlayerThingActionsCallbackInterface.OnNavigateGuns;
                 @NavigateGuns.canceled -= m_Wrapper.m_PlayerThingActionsCallbackInterface.OnNavigateGuns;
+                @Cover.started -= m_Wrapper.m_PlayerThingActionsCallbackInterface.OnCover;
+                @Cover.performed -= m_Wrapper.m_PlayerThingActionsCallbackInterface.OnCover;
+                @Cover.canceled -= m_Wrapper.m_PlayerThingActionsCallbackInterface.OnCover;
             }
             m_Wrapper.m_PlayerThingActionsCallbackInterface = instance;
             if (instance != null)
@@ -527,6 +563,9 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 @NavigateGuns.started += instance.OnNavigateGuns;
                 @NavigateGuns.performed += instance.OnNavigateGuns;
                 @NavigateGuns.canceled += instance.OnNavigateGuns;
+                @Cover.started += instance.OnCover;
+                @Cover.performed += instance.OnCover;
+                @Cover.canceled += instance.OnCover;
             }
         }
     }
@@ -560,5 +599,6 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
         void OnReload(InputAction.CallbackContext context);
         void OnCheckAmmo(InputAction.CallbackContext context);
         void OnNavigateGuns(InputAction.CallbackContext context);
+        void OnCover(InputAction.CallbackContext context);
     }
 }
