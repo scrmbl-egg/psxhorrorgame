@@ -129,7 +129,7 @@ public class SwitchEvent : MonoBehaviour, IInteractive
 
     #region IInteractive
 
-    public void Interact()
+    public void Interact(Component sender)
     {
         PullInteraction();
     }

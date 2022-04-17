@@ -12,21 +12,22 @@ public class Key : MonoBehaviour, IInteractive
 
     #region IInteractive
 
-    public void Interact()
+    public void Interact(Component sender)
     {
-        AddKeyToPlayerInventory();
+        AddToInventory(sender);
     }
     #endregion
 
     #endregion
     #region Private methods
 
-    private void AddKeyToPlayerInventory()
+    private void AddToInventory(Component sender)
     {
-        PlayerInventory player = FindObjectOfType<PlayerInventory>();
-        if (player == null) return;
+        bool senderDoesntHaveInventory = !sender.TryGetComponent(out PlayerInventory inventory);
+        if (senderDoesntHaveInventory) return;
+        //else...
 
-        player.AddKey(id);
+        inventory.AddKey(id);
         Destroy(gameObject);
     }
 

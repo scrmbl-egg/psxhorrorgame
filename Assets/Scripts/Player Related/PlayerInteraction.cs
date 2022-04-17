@@ -60,16 +60,16 @@ public class PlayerInteraction : MonoBehaviour
     {
         Ray ray = new Ray(origin: playerCam.transform.position,
                           direction: playerCam.transform.forward);
-        bool objectIsInRange = Physics.Raycast(ray: ray,
-                                               hitInfo: out RaycastHit hit,
-                                               maxDistance: interactionRange,
-                                               layerMask: interactionLayers);
+        bool objectIsNotInRange = !Physics.Raycast(ray: ray,
+                                                   hitInfo: out RaycastHit hit,
+                                                   maxDistance: interactionRange,
+                                                   layerMask: interactionLayers);
 
-        if (objectIsInRange)
-        {
-            bool isInteractive = hit.transform.TryGetComponent(out IInteractive interactiveObject);
-            if (isInteractive) interactiveObject.Interact();
-        }
+        if (objectIsNotInRange) return;
+        //else...
+
+        bool isInteractive = hit.transform.TryGetComponent(out IInteractive interactiveObject);
+        if (isInteractive) interactiveObject.Interact(this);
     }
 
     #endregion

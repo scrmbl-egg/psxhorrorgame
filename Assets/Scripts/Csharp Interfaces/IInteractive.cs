@@ -1,4 +1,4 @@
-
+using UnityEngine;
 
 /// <summary>
 /// Interface for classes that have player interaction.
@@ -8,5 +8,6 @@ public interface IInteractive
     /// <summary>
     /// Calls the interaction within the owner class.
     /// </summary>
-    public void Interact();
+    /// <param name="sender">Component that has invoked interaction.</param>
+    public void Interact(Component sender);
 }

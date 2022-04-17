@@ -9,14 +9,14 @@ public class Door : MonoBehaviour, IInteractive
     //
     [SerializeField] private bool isLocked = false;
     [SerializeField] private string isLockedMessage;
-    [SerializeField] private int keyId;
+    [SerializeField, Range(1, 100)] private int keyId;
+    private Rigidbody _rigidBody;
     public bool IsLocked
     {
         get => isLocked;
-        set => isLocked = value;
+        private set => isLocked = value;
     }
     public bool IsOpen { get; private set; }
-    private Rigidbody _rigidBody;
 
     [Space(10)]
     [Header("Animation Properties")]
@@ -41,11 +41,11 @@ public class Door : MonoBehaviour, IInteractive
     #region Public methods
     #region IInteractive
 
-    public void Interact()
+    public void Interact(Component sender)
     {
         if (IsLocked)
         {
-            Debug.Log("This door is locked!");
+            TryToUnlock(sender);
         }
         else
         {
@@ -70,6 +70,34 @@ public class Door : MonoBehaviour, IInteractive
 
         IsOpen = false;
         DOTweenEvents.SimpleRotate(_rigidBody, targetEulerRotation, time, animationCurve);
+    }
+
+    #endregion
+    #region Private methods
+
+    private void TryToUnlock(Component sender)
+    {
+        bool senderDoesntHaveInventory = !sender.TryGetComponent(out PlayerInventory inventory);
+        if (senderDoesntHaveInventory && inventory.HasKeyWithID(keyId))
+        {
+            inventory.RemoveKey(keyId);
+            UnlockDoor();
+        }
+        else ShowLockedMessage();
+    }
+
+    private void UnlockDoor()
+    {
+        isLocked = false;
+        
+        Debug.Log("door is now unlocked!");
+
+        //TODO: Unlock sound
+    }
+
+    private void ShowLockedMessage()
+    {
+        Debug.Log(isLockedMessage);
     }
 
     #endregion

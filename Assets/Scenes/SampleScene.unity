@@ -1852,7 +1852,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh25612
+  m_Name: pb_Mesh26002
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4508,7 +4508,7 @@ MeshRenderer:
   m_IgnoreNormalsForChartDetection: 0
   m_ImportantGI: 0
   m_StitchLightmapSeams: 1
-  m_SelectedEditorRenderState: 2
+  m_SelectedEditorRenderState: 3
   m_MinimumChartSize: 4
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
@@ -4787,9 +4787,9 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: a9df1a5165495d54d9475568db79b531, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  isLocked: 0
-  isLockedMessage: 
-  keyId: 0
+  isLocked: 1
+  isLockedMessage: Door is locked
+  keyId: 12
   animationCurve:
     serializedVersion: 2
     m_Curve:
@@ -5327,7 +5327,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh25570
+  m_Name: pb_Mesh25946
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6301,7 +6301,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 49dd50ee8886fff4baa19e7614037a70, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  keys: 
+  keys: 0c000000
 --- !u!1 &2014474134
 GameObject:
   m_ObjectHideFlags: 0
@@ -6612,7 +6612,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh25642
+  m_Name: pb_Mesh26032
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2

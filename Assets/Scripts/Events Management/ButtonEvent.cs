@@ -72,7 +72,7 @@ public class ButtonEvent : MonoBehaviour, IInteractive
 
     #region IInteractive
 
-    public void Interact()
+    public void Interact(Component sender)
     {
         if (pressIsRepeatable)
         {

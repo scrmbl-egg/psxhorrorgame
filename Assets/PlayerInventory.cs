@@ -9,26 +9,29 @@ public class PlayerInventory : MonoBehaviour
     [SerializeField] private List<int> keys;
     public List<int> Keys
     {
-        get => keys;
         set => keys = value;
     }
 
     #region Public methods
 
-    public void UseKeys(int keyId)
+    public bool HasKeyWithID(int id)
     {
-        for (int i = 0; i < Keys.Count; i++)
+        for (int i = 0; i < keys.Count; i++)
         {
-            if (i != keyId) continue;
-            
-            //else...
-            Keys.Remove(i);
+            if (i == id) return true;
         }
+
+        return false;
     }
     
-    public void AddKey(int keyId)
+    public void AddKey(int id)
     {
-        Keys.Add(keyId);
+        keys.Add(id);
+    }
+
+    public void RemoveKey(int id)
+    {
+        keys.Remove(id);
     }
 
     #endregion
