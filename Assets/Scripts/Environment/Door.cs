@@ -9,6 +9,7 @@ public class Door : MonoBehaviour, IInteractive
     //
     [SerializeField] private bool isLocked = false;
     [SerializeField] private string isLockedMessage;
+    [SerializeField] private int keyId;
     public bool IsLocked
     {
         get => isLocked;

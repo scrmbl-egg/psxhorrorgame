@@ -1,4 +1,4 @@
-﻿{
+{
     "files.exclude":
     {
         "**/.DS_Store":true,
@@ -52,5 +52,20 @@
         "ProjectSettings/":true,
         "temp/":true,
         "Temp/":true
+    },
+    "editor.semanticHighlighting.enabled": true,
+    "editor.semanticTokenColorCustomizations": {
+        "enabled": true,
+        "[GDScript]": {
+            "rules": {
+                "struct": "#55e99f",
+                "field": "#ffffff",
+                "property": "#98d1d3",
+                "local": "#f36b6b",
+
+                "preprocessorKeyword": "#696969",
+                "preprocessorText": "#afafaf"
+            }
+        }
     }
 }

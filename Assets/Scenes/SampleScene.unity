@@ -4789,6 +4789,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   isLocked: 0
   isLockedMessage: 
+  keyId: 0
   animationCurve:
     serializedVersion: 2
     m_Curve:
@@ -6169,6 +6170,7 @@ GameObject:
   - component: {fileID: 1996250478}
   - component: {fileID: 1996250481}
   - component: {fileID: 1996250483}
+  - component: {fileID: 1996250484}
   m_Layer: 3
   m_Name: PLAYER THING
   m_TagString: Untagged
@@ -6287,6 +6289,19 @@ MonoBehaviour:
     serializedVersion: 2
     m_Bits: 257
   showGizmoRay: 1
+--- !u!114 &1996250484
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 1996250477}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: 49dd50ee8886fff4baa19e7614037a70, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  keys: 
 --- !u!1 &2014474134
 GameObject:
   m_ObjectHideFlags: 0
