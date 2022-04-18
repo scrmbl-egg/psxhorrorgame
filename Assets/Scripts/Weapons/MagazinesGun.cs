@@ -42,6 +42,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     {
         Magazines.Capacity = MaxAmountOfMagazines;
 
+        //TODO: Remove method when guns are completely coded
         FillGunWithRandomMags();
     }
 
@@ -140,17 +141,13 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
     public void AddMagazine(int bulletAmount)
     {
-        int ammo = Mathf.Clamp(bulletAmount, 0, MaxMagazineCapacity);
-
         //sorts list from least to greatest.
         Magazines.Sort();
 
         bool magazineListIsFull = Magazines.Count == Magazines.Capacity;
+        if (magazineListIsFull) Magazines.RemoveAt(0);
 
-        if (magazineListIsFull)
-        {
-            Magazines.RemoveAt(0);
-        }
+        int ammo = Mathf.Clamp(bulletAmount, 0, MaxMagazineCapacity);
 
         Magazines.Add(ammo);
         Debug.Log($"added magazine with {ammo} rounds");

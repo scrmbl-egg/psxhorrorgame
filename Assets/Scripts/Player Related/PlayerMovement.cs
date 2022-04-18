@@ -24,7 +24,7 @@ public class PlayerMovement : MonoBehaviour
     private Vector3 _movementDirection;
     private Vector3 _movementDirectionOnSlope;
     private Rigidbody _rigidBody;
-
+    private bool _runningIsPressed;
     public bool IsRunning { get; private set; }
 
     [Header("Ground detection")]
@@ -72,6 +72,7 @@ public class PlayerMovement : MonoBehaviour
         _playerInputActions.PlayerThing.Run.Enable();
 
         _playerInputActions.PlayerThing.Run.started += RunDetection;
+        _playerInputActions.PlayerThing.Run.performed += RunDetection;
         _playerInputActions.PlayerThing.Run.canceled += RunDetection;
     }
 
@@ -81,12 +82,14 @@ public class PlayerMovement : MonoBehaviour
         _playerInputActions.PlayerThing.Run.Disable();
 
         _playerInputActions.PlayerThing.Run.started -= RunDetection;
+        _playerInputActions.PlayerThing.Run.performed += RunDetection;
         _playerInputActions.PlayerThing.Run.canceled -= RunDetection;
     }
 
     private void Update()
     {
         ManageMovement();
+        ManageRunning();
         ManageSpeed();
         ManageDrag();
     }
@@ -118,10 +121,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void RunDetection(InputAction.CallbackContext ctx)
     {
-        bool playerIsMoving = _movementDirection != Vector3.zero;
+        bool buttonIsPressed = ctx.ReadValueAsButton();
 
-        if (ctx.started && playerIsMoving) IsRunning = true;
-        if (ctx.canceled) IsRunning = false;
+        if (buttonIsPressed) _runningIsPressed = true;
+        else _runningIsPressed = false;
     }
 
     #endregion
@@ -132,6 +135,15 @@ public class PlayerMovement : MonoBehaviour
 
         _movementDirection = orientation.forward * input.y + orientation.right * input.x;
         _movementDirectionOnSlope = Vector3.ProjectOnPlane(_movementDirection, _slopeHit.normal);
+    }
+
+    private void ManageRunning()
+    {
+        bool playerIsMoving = _movementDirection != Vector3.zero;
+        bool playerCanRun = _runningIsPressed && playerIsMoving;
+
+        if (playerCanRun) IsRunning = true;
+        else IsRunning = false;
     }
 
     private void ManageSpeed()
