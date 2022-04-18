@@ -9,13 +9,9 @@ public class Door : MonoBehaviour, IInteractive
     //
     [SerializeField] private bool isLocked = false;
     [SerializeField] private string isLockedMessage;
+    [SerializeField] private string isUnlockedMessage;
     [SerializeField, Range(1, 100)] private int keyId;
     private Rigidbody _rigidBody;
-    public bool IsLocked
-    {
-        get => isLocked;
-        private set => isLocked = value;
-    }
     public bool IsOpen { get; private set; }
 
     [Space(10)]
@@ -43,7 +39,7 @@ public class Door : MonoBehaviour, IInteractive
 
     public void Interact(Component sender)
     {
-        if (IsLocked)
+        if (isLocked)
         {
             TryToUnlock(sender);
         }
@@ -55,6 +51,18 @@ public class Door : MonoBehaviour, IInteractive
     }
     
     #endregion
+
+    public void SetLockAndClose(bool value)
+    {
+        isLocked = value;
+
+        if (!IsOpen) Close();
+    }
+
+    public void SetKeyID(int id)
+    {
+        keyId = id;
+    }
 
     public void Open()
     {
@@ -77,8 +85,10 @@ public class Door : MonoBehaviour, IInteractive
 
     private void TryToUnlock(Component sender)
     {
-        bool senderDoesntHaveInventory = !sender.TryGetComponent(out PlayerInventory inventory);
-        if (senderDoesntHaveInventory && inventory.HasKeyWithID(keyId))
+        bool senderHasInventory = sender.TryGetComponent(out PlayerInventory inventory);
+        bool inventoryHasCorrectKey = inventory.HasKeyWithID(keyId);
+
+        if (senderHasInventory && inventoryHasCorrectKey)
         {
             inventory.RemoveKey(keyId);
             UnlockDoor();
@@ -89,15 +99,18 @@ public class Door : MonoBehaviour, IInteractive
     private void UnlockDoor()
     {
         isLocked = false;
-        
-        Debug.Log("door is now unlocked!");
+        Debug.Log(isUnlockedMessage);
 
-        //TODO: Unlock sound
+        //TODO: Display unlock message on screen.
+        //TODO: play unlock sound
     }
 
     private void ShowLockedMessage()
     {
         Debug.Log(isLockedMessage);
+
+        //TODO: Display lock message on screen.
+        //TODO: play lock sound
     }
 
     #endregion

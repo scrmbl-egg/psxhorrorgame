@@ -7,10 +7,6 @@ public class PlayerInventory : MonoBehaviour
     [Header("Key List")]
     //
     [SerializeField] private List<int> keys;
-    public List<int> Keys
-    {
-        set => keys = value;
-    }
 
     #region Public methods
 
@@ -18,8 +14,9 @@ public class PlayerInventory : MonoBehaviour
     {
         for (int i = 0; i < keys.Count; i++)
         {
-            if (i == id) return true;
+            if (keys[i] == id) return true;
         }
+        //if key is not detected...
 
         return false;
     }
