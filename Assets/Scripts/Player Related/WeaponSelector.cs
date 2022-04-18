@@ -15,7 +15,9 @@ public class WeaponSelector : MonoBehaviour
     [Header("Weapons")]
     //
     [SerializeField] private int selectedWeapon;
-    [SerializeField] private List<BaseWeapon> weaponList = new List<BaseWeapon>();
+    [SerializeField] private List<BaseWeapon> weaponList;
+
+    public List<BaseWeapon> WeaponList => weaponList;
 
     #region MonoBehaviour
     private void Awake()

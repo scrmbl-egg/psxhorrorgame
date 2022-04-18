@@ -66,22 +66,23 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
             {
                 Ray shot = new Ray(origin: RaycastOrigin.position,
                                    direction: RandomSpread(RaycastOrigin.forward));
-                bool objectIsInRange = Physics.Raycast(ray: shot,
-                                                       hitInfo: out RaycastHit hit,
-                                                       maxDistance: WeaponRange,
-                                                       layerMask: RaycastLayers);
+                bool objectIsNotInRange = !Physics.Raycast(ray: shot,
+                                                           hitInfo: out RaycastHit hit,
+                                                           maxDistance: WeaponRange,
+                                                           layerMask: RaycastLayers);
 
-                if (objectIsInRange)
+                if (objectIsNotInRange) return;
+                //else...
+
+                bool livingThingIsHit = hit.transform.TryGetComponent(out LivingThing target);
+                if (livingThingIsHit)
                 {
-                    bool livingThingIsHit = hit.transform.TryGetComponent(out LivingThing target);
-                    if (livingThingIsHit)
-                    {
-                        target.Health -= WeaponDamage / PelletsPerShot;
-                    }
-                    else
-                    {
-                        SpawnRandomBulletHole(hit);
-                    }
+                    target.Health -= WeaponDamage / PelletsPerShot;
+                }
+                else
+                {
+                    SpawnRandomBulletHole(hit);
+                    PushRigidbodyFromRaycastHit(hit, WeaponForce / PelletsPerShot);
                 }
             }
 

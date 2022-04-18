@@ -12,7 +12,7 @@ public class Door : MonoBehaviour, IInteractive
     [SerializeField] private string isUnlockedMessage;
     [SerializeField, Range(1, 100)] private int keyId;
     private Rigidbody _rigidBody;
-    public bool IsOpen { get; private set; }
+    private bool _isOpen;
 
     [Space(10)]
     [Header("Animation Properties")]
@@ -32,6 +32,11 @@ public class Door : MonoBehaviour, IInteractive
         _startEulerRotation = transform.eulerAngles;
     }
 
+    private void OnDrawGizmos()
+    {
+        
+    }
+
     #endregion
 
     #region Public methods
@@ -45,7 +50,7 @@ public class Door : MonoBehaviour, IInteractive
         }
         else
         {
-            if (!IsOpen) Open();
+            if (!_isOpen) Open();
             else Close();
         }
     }
@@ -56,7 +61,7 @@ public class Door : MonoBehaviour, IInteractive
     {
         isLocked = value;
 
-        if (!IsOpen) Close();
+        if (!_isOpen) Close();
     }
 
     public void SetKeyID(int id)
@@ -68,7 +73,7 @@ public class Door : MonoBehaviour, IInteractive
     {
         Vector3 targetEulerRotation = _startEulerRotation + rotationDegrees;
 
-        IsOpen = true;
+        _isOpen = true;
         DOTweenEvents.SimpleRotate(_rigidBody, targetEulerRotation, time, animationCurve);
     }
 
@@ -76,7 +81,7 @@ public class Door : MonoBehaviour, IInteractive
     {
         Vector3 targetEulerRotation = _startEulerRotation;
 
-        IsOpen = false;
+        _isOpen = false;
         DOTweenEvents.SimpleRotate(_rigidBody, targetEulerRotation, time, animationCurve);
     }
 

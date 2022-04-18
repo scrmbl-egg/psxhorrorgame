@@ -4,6 +4,10 @@ using UnityEngine;
 
 public class PlayerInventory : MonoBehaviour
 {
+    [Header("Weapon selector")]
+    //
+    public WeaponSelector WeaponSelector;
+
     [Header("Key List")]
     //
     [SerializeField] private List<int> keys;

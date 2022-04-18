@@ -20,7 +20,9 @@ public class BaseWeapon : MonoBehaviour
     [SerializeField, Min(1)] private int maxWeaponDamage;
     [Space(2)]
     [SerializeField, Min(float.Epsilon)] private float meeleeRange;
+    [SerializeField, Min(float.Epsilon)] private float meleeForce;
     [SerializeField, Min(float.Epsilon)] private float weaponRange;
+    [SerializeField, Min(float.Epsilon)] private float weaponForce;
     [Space(2)]
     [SerializeField, Range(0f, 45f)] private float horizontalSpread;
     [SerializeField, Range(0f, 45f)] private float verticalSpread;
@@ -34,7 +36,9 @@ public class BaseWeapon : MonoBehaviour
     public int MeleeDamage => meleeDamage;
     public int WeaponDamage => Random.Range(minWeaponDamage, maxWeaponDamage + 1);
     public float MeleeRange => meeleeRange;
+    public float MeleeForce => meleeForce;
     public float WeaponRange => weaponRange;
+    public float WeaponForce => weaponForce;
     public LayerMask RaycastLayers => raycastLayers;
     public GameObject[] BulletHoleDecals => bulletHoleDecals;
 
@@ -62,6 +66,20 @@ public class BaseWeapon : MonoBehaviour
                                             position: raycastHit.point,
                                             rotation: Quaternion.LookRotation(raycastHit.normal));
         bulletHole.transform.SetParent(raycastHit.transform);
+    }
+
+    public void PushRigidbodyFromRaycastHit(RaycastHit hitInfo, float force)
+    {
+        bool rigidbodyIsNotDetected = hitInfo.rigidbody == null;
+
+        if (rigidbodyIsNotDetected) return;
+        //else...
+
+        Rigidbody targetRigidbody = hitInfo.rigidbody;
+        Vector3 forceVector = -hitInfo.normal * force;
+        bool rigidbodyIsNotKinematic = !targetRigidbody.isKinematic;
+
+        if (rigidbodyIsNotKinematic) targetRigidbody.AddForce(forceVector, ForceMode.Impulse);
     }
     #endregion
 }
