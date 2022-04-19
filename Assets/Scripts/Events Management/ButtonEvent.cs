@@ -32,10 +32,7 @@ public class ButtonEvent : MonoBehaviour, IInteractive
         Gizmos.color = gizmoColor;
         Gizmos.DrawCube(pressingArea.bounds.center, pressingArea.bounds.size);
 
-        if (showEventListeners)
-        {
-            DrawLinesTowardEventListeners();
-        }
+        if (showEventListeners) DrawLinesTowardEventListeners();
     }
 
     #endregion
@@ -55,15 +52,15 @@ public class ButtonEvent : MonoBehaviour, IInteractive
         for (int i = 0; i < listenerCount; i++)
         {
             string targetName = pressedButton.GetPersistentTarget(i).name;
-            if (targetName != null)
-            {
-                //WARNING: EXPECT EXCEPTIONS WHEN SETTING UP THE INSPECTOR. IT'S COMPLETELY FINE.
+            if (targetName == null) continue;
+            //else...
 
-                GameObject target = GameObject.Find(targetName);
-                Vector3 destination = target.transform.position;
+            //WARNING: EXPECT EXCEPTIONS WHEN SETTING UP IN THE INSPECTOR. IT'S COMPLETELY FINE.
 
-                Gizmos.DrawLine(lineOrigin, destination);
-            }
+            GameObject target = GameObject.Find(targetName);
+            Vector3 destination = target.transform.position;
+
+            Gizmos.DrawLine(lineOrigin, destination);
         }
     }
 

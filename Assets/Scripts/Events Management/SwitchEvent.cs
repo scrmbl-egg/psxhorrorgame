@@ -33,13 +33,9 @@ public class SwitchEvent : MonoBehaviour, IInteractive
     private void OnDrawGizmos()
     {
         Gizmos.color = gizmoColor;
-
         Gizmos.DrawCube(pressingArea.bounds.center, pressingArea.bounds.size);
 
-        if (showEventListeners)
-        {
-            DrawLinesTowardEventListeners();
-        }
+        if (showEventListeners) DrawLinesTowardEventListeners();
     }
 
     #endregion

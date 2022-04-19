@@ -28,21 +28,21 @@ public class TriggerEvent : MonoBehaviour
     #region MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
-        bool colliderIsPlayer = other.transform.parent.TryGetComponent(out PlayerThing player);
+        bool colliderIsNotPlayer = !other.transform.parent.TryGetComponent(out PlayerThing player);
 
-        if (colliderIsPlayer)
+        if (colliderIsNotPlayer) return;
+        //else...
+
+        if (actionIsRepeatable)
         {
-            if (actionIsRepeatable)
+            enteredThroughTrigger?.Invoke();
+        }
+        else
+        {
+            if (!_eventHasBeenExecuted)
             {
                 enteredThroughTrigger?.Invoke();
-            } 
-            else
-            {
-                if (!_eventHasBeenExecuted)
-                {
-                    enteredThroughTrigger?.Invoke();
-                    _eventHasBeenExecuted = true;
-                }
+                _eventHasBeenExecuted = true;
             }
         }
     }
@@ -53,10 +53,7 @@ public class TriggerEvent : MonoBehaviour
 
         Gizmos.DrawCube(trigger.bounds.center, trigger.bounds.size);
 
-        if (showEventListeners)
-        {
-            DrawLinesTowardEventListeners();
-        }
+        if (showEventListeners) DrawLinesTowardEventListeners();
     }
     #endregion
 

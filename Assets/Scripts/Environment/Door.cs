@@ -5,14 +5,21 @@ using UnityEngine;
 [RequireComponent(typeof(Collider), typeof(Rigidbody))]
 public class Door : MonoBehaviour, IInteractive
 {
+    [Header("Dependencies")]
+    //
+    [SerializeField] private Collider pressingArea;
+
+    [Space(10)]
     [Header("Door Properties")]
     //
     [SerializeField] private bool isLocked = false;
+    [SerializeField, Range(1, 100)] private int keyId;
     [SerializeField] private string isLockedMessage;
     [SerializeField] private string isUnlockedMessage;
-    [SerializeField, Range(1, 100)] private int keyId;
     private Rigidbody _rigidBody;
     private bool _isOpen;
+
+    public int KeyID => keyId;
 
     [Space(10)]
     [Header("Animation Properties")]
@@ -22,6 +29,12 @@ public class Door : MonoBehaviour, IInteractive
     [SerializeField] private Vector3 rotationDegrees;
     private Vector3 _startEulerRotation;
     private const float MAX_TIME = 10;
+
+    [Space(10)]
+    [Header("Other")]
+    //
+    [SerializeField] private bool showPressingArea;
+    [SerializeField] private Color gizmoColor;
 
     #region MonoBehaviour
 
@@ -34,7 +47,7 @@ public class Door : MonoBehaviour, IInteractive
 
     private void OnDrawGizmos()
     {
-        
+        if (showPressingArea) DrawPressingArea();
     }
 
     #endregion
@@ -116,6 +129,13 @@ public class Door : MonoBehaviour, IInteractive
 
         //TODO: Display lock message on screen.
         //TODO: play lock sound
+    }
+
+    private void DrawPressingArea()
+    {
+        Gizmos.color = gizmoColor;
+
+        Gizmos.DrawCube(pressingArea.bounds.center, pressingArea.bounds.size);
     }
 
     #endregion

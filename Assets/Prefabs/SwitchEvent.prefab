@@ -11,7 +11,7 @@ GameObject:
   - component: {fileID: 3920975299668939359}
   - component: {fileID: 3920975299668939328}
   - component: {fileID: 3920975299668939329}
-  m_Layer: 0
+  m_Layer: 8
   m_Name: SwitchEvent
   m_TagString: Untagged
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
