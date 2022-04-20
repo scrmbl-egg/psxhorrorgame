@@ -18,7 +18,7 @@ public class SwitchEvent : MonoBehaviour, IInteractive
     //
     [SerializeField] private bool showEventListeners = true;
     [SerializeField] private Color gizmoColor;
-    [SerializeField] private Collider pressingArea;
+    [SerializeField] private Collider interactionArea;
     private bool _switchIsPulled;
 
     [Space(10)]
@@ -33,7 +33,7 @@ public class SwitchEvent : MonoBehaviour, IInteractive
     private void OnDrawGizmos()
     {
         Gizmos.color = gizmoColor;
-        Gizmos.DrawCube(pressingArea.bounds.center, pressingArea.bounds.size);
+        Gizmos.DrawCube(interactionArea.bounds.center, interactionArea.bounds.size);
 
         if (showEventListeners) DrawLinesTowardEventListeners();
     }
@@ -75,7 +75,7 @@ public class SwitchEvent : MonoBehaviour, IInteractive
         Gizmos.color = stateOneListenerColor;
 
         //cycle through unity event targets and point towards their position
-        Vector3 lineOrigin1 = pressingArea.bounds.center;
+        Vector3 lineOrigin1 = interactionArea.bounds.center;
 
         int stateOneListenersCount = onSwitchStateOne.GetPersistentEventCount();
         for (int i = 0; i < stateOneListenersCount; i++)
@@ -100,7 +100,7 @@ public class SwitchEvent : MonoBehaviour, IInteractive
         Gizmos.color = stateTwoListenerColor;
 
         //cycle through unity event targets and point towards their position with an offset
-        Vector3 lineOrigin2 = pressingArea.bounds.center + gizmoStateTwoOffset;
+        Vector3 lineOrigin2 = interactionArea.bounds.center + gizmoStateTwoOffset;
 
         int stateTwoListenersCount = onSwitchStateTwo.GetPersistentEventCount();
         for (int i = 0; i < stateTwoListenersCount; i++)

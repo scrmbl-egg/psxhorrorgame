@@ -17,7 +17,7 @@ public class ButtonEvent : MonoBehaviour, IInteractive
     [SerializeField] private bool pressIsRepeatable;
     [SerializeField] private bool showEventListeners = true;
     [SerializeField] private Color gizmoColor;
-    [SerializeField] private Collider pressingArea;
+    [SerializeField] private Collider interactionArea;
     private bool _eventHasBeenExecuted;
 
     [Space(10)]
@@ -30,7 +30,7 @@ public class ButtonEvent : MonoBehaviour, IInteractive
     private void OnDrawGizmos()
     {
         Gizmos.color = gizmoColor;
-        Gizmos.DrawCube(pressingArea.bounds.center, pressingArea.bounds.size);
+        Gizmos.DrawCube(interactionArea.bounds.center, interactionArea.bounds.size);
 
         if (showEventListeners) DrawLinesTowardEventListeners();
     }
@@ -46,7 +46,7 @@ public class ButtonEvent : MonoBehaviour, IInteractive
         Gizmos.color = pointerColor;
 
         //cycle through unity event targets and point towards their position
-        Vector3 lineOrigin = pressingArea.bounds.center;
+        Vector3 lineOrigin = interactionArea.bounds.center;
 
         int listenerCount = pressedButton.GetPersistentEventCount();
         for (int i = 0; i < listenerCount; i++)

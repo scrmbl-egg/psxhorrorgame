@@ -7,7 +7,7 @@ public class Key : MonoBehaviour, IInteractive
 {
     [Header("Dependencies")]
     //
-    [SerializeField] private Collider pressingArea;
+    [SerializeField] private Collider interactionArea;
 
     [Space(10)]
     [Header("Properties")]
@@ -18,14 +18,14 @@ public class Key : MonoBehaviour, IInteractive
     [Header("Other")]
     //
     [SerializeField] private bool showDoorsWithSameKeyIds;
-    [SerializeField] private bool showPressingArea;
+    [SerializeField] private bool showInteractionArea;
     [SerializeField] private Color gizmoColor;
 
     #region MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (showPressingArea) DrawInteractionArea();
+        if (showInteractionArea) DrawInteractionArea();
         if (showDoorsWithSameKeyIds) DrawLinesTowardDoorsWithSameIDs();
     }
 
@@ -58,7 +58,7 @@ public class Key : MonoBehaviour, IInteractive
     {
         Gizmos.color = gizmoColor;
 
-        Gizmos.DrawCube(pressingArea.bounds.center, pressingArea.bounds.size);
+        Gizmos.DrawCube(interactionArea.bounds.center, interactionArea.bounds.size);
     }
 
     private void DrawLinesTowardDoorsWithSameIDs()
@@ -68,7 +68,7 @@ public class Key : MonoBehaviour, IInteractive
         Gizmos.color = pointerColor;
 
         //cycle through doors with the same key ID and point towards them
-        Vector3 lineOrigin = pressingArea.bounds.center;
+        Vector3 lineOrigin = interactionArea.bounds.center;
 
         Door[] doors = FindObjectsOfType<Door>();
         for (int i = 0; i < doors.Length; i++)
