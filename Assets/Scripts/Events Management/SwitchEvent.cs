@@ -75,20 +75,20 @@ public class SwitchEvent : MonoBehaviour, IInteractive
         Gizmos.color = stateOneListenerColor;
 
         //cycle through unity event targets and point towards their position
-        Vector3 lineOrigin1 = interactionArea.bounds.center;
+        Vector3 origin1 = interactionArea.bounds.center;
 
         int stateOneListenersCount = onSwitchStateOne.GetPersistentEventCount();
         for (int i = 0; i < stateOneListenersCount; i++)
         {
-            string targetName = onSwitchStateOne.GetPersistentTarget(i).name;
-            //an object is necessary in the inspector, if not, an exception will be thrown
+            //WARNING: EXPECT EXCEPTIONS WHEN SETTING UP THE INSPECTOR. IT'S COMPLETELY FINE.
 
+            string targetName = onSwitchStateOne.GetPersistentTarget(i).name;
             if (targetName != null)
             {
                 GameObject target = GameObject.Find(targetName);
                 Vector3 destination = target.transform.position;
 
-                Gizmos.DrawLine(lineOrigin1, destination);
+                Gizmos.DrawLine(origin1, destination);
             }
         }
 
@@ -100,7 +100,7 @@ public class SwitchEvent : MonoBehaviour, IInteractive
         Gizmos.color = stateTwoListenerColor;
 
         //cycle through unity event targets and point towards their position with an offset
-        Vector3 lineOrigin2 = interactionArea.bounds.center + gizmoStateTwoOffset;
+        Vector3 origin2 = interactionArea.bounds.center + gizmoStateTwoOffset;
 
         int stateTwoListenersCount = onSwitchStateTwo.GetPersistentEventCount();
         for (int i = 0; i < stateTwoListenersCount; i++)
@@ -113,7 +113,7 @@ public class SwitchEvent : MonoBehaviour, IInteractive
                 GameObject target = GameObject.Find(targetName);
                 Vector3 destination = target.transform.position + gizmoStateTwoOffset;
 
-                Gizmos.DrawLine(lineOrigin2, destination);
+                Gizmos.DrawLine(origin2, destination);
             }
         }
 

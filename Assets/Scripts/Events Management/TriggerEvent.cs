@@ -66,7 +66,7 @@ public class TriggerEvent : MonoBehaviour
         Gizmos.color = pointerColor;
 
         //cycle through unity event targets and point towards their position
-        Vector3 lineOrigin = trigger.bounds.center;
+        Vector3 origin = trigger.bounds.center;
 
         int listenerCount = enteredThroughTrigger.GetPersistentEventCount();
         for (int i = 0; i < listenerCount; i++)
@@ -79,7 +79,7 @@ public class TriggerEvent : MonoBehaviour
                 GameObject target = GameObject.Find(targetName);
                 Vector3 destination = target.transform.position;
 
-                Gizmos.DrawLine(lineOrigin, destination);
+                Gizmos.DrawLine(origin, destination);
             }
         }
     }

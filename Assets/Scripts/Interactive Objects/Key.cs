@@ -39,6 +39,7 @@ public class Key : MonoBehaviour, IInteractive
     {
         AddToInventory(sender);
     }
+
     #endregion
 
     #endregion
@@ -56,9 +57,11 @@ public class Key : MonoBehaviour, IInteractive
 
     private void DrawInteractionArea()
     {
-        Gizmos.color = gizmoColor;
+        Vector3 origin = interactionArea.bounds.center;
+        Vector3 size = interactionArea.bounds.size;
 
-        Gizmos.DrawCube(interactionArea.bounds.center, interactionArea.bounds.size);
+        Gizmos.color = gizmoColor;
+        Gizmos.DrawCube(origin, size);
     }
 
     private void DrawLinesTowardDoorsWithSameIDs()
@@ -68,7 +71,7 @@ public class Key : MonoBehaviour, IInteractive
         Gizmos.color = pointerColor;
 
         //cycle through doors with the same key ID and point towards them
-        Vector3 lineOrigin = interactionArea.bounds.center;
+        Vector3 origin = interactionArea.bounds.center;
 
         Door[] doors = FindObjectsOfType<Door>();
         for (int i = 0; i < doors.Length; i++)
@@ -78,7 +81,7 @@ public class Key : MonoBehaviour, IInteractive
             //else...
 
             Vector3 destination = doors[i].transform.position;
-            Gizmos.DrawLine(lineOrigin, destination);
+            Gizmos.DrawLine(origin, destination);
         }
     }
 

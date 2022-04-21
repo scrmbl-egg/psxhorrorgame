@@ -65,7 +65,7 @@ public class BaseWeapon : MonoBehaviour
         GameObject bulletHole = Instantiate(original: BulletHoleDecals[randomBulletHole],
                                             position: hitInfo.point,
                                             rotation: Quaternion.LookRotation(hitInfo.normal));
-        bulletHole.transform.SetParent(hitInfo.transform);
+        bulletHole.transform.parent = hitInfo.transform;
     }
 
     public void PushRigidbodyFromRaycastHit(RaycastHit hitInfo, float force)
@@ -82,25 +82,21 @@ public class BaseWeapon : MonoBehaviour
         if (rigidbodyIsNotKinematic) targetRigidbody.AddForce(forceVector, ForceMode.Impulse);
     }
 
-    public void GetLivingThingFromRaycast(RaycastHit hitInfo, out LivingThing livingThing)
+    public void GetLivingThingFromTransform(Transform transform, out LivingThing livingThing)
     {
         livingThing = null;
-        Transform currentTransform = hitInfo.transform;
-        bool parentIsLivingThing = false;
 
-        while (!parentIsLivingThing)
+        bool parentIsNotLivingThing = true;
+        while (parentIsNotLivingThing)
         {
-            bool currentTransformIsNotLivingThing = !currentTransform.TryGetComponent(out livingThing);
+            bool currentTransformIsNotLivingThing = !transform.TryGetComponent(out livingThing);
+
             if (currentTransformIsNotLivingThing)
-            {
                 //go to parent transform and reiterate loop from there
-                currentTransform = currentTransform.parent;
-            }
-            else
-            {
+                transform = transform.parent;
+            else 
                 //end loop
-                parentIsLivingThing = true;
-            }
+                parentIsNotLivingThing = false;
         }
     }
     #endregion

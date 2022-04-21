@@ -49,12 +49,14 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
         {
             for (int i = 0; i < PelletsPerShot; i++)
             {
-                Ray shot = new Ray(origin: RaycastOrigin.position,
-                                   direction: RandomSpread(RaycastOrigin.forward));
-                bool objectIsNotInRange = !Physics.Raycast(ray: shot,
-                                                           hitInfo: out RaycastHit hit,
-                                                           maxDistance: WeaponRange,
-                                                           layerMask: RaycastLayers);
+                Ray shot = 
+                    new Ray(origin: RaycastOrigin.position,
+                            direction: RandomSpread(RaycastOrigin.forward));
+                bool objectIsNotInRange = 
+                    !Physics.Raycast(ray: shot,
+                                     hitInfo: out RaycastHit hit,
+                                     maxDistance: WeaponRange,
+                                     layerMask: RaycastLayers);
 
                 if (objectIsNotInRange) return;
                 //else...
@@ -64,7 +66,7 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
                 bool targetHasLivingThingTag = hit.transform.CompareTag("LivingThings");
                 if (targetHasLivingThingTag)
                 {
-                    GetLivingThingFromRaycast(hit, out LivingThing target);
+                    GetLivingThingFromTransform(hit.transform, out LivingThing target);
 
                     target.Health -= WeaponDamage / PelletsPerShot;
                 }

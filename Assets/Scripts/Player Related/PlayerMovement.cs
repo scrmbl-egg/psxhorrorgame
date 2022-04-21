@@ -133,8 +133,13 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 input = _playerInputActions.PlayerThing.Move.ReadValue<Vector2>();
 
-        _movementDirection = orientation.forward * input.y + orientation.right * input.x;
-        _movementDirectionOnSlope = Vector3.ProjectOnPlane(_movementDirection, _slopeHit.normal);
+        _movementDirection = 
+            orientation.forward * input.y 
+            + orientation.right * input.x;
+
+        _movementDirectionOnSlope = 
+            Vector3.ProjectOnPlane(vector: _movementDirection,
+                                   planeNormal: _slopeHit.normal);
     }
 
     private void ManageRunning()
@@ -151,8 +156,14 @@ public class PlayerMovement : MonoBehaviour
         float runningSpeed = defaultMovementSpeed * movementWhenRunningMultiplier;
         float t = Time.deltaTime * movementLerpingTime;
 
-        float lerpTowardsRunningSpeed = Mathf.Lerp(_currentMovementSpeed, runningSpeed, t);
-        float lerpTowardsDefaultSpeed = Mathf.Lerp(_currentMovementSpeed, defaultMovementSpeed, t);
+        float lerpTowardsRunningSpeed = 
+            Mathf.Lerp(a: _currentMovementSpeed,
+                       b: runningSpeed,
+                       t: t);
+        float lerpTowardsDefaultSpeed = 
+            Mathf.Lerp(a: _currentMovementSpeed,
+                       b: defaultMovementSpeed,
+                       t: t);
 
         if (IsRunning) _currentMovementSpeed = lerpTowardsRunningSpeed;
         else _currentMovementSpeed = lerpTowardsDefaultSpeed;
@@ -168,17 +179,30 @@ public class PlayerMovement : MonoBehaviour
     {
         if (IsGrounded && !IsOnSlope)
         {
-            Vector3 movement = _movementDirection * _currentMovementSpeed * MOVEMENT_SPEED_MULTIPLIER;
+            Vector3 movement = 
+                _movementDirection
+                * _currentMovementSpeed 
+                * MOVEMENT_SPEED_MULTIPLIER;
+
             _rigidBody.AddForce(movement, ForceMode.Acceleration);
         }
         else if (IsGrounded && IsOnSlope)
         {
-            Vector3 movement = _movementDirectionOnSlope * _currentMovementSpeed * MOVEMENT_SPEED_MULTIPLIER;
+            Vector3 movement = 
+                _movementDirectionOnSlope 
+                * _currentMovementSpeed 
+                * MOVEMENT_SPEED_MULTIPLIER;
+
             _rigidBody.AddForce(movement, ForceMode.Acceleration);
         }
         else //player is in the air
         {
-            Vector3 movement = _movementDirection * movementSpeedOnAirMultiplier * _currentMovementSpeed * MOVEMENT_SPEED_MULTIPLIER;
+            Vector3 movement = 
+                _movementDirection 
+                * movementSpeedOnAirMultiplier 
+                * _currentMovementSpeed 
+                * MOVEMENT_SPEED_MULTIPLIER;
+
             _rigidBody.AddForce(movement, ForceMode.Acceleration);
         }
     }

@@ -7,7 +7,7 @@ public class Door : MonoBehaviour, IInteractive
 {
     [Header("Dependencies")]
     //
-    [SerializeField] private Collider pressingArea;
+    [SerializeField] private Collider interactionArea;
 
     [Space(10)]
     [Header("Door Properties")]
@@ -33,7 +33,7 @@ public class Door : MonoBehaviour, IInteractive
     [Space(10)]
     [Header("Other")]
     //
-    [SerializeField] private bool showPressingArea;
+    [SerializeField] private bool showInteractionArea;
     [SerializeField] private Color gizmoColor;
 
     #region MonoBehaviour
@@ -47,7 +47,7 @@ public class Door : MonoBehaviour, IInteractive
 
     private void OnDrawGizmos()
     {
-        if (showPressingArea) DrawPressingArea();
+        if (showInteractionArea) DrawInteractionArea();
     }
 
     #endregion
@@ -83,18 +83,24 @@ public class Door : MonoBehaviour, IInteractive
 
     public void Open()
     {
-        Vector3 targetEulerRotation = _startEulerRotation + rotationDegrees;
-
         isOpen = true;
-        DOTweenEvents.SimpleRotate(_rigidBody, targetEulerRotation, time, animationCurve);
+
+        Vector3 targetEulerRotation = _startEulerRotation + rotationDegrees;
+        DOTweenEvents.SimpleRotate(rigidbody: _rigidBody,
+                                   rotationDegrees: targetEulerRotation,
+                                   time: time,
+                                   animationCurve: animationCurve);
     }
 
     public void Close()
     {
-        Vector3 targetEulerRotation = _startEulerRotation;
-
         isOpen = false;
-        DOTweenEvents.SimpleRotate(_rigidBody, targetEulerRotation, time, animationCurve);
+
+        Vector3 targetEulerRotation = _startEulerRotation;
+        DOTweenEvents.SimpleRotate(rigidbody: _rigidBody,
+                                   rotationDegrees: targetEulerRotation,
+                                   time: time,
+                                   animationCurve: animationCurve);
     }
 
     #endregion
@@ -130,11 +136,13 @@ public class Door : MonoBehaviour, IInteractive
         //TODO: play lock sound
     }
 
-    private void DrawPressingArea()
+    private void DrawInteractionArea()
     {
+        Vector3 origin = interactionArea.bounds.center;
+        Vector3 size = interactionArea.bounds.size;
+        
         Gizmos.color = gizmoColor;
-
-        Gizmos.DrawCube(pressingArea.bounds.center, pressingArea.bounds.size);
+        Gizmos.DrawCube(origin, size);
     }
 
     #endregion

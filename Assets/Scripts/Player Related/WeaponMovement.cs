@@ -59,20 +59,6 @@ public class WeaponMovement : MonoBehaviour
     {
         Sway();
         Bobbing();
-
-        if (Input.GetKeyDown(KeyCode.Q))
-        {
-            if (Application.targetFrameRate == 30)
-            {
-                Application.targetFrameRate = 60;
-            } else if (Application.targetFrameRate == 60)
-            {
-                Application.targetFrameRate = -1;
-            } else if (Application.targetFrameRate == -1)
-            {
-                Application.targetFrameRate = 30;
-            }
-        }
     }
 
     #endregion
@@ -102,9 +88,10 @@ public class WeaponMovement : MonoBehaviour
         Quaternion targetRotation = _originalLocalRotation * xRotation * yRotation;
 
         //interpolate
-        transform.localRotation = Quaternion.Slerp(a: transform.localRotation,
-                                                   b: targetRotation,
-                                                   t: clampedSmooth);
+        transform.localRotation = 
+            Quaternion.Slerp(a: transform.localRotation,
+                             b: targetRotation,
+                             t: clampedSmooth);
     }
 
     private void Bobbing()
@@ -117,8 +104,14 @@ public class WeaponMovement : MonoBehaviour
         const float CURVE_TIME = 1;
 
         float t = Time.deltaTime * lerpTime;
-        float lerpTowardsRunningBob = Mathf.Lerp(_currentBobSpeed, bobSpeedWhenRunning, t);
-        float lerpTowardsDefaultBob = Mathf.Lerp(_currentBobSpeed, 1, t);
+        float lerpTowardsRunningBob = 
+            Mathf.Lerp(a: _currentBobSpeed,
+                       b: bobSpeedWhenRunning,
+                       t: t);
+        float lerpTowardsDefaultBob = 
+            Mathf.Lerp(a: _currentBobSpeed,
+                       b: 1,
+                       t: t);
 
         if (player.IsRunning) _currentBobSpeed = lerpTowardsRunningBob;
         else _currentBobSpeed = lerpTowardsDefaultBob;
@@ -127,11 +120,17 @@ public class WeaponMovement : MonoBehaviour
         if (_curveEvaluation >= CURVE_TIME) _curveEvaluation = 0;
 
         //animation
-        Vector3 newPosition = new Vector3(x: bobX.Evaluate(_curveEvaluation) * xRange,
-                                          y: bobY.Evaluate(_curveEvaluation) * yRange,
-                                          z: bobZ.Evaluate(_curveEvaluation) * zRange) * movementIntensity;
+        Vector3 bobEvaluation = 
+            new Vector3(x: bobX.Evaluate(_curveEvaluation) * xRange,
+                        y: bobY.Evaluate(_curveEvaluation) * yRange,
+                        z: bobZ.Evaluate(_curveEvaluation) * zRange);
 
-        transform.localPosition = Vector3.Slerp(transform.localPosition, newPosition, t);
+        Vector3 newPosition = bobEvaluation * movementIntensity;
+
+        transform.localPosition = 
+            Vector3.Slerp(a: transform.localPosition,
+                          b: newPosition,
+                          t: t);
     }
 
     #endregion

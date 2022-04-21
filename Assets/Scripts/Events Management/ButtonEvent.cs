@@ -46,7 +46,7 @@ public class ButtonEvent : MonoBehaviour, IInteractive
         Gizmos.color = pointerColor;
 
         //cycle through unity event targets and point towards their position
-        Vector3 lineOrigin = interactionArea.bounds.center;
+        Vector3 origin = interactionArea.bounds.center;
 
         int listenerCount = pressedButton.GetPersistentEventCount();
         for (int i = 0; i < listenerCount; i++)
@@ -60,7 +60,7 @@ public class ButtonEvent : MonoBehaviour, IInteractive
             GameObject target = GameObject.Find(targetName);
             Vector3 destination = target.transform.position;
 
-            Gizmos.DrawLine(lineOrigin, destination);
+            Gizmos.DrawLine(origin, destination);
         }
     }
 

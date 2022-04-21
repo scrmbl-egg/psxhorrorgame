@@ -83,8 +83,11 @@ public class Ammunition : MonoBehaviour, IInteractive
 
     private void DrawInteractionArea()
     {
+        Vector3 origin = interactionArea.bounds.center;
+        Vector3 size = interactionArea.bounds.size;
+        
         Gizmos.color = _gizmoColor;
-        Gizmos.DrawCube(interactionArea.bounds.center, interactionArea.bounds.size);
+        Gizmos.DrawCube(origin, size);
     }
 
     #endregion

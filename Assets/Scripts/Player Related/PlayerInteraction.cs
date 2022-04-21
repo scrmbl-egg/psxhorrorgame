@@ -39,13 +39,9 @@ public class PlayerInteraction : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        if (showGizmoRay)
-        {
-            Gizmos.color = Color.yellow;
-            Gizmos.DrawRay(from: playerCam.transform.position,
-                           direction: playerCam.transform.forward * interactionRange);
-        }
+        if (showGizmoRay) DrawInteractionRay();
     }
+
 
     #endregion
 
@@ -58,18 +54,29 @@ public class PlayerInteraction : MonoBehaviour
 
     private void PerformInteraction()
     {
-        Ray ray = new Ray(origin: playerCam.transform.position,
-                          direction: playerCam.transform.forward);
-        bool objectIsNotInRange = !Physics.Raycast(ray: ray,
-                                                   hitInfo: out RaycastHit hit,
-                                                   maxDistance: interactionRange,
-                                                   layerMask: interactionLayers);
+        Ray ray = 
+            new Ray(origin: playerCam.transform.position,
+                    direction: playerCam.transform.forward);
+        bool objectIsNotInRange = 
+            !Physics.Raycast(ray: ray,
+                             hitInfo: out RaycastHit hit,
+                             maxDistance: interactionRange,
+                             layerMask: interactionLayers);
 
         if (objectIsNotInRange) return;
         //else...
 
         bool isInteractive = hit.transform.TryGetComponent(out IInteractive interactiveObject);
         if (isInteractive) interactiveObject.Interact(this);
+    }
+
+    private void DrawInteractionRay()
+    {
+        Vector3 origin = playerCam.transform.position;
+        Vector3 direction = playerCam.transform.forward * interactionRange;
+
+        Gizmos.color = Color.yellow;
+        Gizmos.DrawRay(origin, direction);
     }
 
     #endregion
