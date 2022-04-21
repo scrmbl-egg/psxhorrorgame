@@ -59,15 +59,18 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
                 if (objectIsNotInRange) return;
                 //else...
 
-                bool livingThingIsHit = hit.transform.TryGetComponent(out LivingThing target);
-                if (livingThingIsHit)
+                PushRigidbodyFromRaycastHit(hit, WeaponForce / PelletsPerShot);
+
+                bool targetHasLivingThingTag = hit.transform.CompareTag("LivingThings");
+                if (targetHasLivingThingTag)
                 {
+                    GetLivingThingFromRaycast(hit, out LivingThing target);
+
                     target.Health -= WeaponDamage / PelletsPerShot;
                 }
                 else
                 {
                     SpawnRandomBulletHole(hit);
-                    PushRigidbodyFromRaycastHit(hit, WeaponForce / PelletsPerShot);
                 }
             }
 

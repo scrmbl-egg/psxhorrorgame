@@ -8,6 +8,7 @@ public class LivingThing : MonoBehaviour
     [Header("Thing Properties")]
     //
     [SerializeField] private string thingName;
+    [SerializeField] private bool isInvincible;
     [SerializeField] private int maxHealth = 100;
     [SerializeField] private int health;
 
@@ -22,11 +23,12 @@ public class LivingThing : MonoBehaviour
 
             health = Mathf.Clamp(value, 0, maxHealth);
 
-            //effects management
-            if (health == 0) DeathEffect();
+            if (health == 0 && !isInvincible) DeathEffect();
 
             if (previousHealth > health) DamageEffect();
             else if (previousHealth < health) HealingEffect();
+
+            if (isInvincible) health = previousHealth;
         }
     }
 

@@ -28,9 +28,8 @@ public class EnemyThing : LivingThing
 
     public override void DamageEffect()
     {
-        base.DamageEffect();
-
-        //TODO: spawn blood splats
+        Debug.Log($"{ThingName} enemy has been hit!");
+        //TODO: do damage sound
     }
 
     #endregion

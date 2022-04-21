@@ -28,7 +28,7 @@ public class TriggerEvent : MonoBehaviour
     #region MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
-        bool colliderIsNotPlayer = !other.transform.parent.TryGetComponent(out PlayerThing player);
+        bool colliderIsNotPlayer = !other.CompareTag("Player");
 
         if (colliderIsNotPlayer) return;
         //else...

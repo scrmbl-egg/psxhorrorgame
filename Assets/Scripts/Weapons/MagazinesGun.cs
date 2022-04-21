@@ -74,16 +74,19 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
                 if (objectIsNotInRange) return;
                 //else...
+                
+                PushRigidbodyFromRaycastHit(hit, WeaponForce / PelletsPerShot);
 
-                bool livingThingIsHit = hit.transform.TryGetComponent(out LivingThing target);
-                if (livingThingIsHit)
+                bool targetHasLivingThingTag = hit.transform.CompareTag("LivingThings");
+                if (targetHasLivingThingTag)
                 {
+                    GetLivingThingFromRaycast(hit, out LivingThing target);
+
                     target.Health -= WeaponDamage / PelletsPerShot;
                 }
                 else
                 {
                     SpawnRandomBulletHole(hit);
-                    PushRigidbodyFromRaycastHit(hit, WeaponForce / PelletsPerShot);
                 }
             }
 
