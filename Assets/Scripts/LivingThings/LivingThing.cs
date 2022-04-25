@@ -28,9 +28,14 @@ public class LivingThing : MonoBehaviour
             if (previousHealth > health) DamageEffect();
             else if (previousHealth < health) HealingEffect();
 
+            //heal back if invincible
             if (isInvincible) health = previousHealth;
         }
     }
+
+    [Space(10)]
+    [Header("Effects")]
+    [SerializeField] private GameObject[] bloodPrefabs;
 
     #region MonoBehaviour
 
@@ -44,7 +49,7 @@ public class LivingThing : MonoBehaviour
     #region Public methods
 
     /// <summary>
-    /// Executes visible actions when the living thing dies.
+    /// Executes visible actions when the living thing dies. Example: instantiating a ragdoll.
     /// </summary>
     public virtual void DeathEffect()
     {
@@ -53,7 +58,7 @@ public class LivingThing : MonoBehaviour
     }
 
     /// <summary>
-    /// Executes visible actions when the living thing is damaged.
+    /// Executes visible actions when the living thing is damaged. Example: animations, sounds...
     /// </summary>
     public virtual void DamageEffect()
     {
@@ -61,11 +66,40 @@ public class LivingThing : MonoBehaviour
     }
 
     /// <summary>
-    /// Executes visible actions when the living thing is healed.
+    /// Executes visible actions when the living thing is healed. Example: animations, general particle effects...
     /// </summary>
     public virtual void HealingEffect()
     {
         Debug.Log($"{ThingName}: i have been healed");
+    }
+
+    /// <summary>
+    /// Instantiates a blood particle system from a RaycastHit.
+    /// </summary>
+    /// <param name="hitInfo"></param>
+    public virtual void BleedFromRaycastHit(RaycastHit hitInfo)
+    {
+        bool bloodPrefabIsNull = bloodPrefabs == null;
+        if (bloodPrefabIsNull) return;
+        //else...
+
+        Debug.Log($"{ThingName}: I'm bleeding!");
+
+        Vector3 position = hitInfo.point;
+        Quaternion rotation = Quaternion.LookRotation(hitInfo.normal);
+        int random = Random.Range(0, bloodPrefabs.Length);
+
+        GameObject bloodGameObject =
+            Instantiate(
+                original: bloodPrefabs[random],
+                position: position,
+                rotation: rotation);
+
+        bool bloodDoesntHaveParticleSystem = !bloodGameObject.TryGetComponent(out ParticleSystem particles);
+        if (bloodDoesntHaveParticleSystem) return;
+        //else...
+
+        particles.Play();
     }
 
     #endregion

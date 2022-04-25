@@ -861,6 +861,8 @@ MonoBehaviour:
   isInvincible: 0
   maxHealth: 100
   health: 100
+  bloodPrefabs:
+  - {fileID: 55515357295876153, guid: ca687d656b36cb845a2222891e9e5518, type: 3}
 --- !u!135 &250220504
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -2778,7 +2780,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26074
+  m_Name: pb_Mesh26078
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2986,6 +2988,8 @@ MonoBehaviour:
   isInvincible: 0
   maxHealth: 100
   health: 100
+  bloodPrefabs:
+  - {fileID: 55515357295876153, guid: ca687d656b36cb845a2222891e9e5518, type: 3}
 --- !u!135 &911142439
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -5297,7 +5301,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26118
+  m_Name: pb_Mesh26122
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6291,6 +6295,8 @@ MonoBehaviour:
   isInvincible: 0
   maxHealth: 100
   health: 100
+  bloodPrefabs:
+  - {fileID: 55515357295876153, guid: ca687d656b36cb845a2222891e9e5518, type: 3}
 --- !u!135 &1345379153
 SphereCollider:
   m_ObjectHideFlags: 0
@@ -6564,7 +6570,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26006
+  m_Name: pb_Mesh26008
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -7089,6 +7095,8 @@ MonoBehaviour:
   isInvincible: 0
   maxHealth: 100
   health: 100
+  bloodPrefabs:
+  - {fileID: 55515357295876153, guid: ca687d656b36cb845a2222891e9e5518, type: 3}
 --- !u!114 &1936256906
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -7517,6 +7525,7 @@ MonoBehaviour:
   isInvincible: 0
   maxHealth: 100
   health: 100
+  bloodPrefabs: []
 --- !u!114 &1996250483
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9029,6 +9038,8 @@ MonoBehaviour:
   isInvincible: 1
   maxHealth: 100
   health: 100
+  bloodPrefabs:
+  - {fileID: 55515357295876153, guid: ca687d656b36cb845a2222891e9e5518, type: 3}
   movementSpeed: 0
   minDamage: 0
   maxDamage: 0

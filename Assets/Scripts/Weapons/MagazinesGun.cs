@@ -67,7 +67,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
             {
                 Ray shot = 
                     new Ray(origin: RaycastOrigin.position,
-                            direction: RandomSpread(RaycastOrigin.forward));
+                            direction: ApplySpreadToDirection(RaycastOrigin.forward));
                 bool objectIsNotInRange = 
                     !Physics.Raycast(ray: shot,
                                      hitInfo: out RaycastHit hit,
@@ -85,6 +85,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
                     GetLivingThingFromTransform(hit.transform, out LivingThing target);
 
                     target.Health -= WeaponDamage / PelletsPerShot;
+                    target.BleedFromRaycastHit(hit);
                 }
                 else
                 {

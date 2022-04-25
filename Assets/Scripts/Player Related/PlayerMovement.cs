@@ -101,17 +101,10 @@ public class PlayerMovement : MonoBehaviour
 
     private void OnDrawGizmos()
     {
-        //ground check
-        Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
-
-        Gizmos.color = Color.blue;
-        if (IsOnSlope)
-        {
-            Gizmos.DrawRay(transform.position, _movementDirectionOnSlope.normalized);
-        }
-        else Gizmos.DrawRay(transform.position, _movementDirection.normalized);
+        DrawGroundCheck();
+        DrawMovementVector();
     }
+
 
     #endregion
 
@@ -205,6 +198,24 @@ public class PlayerMovement : MonoBehaviour
 
             _rigidBody.AddForce(movement, ForceMode.Acceleration);
         }
+    }
+
+    private void DrawGroundCheck()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+    }
+
+    private void DrawMovementVector()
+    {
+        Vector3 origin = transform.position;
+        Vector3 ray;
+
+        Gizmos.color = Color.blue;
+        if (IsOnSlope) ray = _movementDirectionOnSlope;
+        else ray = _movementDirection;
+
+        Gizmos.DrawRay(origin, ray.normalized);
     }
 
     #endregion

@@ -44,19 +44,18 @@ public class BaseWeapon : MonoBehaviour
 
     #region Public methods
 
-    public Vector3 RandomSpread(Vector3 vector)
+    public Vector3 ApplySpreadToDirection(Vector3 vector)
     {
-        Vector3 spreadVector = vector;
         float hDegrees = horizontalSpread / 2;
         float vDegrees = verticalSpread / 2;
 
         float randomHorizontalSpread = Random.Range(-hDegrees, hDegrees);
         float randomVerticalSpread = Random.Range(-vDegrees, vDegrees);
 
-        spreadVector = Quaternion.AngleAxis(randomHorizontalSpread, RaycastOrigin.up) * spreadVector; //horizontal spread
-        spreadVector = Quaternion.AngleAxis(randomVerticalSpread, RaycastOrigin.right) * spreadVector; //vertical spread
+        vector = Quaternion.AngleAxis(randomHorizontalSpread, RaycastOrigin.up) * vector; //horizontal spread
+        vector = Quaternion.AngleAxis(randomVerticalSpread, RaycastOrigin.right) * vector; //vertical spread
 
-        return spreadVector;
+        return vector;
     }
 
     public void SpawnRandomBulletHole(RaycastHit hitInfo)
@@ -71,15 +70,15 @@ public class BaseWeapon : MonoBehaviour
     public void PushRigidbodyFromRaycastHit(RaycastHit hitInfo, float force)
     {
         bool rigidbodyIsNotDetected = hitInfo.rigidbody == null;
-
         if (rigidbodyIsNotDetected) return;
         //else...
 
         Rigidbody targetRigidbody = hitInfo.rigidbody;
         Vector3 forceVector = -hitInfo.normal * force;
-        bool rigidbodyIsNotKinematic = !targetRigidbody.isKinematic;
 
-        if (rigidbodyIsNotKinematic) targetRigidbody.AddForce(forceVector, ForceMode.Impulse);
+        bool rigidbodyIsNotKinematic = !targetRigidbody.isKinematic;
+        if (rigidbodyIsNotKinematic) 
+            targetRigidbody.AddForce(forceVector, ForceMode.Impulse);
     }
 
     public void GetLivingThingFromTransform(Transform transform, out LivingThing livingThing)
@@ -94,7 +93,7 @@ public class BaseWeapon : MonoBehaviour
             if (currentTransformIsNotLivingThing)
                 //go to parent transform and reiterate loop from there
                 transform = transform.parent;
-            else 
+            else
                 //end loop
                 parentIsNotLivingThing = false;
         }
