@@ -469,8 +469,10 @@ MonoBehaviour:
   raycastLayers:
     serializedVersion: 2
     m_Bits: 1
-  bulletHoleDecals:
+  hitDecals:
   - {fileID: 8116752626919692808, guid: 421ed7084c12e2f43ad851158fdf7176, type: 3}
+  hitParticles:
+  - {fileID: 2744141035604900413, guid: 3d5764940e2ea5943816ec66453cedd8, type: 3}
   currentLoadedRounds: 0
   maxMagazineCapacity: 10
   currentAmountOfMagazines: 7
@@ -1156,6 +1158,7 @@ GameObject:
   m_Component:
   - component: {fileID: 351903926}
   - component: {fileID: 351903927}
+  - component: {fileID: 351903928}
   m_Layer: 0
   m_Name: PLAYER CAM HOLDER
   m_TagString: Untagged
@@ -1193,6 +1196,21 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cameraPosition: {fileID: 39975044}
+--- !u!114 &351903928
+MonoBehaviour:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 351903925}
+  m_Enabled: 1
+  m_EditorHideFlags: 0
+  m_Script: {fileID: 11500000, guid: ed3623c269c1d04418bdee176a365920, type: 3}
+  m_Name: 
+  m_EditorClassIdentifier: 
+  recoilXMultiplier: 0
+  recoilYMultiplier: 0
+  recoilZMultiplier: 0
 --- !u!1001 &385944334
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -5289,8 +5307,10 @@ MonoBehaviour:
   raycastLayers:
     serializedVersion: 2
     m_Bits: 1
-  bulletHoleDecals:
+  hitDecals:
   - {fileID: 8116752626919692808, guid: 421ed7084c12e2f43ad851158fdf7176, type: 3}
+  hitParticles:
+  - {fileID: 2744141035604900413, guid: 3d5764940e2ea5943816ec66453cedd8, type: 3}
   currentLoadedRounds: 5
   maxLoadedRounds: 6
   currentTotalAmmo: 30

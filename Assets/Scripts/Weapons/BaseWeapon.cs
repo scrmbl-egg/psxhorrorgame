@@ -28,7 +28,8 @@ public class BaseWeapon : MonoBehaviour
     [SerializeField, Range(0f, 45f)] private float verticalSpread;
     [Space(2)]
     [SerializeField] private LayerMask raycastLayers;
-    [SerializeField] private GameObject[] bulletHoleDecals;
+    [SerializeField] private GameObject[] hitDecals;
+    [SerializeField] private GameObject[] hitParticles;
 
     public string WeaponName => weaponName;
     public Transform RaycastOrigin => raycastOrigin;
@@ -40,7 +41,22 @@ public class BaseWeapon : MonoBehaviour
     public float WeaponRange => weaponRange;
     public float WeaponForce => weaponForce;
     public LayerMask RaycastLayers => raycastLayers;
-    public GameObject[] BulletHoleDecals => bulletHoleDecals;
+    public GameObject RandomHitDecal 
+    {
+        get
+        {
+            int random = Random.Range(0, hitDecals.Length);
+            return hitDecals[random];
+        }
+    }
+    public GameObject RandomHitParticle
+    {
+        get
+        {
+            int random = Random.Range(0, hitParticles.Length);
+            return hitParticles[random];
+        }
+    }
 
     #region Public methods
 
@@ -60,11 +76,29 @@ public class BaseWeapon : MonoBehaviour
 
     public void SpawnRandomBulletHole(RaycastHit hitInfo)
     {
-        int randomBulletHole = Random.Range(0, BulletHoleDecals.Length);
-        GameObject bulletHole = Instantiate(original: BulletHoleDecals[randomBulletHole],
+        if (hitDecals == null) return;
+        //else...
+        
+        //spawn bullet hole
+        GameObject bulletHole = Instantiate(original: RandomHitDecal,
                                             position: hitInfo.point,
                                             rotation: Quaternion.LookRotation(hitInfo.normal));
+
         bulletHole.transform.parent = hitInfo.transform;
+
+        if (hitParticles == null) return;
+        //else...
+
+        //spawn particles
+        GameObject debris = Instantiate(original: RandomHitParticle,
+                                        position: hitInfo.point,
+                                        rotation: Quaternion.LookRotation(hitInfo.normal));
+
+        bool debrisDoesntHaveParticleSystem = !debris.TryGetComponent(out ParticleSystem particles);
+        if (debrisDoesntHaveParticleSystem) return;
+        //else...
+
+        particles.Play();
     }
 
     public void PushRigidbodyFromRaycastHit(RaycastHit hitInfo, float force)
