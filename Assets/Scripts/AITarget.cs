@@ -9,7 +9,6 @@ public class AITarget : MonoBehaviour
     [Header("Properties")]
     //
     [SerializeField] private Transform target;
-    private Rigidbody _rb;
     private NavMeshAgent _agent;
 
     private void Awake()
