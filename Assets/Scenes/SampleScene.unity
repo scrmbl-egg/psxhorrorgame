@@ -473,7 +473,11 @@ MonoBehaviour:
   - {fileID: 8116752626919692808, guid: 421ed7084c12e2f43ad851158fdf7176, type: 3}
   hitParticles:
   - {fileID: 2744141035604900413, guid: 3d5764940e2ea5943816ec66453cedd8, type: 3}
-  currentLoadedRounds: 0
+  recoilSpeed: 8.25
+  recoverSpeed: 2.52
+  recoil: {x: 10, y: 10, z: 4}
+  hasInfiniteAmmo: 0
+  currentLoadedRounds: 10
   maxMagazineCapacity: 10
   currentAmountOfMagazines: 7
   maxAmountOfMagazines: 10
@@ -1209,10 +1213,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   cam: {fileID: 1260054600}
-  recoilSpeed: 1.24
-  returnSpeed: 1.66
-  recoilRotation: {x: 9.13, y: 8.02, z: 3.15}
-  perlinNoiseJump: 2
+  perlinDirectionX: 0.533
+  perlinDirectionY: 0.502
 --- !u!1001 &385944334
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -2173,7 +2175,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26002
+  m_Name: pb_Mesh26034
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2998,7 +3000,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26084
+  m_Name: pb_Mesh26116
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5624,7 +5626,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26132
+  m_Name: pb_Mesh26166
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5897,6 +5899,10 @@ MonoBehaviour:
   - {fileID: 8116752626919692808, guid: 421ed7084c12e2f43ad851158fdf7176, type: 3}
   hitParticles:
   - {fileID: 2744141035604900413, guid: 3d5764940e2ea5943816ec66453cedd8, type: 3}
+  recoilSpeed: 8.41
+  recoverSpeed: 2.44
+  recoil: {x: 30, y: 2, z: 0.5}
+  hasInfiniteAmmo: 0
   currentLoadedRounds: 5
   maxLoadedRounds: 6
   currentTotalAmmo: 30

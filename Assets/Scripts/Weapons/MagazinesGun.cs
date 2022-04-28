@@ -5,8 +5,17 @@ using UnityEngine;
 public class MagazinesGun : BaseWeapon, IWeapon, IGun
 {
     [Space(10)]
+    [Header("Recoil Settings")]
+    //
+    [SerializeField] private float recoilSpeed;
+    [SerializeField] private float recoverSpeed;
+    [SerializeField] private Vector3 recoil;
+    private CamShake _camShake;
+
+    [Space(10)]
     [Header("Ammunition Settings")]
     //
+    [SerializeField] private bool hasInfiniteAmmo;
     [SerializeField] private int currentLoadedRounds;
     [SerializeField, Min(1)] private int maxMagazineCapacity;
     [SerializeField] private int currentAmountOfMagazines;
@@ -18,7 +27,13 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     public int CurrentLoadedRounds
     {
         get => currentLoadedRounds;
-        set => currentLoadedRounds = Mathf.Clamp(value, 0, maxMagazineCapacity + ONE_IN_THE_CHAMBER);
+        set
+        {
+            if (hasInfiniteAmmo) return;
+            //else...
+
+            currentLoadedRounds = Mathf.Clamp(value, 0, maxMagazineCapacity + ONE_IN_THE_CHAMBER);
+        }
     }
     public int MaxMagazineCapacity => maxMagazineCapacity;
     public int CurrentAmountOfMagazines
@@ -40,6 +55,8 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
     private void Awake()
     {
+        _camShake = GetComponentInParent<CamShake>();
+
         Magazines.Capacity = MaxAmountOfMagazines;
 
         //TODO: Remove method when guns are completely coded
@@ -74,7 +91,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
                                      maxDistance: WeaponRange,
                                      layerMask: RaycastLayers);
 
-                if (objectIsNotInRange) return;
+                if (objectIsNotInRange) continue;
                 //else...
                 
                 PushRigidbodyFromRaycastHit(hit, WeaponForce / PelletsPerShot);
@@ -94,6 +111,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
             }
 
             CurrentLoadedRounds--;
+            _camShake.ShakeCamera(recoil, recoilSpeed, recoverSpeed);
         }
         else
         {

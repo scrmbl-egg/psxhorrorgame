@@ -53,8 +53,6 @@ public class LivingThing : MonoBehaviour
     /// </summary>
     public virtual void DeathEffect()
     {
-        Debug.Log($"{ThingName}: i have died");
-        Destroy(gameObject);
     }
 
     /// <summary>
@@ -62,7 +60,6 @@ public class LivingThing : MonoBehaviour
     /// </summary>
     public virtual void DamageEffect()
     {
-        Debug.Log($"{ThingName}: i have been damaged");
     }
 
     /// <summary>
@@ -70,20 +67,18 @@ public class LivingThing : MonoBehaviour
     /// </summary>
     public virtual void HealingEffect()
     {
-        Debug.Log($"{ThingName}: i have been healed");
+
     }
 
     /// <summary>
     /// Instantiates a blood particle system from a RaycastHit.
     /// </summary>
     /// <param name="hitInfo"></param>
-    public virtual void BleedFromRaycastHit(RaycastHit hitInfo)
+    public void BleedFromRaycastHit(RaycastHit hitInfo)
     {
         bool bloodPrefabIsNull = bloodPrefabs == null;
         if (bloodPrefabIsNull) return;
         //else...
-
-        Debug.Log($"{ThingName}: I'm bleeding!");
 
         Vector3 position = hitInfo.point;
         Quaternion rotation = Quaternion.LookRotation(hitInfo.normal);

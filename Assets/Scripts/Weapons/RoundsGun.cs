@@ -7,20 +7,35 @@ using UnityEngine;
 /// rounds rather than being loaded with magazines.
 /// </summary>
 public class RoundsGun : BaseWeapon, IWeapon, IGun
-{   
+{
+    [Space(10)]
+    [Header("Recoil Settings")]
+    //
+    [SerializeField] private float recoilSpeed;
+    [SerializeField] private float recoverSpeed;
+    [SerializeField] private Vector3 recoil;
+    private CamShake _camShake;
+
     [Space(10)]
     [Header("Ammunition Settings")]
     //
+    [SerializeField] private bool hasInfiniteAmmo;
     [SerializeField] private int currentLoadedRounds;
-    [SerializeField] private int maxLoadedRounds;
+    [SerializeField, Min(1)] private int maxLoadedRounds;
     [SerializeField] private int currentTotalAmmo;
-    [SerializeField] private int maxTotalAmmo;
+    [SerializeField, Min(1)] private int maxTotalAmmo;
     private const int ONE_IN_THE_CHAMBER = 1;
 
     public int CurrentLoadedRounds
     {
         get => currentLoadedRounds;
-        set => currentLoadedRounds = Mathf.Clamp(value, 0, maxLoadedRounds + ONE_IN_THE_CHAMBER);
+        set
+        {
+            if (hasInfiniteAmmo) return;
+            //else...
+
+            currentLoadedRounds = Mathf.Clamp(value, 0, maxLoadedRounds + ONE_IN_THE_CHAMBER);
+        }
     }
     public int MaxLoadedRounds => maxLoadedRounds;
     public int CurrentTotalAmmo
@@ -32,6 +47,15 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
 
     public bool IsAiming { get; set; }
     public bool IsCovering { get; set; }
+
+    #region MonoBehaviour
+
+    private void Awake()
+    {
+        _camShake = GetComponentInParent<CamShake>();
+    }
+
+    #endregion
 
     #region Public methods
 
@@ -58,7 +82,7 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
                                      maxDistance: WeaponRange,
                                      layerMask: RaycastLayers);
 
-                if (objectIsNotInRange) return;
+                if (objectIsNotInRange) continue;
                 //else...
 
                 PushRigidbodyFromRaycastHit(hit, WeaponForce / PelletsPerShot);
@@ -78,6 +102,7 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
             }
 
             CurrentLoadedRounds--;
+            _camShake.ShakeCamera(recoil, recoilSpeed, recoverSpeed);
         }
         else
         {
