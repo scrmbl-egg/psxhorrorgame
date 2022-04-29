@@ -30,25 +30,34 @@ public class CamShake : MonoBehaviour
 
     #region Public methods
 
-    public void ShakeCamera(in Vector3 direction, in float shakeSpeed, in float recoverSpeed)
+    /// <summary>
+    /// Shakes the player camera once.
+    /// </summary>
+    /// <param name="angles">Direction of the shake in euler angles.</param>
+    /// <param name="shakeSpeed">Speed of the shake.</param>
+    /// <param name="recoverSpeed">Speed of the recover</param>
+    public void ShakeCamera(in Vector3 angles, in float shakeSpeed, in float recoverSpeed)
     {
         _shakeSpeed = shakeSpeed;
         _recoverSpeed = recoverSpeed;
 
+        //new perlin noise value
         currentPerlinPosition.x += perlinDirectionX;
         currentPerlinPosition.y += perlinDirectionY; 
 
+        //make perlin noise range from -1 to 1
         const float MIN_VALUE = -1;
         const float MAX_VALUE = 1;
         const float NOISE_MULTIPLIER = MAX_VALUE - MIN_VALUE;
 
         float noise = Mathf.PerlinNoise(currentPerlinPosition.x, currentPerlinPosition.y);
         float multipliedNoise = noise * NOISE_MULTIPLIER;
-        float randomIntensity = MIN_VALUE + multipliedNoise; //noise range from -1 to 1
+        float randomIntensity = MIN_VALUE + multipliedNoise;
 
-        float x = -direction.x * multipliedNoise;  //x axis only rotates upward
-        float y = direction.y * randomIntensity;   //y axis rotates left or right
-        float z = direction.z * randomIntensity;   //z axis tilts clockwise or counter-clockwise
+        //generate vector
+        float x = -angles.x * multipliedNoise;  //x axis only rotates upward
+        float y = angles.y * randomIntensity;   //y axis rotates left or right
+        float z = angles.z * randomIntensity;   //z axis tilts clockwise or counter-clockwise
         Vector3 targetVector = new Vector3(x, y, z);
 
         _desiredRotation += targetVector;

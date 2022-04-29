@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.AI;
 
 public class LivingThing : MonoBehaviour
 {
@@ -35,6 +36,7 @@ public class LivingThing : MonoBehaviour
 
     [Space(10)]
     [Header("Effects")]
+    //
     [SerializeField] private GameObject[] bloodPrefabs;
 
     #region MonoBehaviour
@@ -53,6 +55,7 @@ public class LivingThing : MonoBehaviour
     /// </summary>
     public virtual void DeathEffect()
     {
+
     }
 
     /// <summary>
@@ -60,6 +63,7 @@ public class LivingThing : MonoBehaviour
     /// </summary>
     public virtual void DamageEffect()
     {
+
     }
 
     /// <summary>
@@ -96,6 +100,9 @@ public class LivingThing : MonoBehaviour
 
         particles.Play();
     }
+
+    #endregion
+    #region Private methods
 
     #endregion
 }
