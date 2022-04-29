@@ -16,9 +16,7 @@ public class PlayerThing : LivingThing
 
     public override void DamageEffect()
     {
-        base.DamageEffect();
-
-        //damage effects
+        Bleed();
     }
 
     public override void HealingEffect()

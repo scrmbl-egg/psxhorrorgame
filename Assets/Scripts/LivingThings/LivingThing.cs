@@ -55,7 +55,7 @@ public class LivingThing : MonoBehaviour
     /// </summary>
     public virtual void DeathEffect()
     {
-
+        Destroy(gameObject);
     }
 
     /// <summary>
@@ -86,6 +86,32 @@ public class LivingThing : MonoBehaviour
 
         Vector3 position = hitInfo.point;
         Quaternion rotation = Quaternion.LookRotation(hitInfo.normal);
+        int random = Random.Range(0, bloodPrefabs.Length);
+
+        GameObject bloodGameObject =
+            Instantiate(
+                original: bloodPrefabs[random],
+                position: position,
+                rotation: rotation);
+
+        bool bloodDoesntHaveParticleSystem = !bloodGameObject.TryGetComponent(out ParticleSystem particles);
+        if (bloodDoesntHaveParticleSystem) return;
+        //else...
+
+        particles.Play();
+    }
+
+    /// <summary>
+    /// Instantiates a blood particle system in the center of the thing.
+    /// </summary>
+    public void Bleed()
+    {
+        bool bloodPrefabIsNull = bloodPrefabs == null;
+        if (bloodPrefabIsNull) return;
+        //else...
+
+        Vector3 position = transform.position;
+        Quaternion rotation = Quaternion.identity;
         int random = Random.Range(0, bloodPrefabs.Length);
 
         GameObject bloodGameObject =

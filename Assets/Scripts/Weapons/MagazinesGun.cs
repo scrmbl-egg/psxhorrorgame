@@ -184,6 +184,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     {
         bool magsShouldBeSpawned = CurrentAmountOfMagazines <= 0;
         if (magsShouldBeSpawned) return;
+        //else...
 
         for (int i = 0; i < CurrentAmountOfMagazines; i++)
         {

@@ -2175,7 +2175,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26034
+  m_Name: pb_Mesh26036
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3298,9 +3298,9 @@ GameObject:
   serializedVersion: 6
   m_Component:
   - component: {fileID: 974002571}
-  - component: {fileID: 974002569}
   - component: {fileID: 974002572}
   - component: {fileID: 974002570}
+  - component: {fileID: 974002569}
   m_Layer: 0
   m_Name: Enemy (1)
   m_TagString: LivingThings
@@ -3318,10 +3318,10 @@ NavMeshAgent:
   m_Enabled: 1
   m_AgentTypeID: 0
   m_Radius: 0.5
-  m_Speed: 3.5
+  m_Speed: 4
   m_Acceleration: 8
   avoidancePriority: 50
-  m_AngularSpeed: 1000
+  m_AngularSpeed: 1000000
   m_StoppingDistance: 2.25
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
@@ -3343,23 +3343,26 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thingName: Example Enemy
-  isInvincible: 1
+  isInvincible: 0
   maxHealth: 100
-  health: 0
+  health: 113
   bloodPrefabs:
   - {fileID: 55515357295876153, guid: ca687d656b36cb845a2222891e9e5518, type: 3}
   minDamage: 22
   maxDamage: 64
-  minTimeBeforeAttack: 2.32
-  maxTimeBeforeAttack: 14.59
+  minDurationBeforeAttack: 0.77
+  maxDurationBeforeAttack: 1.2
+  attackLayers:
+    serializedVersion: 2
+    m_Bits: 8
   thingIsAlert: 0
-  alertRange: 0
-  alertTime: 0
+  alertRange: 5.98
+  alertTime: 20
   currentState: 0
   currentTarget: {fileID: 0}
-  attackDistanceThreshold: 0
+  attackDistanceThreshold: 1.1
   drawAlertRange: 1
-  gizmoColor: {r: 0, g: 0, b: 0, a: 0}
+  gizmoColor: {r: 1, g: 0, b: 0, a: 1}
 --- !u!4 &974002571
 Transform:
   m_ObjectHideFlags: 0
@@ -3368,7 +3371,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 974002568}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 8.812597, y: 1.013, z: 15.269647}
+  m_LocalPosition: {x: 15.062597, y: 1.013, z: 22.269646}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1693086385}
@@ -5506,7 +5509,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26166
+  m_Name: pb_Mesh26160
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6958,7 +6961,7 @@ MeshRenderer:
   m_RenderingLayerMask: 1
   m_RendererPriority: 0
   m_Materials:
-  - {fileID: 2100000, guid: 06fc39501c29cf1468c482fa9f8ab9fd, type: 2}
+  - {fileID: 2100000, guid: 48b12e6410336404ab16510c897f7cce, type: 2}
   m_StaticBatchInfo:
     firstSubMesh: 0
     subMeshCount: 0
@@ -7782,10 +7785,11 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   thingName: PLAYER
-  isInvincible: 0
+  isInvincible: 1
   maxHealth: 100
   health: 100
-  bloodPrefabs: []
+  bloodPrefabs:
+  - {fileID: 55515357295876153, guid: ca687d656b36cb845a2222891e9e5518, type: 3}
 --- !u!114 &1996250483
 MonoBehaviour:
   m_ObjectHideFlags: 0

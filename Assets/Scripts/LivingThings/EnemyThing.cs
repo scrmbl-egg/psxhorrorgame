@@ -11,8 +11,12 @@ public class EnemyThing : LivingThing
     [SerializeField, Min(0)] private int minDamage;
     [SerializeField, Min(1)] private int maxDamage;
     [Space(2)]
-    [SerializeField, Min(0)] private float minTimeBeforeAttack;
-    [SerializeField, Min(1)] private float maxTimeBeforeAttack;
+    [SerializeField, Min(0)] private float minDurationBeforeAttack;
+    [SerializeField, Min(1)] private float maxDurationBeforeAttack;
+    [Space(2)]
+    [SerializeField] private LayerMask attackLayers;
+    private float _currentTimeBeforeAttack;
+    private float _currentDurationBeforeAttack;
 
     public int Damage
     {
@@ -24,9 +28,9 @@ public class EnemyThing : LivingThing
             return Random.Range(minDamage, maxDamage + 1);
         }
     }
-    public float TimeBeforeAttack
+    private float RandomDurationBeforeAttack
     {
-        get => Random.Range(minTimeBeforeAttack, maxTimeBeforeAttack);
+        get => Random.Range(minDurationBeforeAttack, maxDurationBeforeAttack);
     }
 
     [Space(10)]
@@ -110,17 +114,13 @@ public class EnemyThing : LivingThing
     /// </remarks>
     public virtual void IdleState()
     {
-        //TODO: CHANGE ALERT BEHAVIOUR WITH A COLLIDER INSTEAD OF DISTANCE CHECK
-
-        float distanceFromPlayer = Vector3.Distance(transform.position, _player.position);
-        bool playerIsInAlertRange = distanceFromPlayer <= alertRange;
-
-        if (!thingIsAlert && playerIsInAlertRange)
+        _agent.isStopped = true;
+        
+        if (TargetIsInRange(_player))
         {
             //set target and change state
             currentTarget = _player;
             _currentAlertTime = alertTime;
-            thingIsAlert = true;
 
             SetState(AIState.Chase);
         }
@@ -157,16 +157,26 @@ public class EnemyThing : LivingThing
     /// </remarks>
     public virtual void ChaseState()
     {
+        _agent.isStopped = false;
+
         bool thereIsNoTarget = currentTarget == null;
-        bool isWithinAttackThreshold = 
-            _agent.remainingDistance <= _agent.stoppingDistance + attackDistanceThreshold;
+        bool alertTimeIsOver = _currentAlertTime <= 0;
+        bool isWithinAttackThreshold = _agent.remainingDistance <= _agent.stoppingDistance + attackDistanceThreshold;
 
-
+        //check if there's no target
         if (thereIsNoTarget) SetState(AIState.Idle);
         else _agent.SetDestination(currentTarget.position);
 
+        //if target is not in range while chasing, execute timer
+        if (TargetIsInRange(currentTarget)) _currentAlertTime = alertTime;
+        else _currentAlertTime -= Time.deltaTime;
 
-        if (isWithinAttackThreshold) SetState(AIState.Attack);
+        if (alertTimeIsOver) SetState(AIState.Idle);
+        if (isWithinAttackThreshold)
+        {
+            SetState(AIState.Attack);
+            _currentDurationBeforeAttack = RandomDurationBeforeAttack;
+        }
     }
 
     /// <summary>
@@ -179,7 +189,16 @@ public class EnemyThing : LivingThing
     /// </remarks>
     public virtual void AttackState()
     {
-        
+        _agent.isStopped = true;
+
+        bool timerHasEnded = _currentTimeBeforeAttack >= _currentDurationBeforeAttack;
+        if (timerHasEnded)
+        {
+            Attack();
+            SetState(AIState.Chase);
+            _currentTimeBeforeAttack = 0;
+        }
+        else _currentTimeBeforeAttack += Time.deltaTime;
     }
 
     #endregion
@@ -187,9 +206,29 @@ public class EnemyThing : LivingThing
     public virtual void Attack()
     {
         Debug.Log($"{ThingName}: I attack with {Damage} damage");
+
+        Collider[] colliders = Physics.OverlapSphere(transform.position, alertRange, attackLayers);
+        foreach(Collider collider in colliders)
+        {
+            bool objectiveIsPlayer = collider.CompareTag("Player");
+
+            if (objectiveIsPlayer)
+            {
+                PlayerThing player = collider.GetComponentInParent<PlayerThing>();
+                player.Health -= Damage;
+            }
+        }
     }
 
     #endregion
+
+    public bool TargetIsInRange(Transform target)
+    {
+        float distanceFromTarget = Vector3.Distance(transform.position, target.position);
+        bool targetIsInRange = distanceFromTarget <= alertRange;
+
+        return targetIsInRange;
+    }
 
     #endregion
     #region Private methods
@@ -213,10 +252,11 @@ public class EnemyThing : LivingThing
 
     private void DrawAlertRange()
     {
-        Gizmos.color = gizmoColor;
-
+        Color gizmoColorWithoutAlpha = new Color(gizmoColor.r, gizmoColor.g, gizmoColor.b, 1);
         Vector3 origin = transform.position;
         float radius = alertRange;
+
+        Gizmos.color = gizmoColorWithoutAlpha;
         Gizmos.DrawWireSphere(origin, radius);
     }
 
