@@ -205,8 +205,6 @@ public class EnemyThing : LivingThing
     #region Actions
     public virtual void Attack()
     {
-        Debug.Log($"{ThingName}: I attack with {Damage} damage");
-
         Collider[] colliders = Physics.OverlapSphere(transform.position, alertRange, attackLayers);
         foreach(Collider collider in colliders)
         {

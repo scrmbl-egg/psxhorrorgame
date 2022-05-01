@@ -64,18 +64,18 @@ public class Ammunition : MonoBehaviour, IInteractive
 
         List<BaseWeapon> currentWeapons = inventory.WeaponSelector.WeaponList;
 
-        for (int i = 0; i < currentWeapons.Count; i++)
+        foreach (BaseWeapon weapon in currentWeapons)
         {
-            bool weaponNamesAreNotTheSame = currentWeapons[i].WeaponName != targetWeaponName;
+            bool weaponNamesAreNotTheSame = weapon.WeaponName != targetWeaponName;
 
             if (weaponNamesAreNotTheSame) continue;
             //else...
 
-            bool weaponHasMagazineGunClass = currentWeapons[i].TryGetComponent(out MagazinesGun mGun);
-            bool weaponHasRoundsGunClass = currentWeapons[i].TryGetComponent(out RoundsGun rGun);
+            bool weaponHasMagazineGunClass = weapon.TryGetComponent(out MagazinesGun mGun);
+            bool weaponHasRoundsGunClass = weapon.TryGetComponent(out RoundsGun rGun);
 
             if (weaponHasMagazineGunClass) mGun.AddMagazine(AmountOfBullets);
-            else if (weaponHasRoundsGunClass) rGun.AddRounds(AmountOfBullets);
+            if (weaponHasRoundsGunClass) rGun.AddRounds(AmountOfBullets);
 
             Destroy(gameObject);
         }

@@ -72,7 +72,6 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     public virtual void MeleeAttack()
     {
         //meelee attack
-        Debug.Log($"{WeaponName}: Meelee attack");
     }
 
     public virtual void Fire()
