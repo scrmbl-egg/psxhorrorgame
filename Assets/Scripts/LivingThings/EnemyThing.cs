@@ -32,25 +32,22 @@ public class EnemyThing : LivingThing
     //
     [SerializeField] private bool thingIsAlert;
     [SerializeField] private float alertRange;
-    [SerializeField] private float alertTime;
+    [SerializeField] private float attentionSpan;
     [Space(2)]
     [SerializeField] private Transform currentTarget;
     [Space(2)]
     [SerializeField] private float attackDistanceThreshold;
     private NavMeshAgent _agent;
     private EnemyBaseState _currentState;
+    //states
     private EnemyIdleState _idleState = new EnemyIdleState();
     private EnemyChaseState _chaseState = new EnemyChaseState();
     private EnemyAttackState _attackState = new EnemyAttackState();
 
     public bool ThingIsAlert => thingIsAlert;
     public float AlertRange => alertRange;
-    public float AlertTime => alertTime;
-    public Transform Target
-    {
-        get => currentTarget;
-        set => currentTarget = value;
-    }
+    public float AttentionSpan => attentionSpan;
+    public Transform Target => currentTarget;
     public float AttackDistanceThreshold => attackDistanceThreshold;
     public NavMeshAgent Agent => _agent;
     public EnemyIdleState IdleState => _idleState;
@@ -61,7 +58,7 @@ public class EnemyThing : LivingThing
 
     private void Awake()
     {
-        SwitchState(IdleState);
+         SwitchState(IdleState);
     }
 
     public virtual void Update()
@@ -99,6 +96,11 @@ public class EnemyThing : LivingThing
     {
         _currentState = state;
         state.EnterState(this);
+    }
+
+    public void SetTarget(Transform target)
+    {
+        currentTarget = target;
     }
 
     #endregion
