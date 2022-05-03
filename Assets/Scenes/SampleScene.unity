@@ -1546,7 +1546,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 448432388}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0.264, y: 1.1500001, z: 4.459}
+  m_LocalPosition: {x: 0.264, y: 1.001, z: 4.459}
   m_LocalScale: {x: 1.1451, y: 1.1451, z: 1.1451}
   m_Children:
   - {fileID: 1247391606}
@@ -2178,7 +2178,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26036
+  m_Name: pb_Mesh51294
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3003,7 +3003,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26116
+  m_Name: pb_Mesh51374
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3325,12 +3325,12 @@ NavMeshAgent:
   m_Acceleration: 8
   avoidancePriority: 50
   m_AngularSpeed: 1000000
-  m_StoppingDistance: 2.25
+  m_StoppingDistance: 1.21
   m_AutoTraverseOffMeshLink: 1
   m_AutoBraking: 1
   m_AutoRepath: 1
   m_Height: 1
-  m_BaseOffset: 0
+  m_BaseOffset: 0.5
   m_WalkableMask: 7
   m_ObstacleAvoidanceType: 4
 --- !u!114 &974002570
@@ -3351,21 +3351,22 @@ MonoBehaviour:
   health: 113
   bloodPrefabs:
   - {fileID: 55515357295876153, guid: ca687d656b36cb845a2222891e9e5518, type: 3}
+  agent: {fileID: 974002569}
   minDamage: 22
   maxDamage: 64
-  minDurationBeforeAttack: 0.77
-  maxDurationBeforeAttack: 1.2
+  minStateChangeDelayBeforeAttack: 0
+  maxStateChangeDelayBeforeAttack: 0
+  minStateChangeDelayAfterAttack: 0
+  maxStateChangeDelayAfterAttack: 0
   attackLayers:
     serializedVersion: 2
     m_Bits: 8
-  thingIsAlert: 0
-  alertRange: 5.98
-  alertTime: 20
-  currentState: 0
+  alertRange: 10.56
+  attentionSpan: 5
   currentTarget: {fileID: 0}
   attackDistanceThreshold: 1.1
   drawAlertRange: 1
-  gizmoColor: {r: 1, g: 0, b: 0, a: 1}
+  drawAttackRange: 1
 --- !u!4 &974002571
 Transform:
   m_ObjectHideFlags: 0
@@ -3374,7 +3375,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 974002568}
   m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 15.062597, y: 1.013, z: 22.269646}
+  m_LocalPosition: {x: 15.062597, y: 1.5, z: 22.269646}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 1693086385}
@@ -5512,7 +5513,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26160
+  m_Name: pb_Mesh51418
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6925,7 +6926,7 @@ Transform:
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 1693086384}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0.528, z: 0}
+  m_LocalPosition: {x: 0, y: -0.053, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 974002571}
@@ -7793,7 +7794,7 @@ MonoBehaviour:
   health: 100
   bloodPrefabs:
   - {fileID: 55515357295876153, guid: ca687d656b36cb845a2222891e9e5518, type: 3}
-  camShake: {fileID: 0}
+  camShake: {fileID: 351903928}
 --- !u!114 &1996250483
 MonoBehaviour:
   m_ObjectHideFlags: 0
