@@ -36,8 +36,6 @@ public class EnemyThing : LivingThing
     {
         get => Random.Range(minStateChangeDelayAfterAttack, maxStateChangeDelayAfterAttack);
     }
-    public LayerMask AttackLayers => attackLayers;
-
 
     [Space(10)]
     [Header("Artificial Intelligence Settings")]
@@ -48,21 +46,17 @@ public class EnemyThing : LivingThing
     [SerializeField] private Transform currentTarget;
     [Space(2)]
     [SerializeField] private float attackDistanceThreshold;
-    private EnemyBaseState _currentState;
-    private static Transform _player;
-    //states
-    private EnemyIdleState _idleState = new EnemyIdleState();
-    private EnemyChaseState _chaseState = new EnemyChaseState();
-    private EnemyAttackState _attackState = new EnemyAttackState();
+    private Transform _player;
 
     public float AlertRange => alertRange;
     public float AttentionSpan => attentionSpan;
     public Transform Target => currentTarget;
+    public Transform Player
+    {
+        get => _player;
+        set => _player = value;
+    }
     public float AttackDistanceThreshold => attackDistanceThreshold;
-    public Transform Player => _player;
-    public EnemyIdleState IdleState => _idleState;
-    public EnemyChaseState ChaseState => _chaseState;
-    public EnemyAttackState AttackState => _attackState;
 
     [Space(10)]
     [Header("Other")]
@@ -71,19 +65,6 @@ public class EnemyThing : LivingThing
     [SerializeField] private bool drawAttackRange;
 
     #region MonoBehaviour
-
-    private void Awake()
-    {
-        agent = GetComponent<NavMeshAgent>();
-        _player = FindObjectOfType<PlayerThing>().transform;
-
-        SetState(IdleState);
-    }
-
-    public virtual void Update()
-    {
-        _currentState.UpdateState(this);
-    }
 
     private void OnDrawGizmos()
     {
@@ -95,35 +76,30 @@ public class EnemyThing : LivingThing
 
     #region Public methods
 
-    #region Health and death
-
-    public override void DeathEffect()
-    {
-        base.DeathEffect();
-
-        //TODO: trigger ragdoll physics
-    }
-
-    public override void DamageEffect()
-    {
-        //TODO: do damage sound
-    }
-
-    #endregion
-    #region AI
-
-    public void SetState(EnemyBaseState state)
-    {
-        _currentState = state;
-        state.EnterState(this);
-    }
-
     public void SetTarget(Transform target)
     {
         currentTarget = target;
     }
 
-    #endregion
+    public virtual void Attack()
+    {
+        Debug.Log("attack");
+
+        Vector3 origin = transform.position;
+        float radius = 3;
+
+        Collider[] colliders = Physics.OverlapSphere(origin, radius, attackLayers);
+        foreach (Collider collider in colliders)
+        {
+            bool colliderIsNotPlayer = !collider.transform.CompareTag("Player");
+            if (colliderIsNotPlayer) continue;
+            //else...
+
+            LivingThing target = collider.GetComponentInParent<LivingThing>();
+
+            target.Health -= Damage;
+        }
+    }
 
     #endregion
     #region Private methods

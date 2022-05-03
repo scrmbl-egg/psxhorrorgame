@@ -2,7 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-public class EnemyChaseState : EnemyBaseState
+public class ExampleChaseState : ExampleEnemyState
 {
     private float _attentionSpan;
     private float _currentAttentionSpan;
@@ -11,12 +11,12 @@ public class EnemyChaseState : EnemyBaseState
     private float _currentTimeBeforeAttack;
     private float _timeBeforeAttack;
     
-    public override void EnterState(EnemyThing ctx)
+    public override void EnterState(ExampleEnemy ctx)
     {
         SetupState(ctx);
     }
 
-    public override void UpdateState(EnemyThing ctx)
+    public override void UpdateState(ExampleEnemy ctx)
     {
         ManageAttentionSpan(ctx);
         ChaseTarget(ctx);
@@ -24,7 +24,7 @@ public class EnemyChaseState : EnemyBaseState
 
     #region Private methods
 
-    private void SetupState(EnemyThing ctx)
+    private void SetupState(ExampleEnemy ctx)
     {
         _attentionSpan = ctx.AttentionSpan;
         _alertRange = ctx.AlertRange;
@@ -37,7 +37,7 @@ public class EnemyChaseState : EnemyBaseState
         ctx.Agent.isStopped = false;
     }
 
-    private void ManageAttentionSpan(EnemyThing ctx)
+    private void ManageAttentionSpan(ExampleEnemy ctx)
     {
         _currentAttentionSpan += Time.deltaTime;
 
@@ -58,7 +58,7 @@ public class EnemyChaseState : EnemyBaseState
         ctx.SetState(ctx.IdleState);
     }
 
-    private void ChaseTarget(EnemyThing ctx)
+    private void ChaseTarget(ExampleEnemy ctx)
     {
         ctx.Agent.SetDestination(ctx.Target.position);
 
