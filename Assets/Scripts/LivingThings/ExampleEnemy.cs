@@ -5,19 +5,17 @@ using UnityEngine;
 public class ExampleEnemy : EnemyThing
 {
     private ExampleEnemyState _currentState;
-    private ExampleIdleState _idleState = new ExampleIdleState();
-    private ExampleChaseState _chaseState = new ExampleChaseState();
-    private ExampleAttackState _attackState = new ExampleAttackState();
 
-    public ExampleIdleState IdleState => _idleState;
-    public ExampleChaseState ChaseState => _chaseState;
-    public ExampleAttackState AttackState => _attackState;
+    public ExampleIdleState IdleState { get; } = new ExampleIdleState();
+    public ExampleChaseState ChaseState { get; } = new ExampleChaseState();
+    public ExampleAttackState AttackState { get; } = new ExampleAttackState();
 
     #region MonoBehaviour
 
-    private void Awake()
+    public override void Awake()
     {
-        Player = FindObjectOfType<PlayerThing>().transform;
+        base.Awake();
+
         SetState(IdleState);
     }
 

@@ -21,11 +21,11 @@ public class LivingThing : MonoBehaviour
         set
         {
             int previousHealth = health;
+            health = Mathf.Clamp(value, 0, maxHealth);
+
             bool isAboutToDie = health == 0 && !isInvincible;
             bool hasLostHealth = previousHealth > health;
             bool hasGainedHealth = previousHealth < health;
-
-            health = Mathf.Clamp(value, 0, maxHealth);
 
             if (isAboutToDie) DeathEffect();
 
@@ -74,7 +74,7 @@ public class LivingThing : MonoBehaviour
     /// </summary>
     public virtual void HealingEffect()
     {
-
+        
     }
 
     /// <summary>

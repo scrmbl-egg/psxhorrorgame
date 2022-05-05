@@ -26,13 +26,13 @@ public class ExampleIdleState : ExampleEnemyState
 
     private void AlertDetection(ExampleEnemy ctx)
     {
-        float distanceToPlayer = Vector3.Distance(ctx.transform.position, ctx.Player.position);
-        bool playerIsNotInRange = distanceToPlayer > _alertRange;
+        float distanceFromPlayer = Vector3.Distance(ctx.transform.position, EnemyThing.PlayerTarget.position);
+        bool playerIsNotInRange = distanceFromPlayer > _alertRange;
 
         if (playerIsNotInRange) return;
         //else...
 
-        ctx.SetTarget(ctx.Player);
+        ctx.SetTarget(EnemyThing.PlayerTarget);
         ctx.SetState(ctx.ChaseState);
     }
 

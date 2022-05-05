@@ -46,16 +46,11 @@ public class EnemyThing : LivingThing
     [SerializeField] private Transform currentTarget;
     [Space(2)]
     [SerializeField] private float attackDistanceThreshold;
-    private Transform _player;
 
     public float AlertRange => alertRange;
     public float AttentionSpan => attentionSpan;
     public Transform Target => currentTarget;
-    public Transform Player
-    {
-        get => _player;
-        set => _player = value;
-    }
+    public static Transform PlayerTarget { get; private set; }
     public float AttackDistanceThreshold => attackDistanceThreshold;
 
     [Space(10)]
@@ -65,6 +60,11 @@ public class EnemyThing : LivingThing
     [SerializeField] private bool drawAttackRange;
 
     #region MonoBehaviour
+
+    public virtual void Awake()
+    {
+        if (PlayerTarget == null) PlayerTarget = FindObjectOfType<PlayerThing>().transform;
+    }
 
     private void OnDrawGizmos()
     {

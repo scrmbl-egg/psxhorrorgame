@@ -8,8 +8,6 @@ public class ExampleChaseState : ExampleEnemyState
     private float _currentAttentionSpan;
     private float _alertRange;
     private float _attackDistanceThreshold;
-    private float _currentTimeBeforeAttack;
-    private float _timeBeforeAttack;
     
     public override void EnterState(ExampleEnemy ctx)
     {
@@ -29,32 +27,31 @@ public class ExampleChaseState : ExampleEnemyState
         _attentionSpan = ctx.AttentionSpan;
         _alertRange = ctx.AlertRange;
         _attackDistanceThreshold = ctx.AttackDistanceThreshold;
-        _timeBeforeAttack = ctx.RandomStateDelayBeforeAttack;
 
-        _currentAttentionSpan = 0;
-        _currentTimeBeforeAttack = 0;
+        _currentAttentionSpan = _attentionSpan;
 
         ctx.Agent.isStopped = false;
     }
 
     private void ManageAttentionSpan(ExampleEnemy ctx)
     {
-        _currentAttentionSpan += Time.deltaTime;
+        //slowly decrease attention towards current target if it's not in range
+        _currentAttentionSpan -= Time.deltaTime;
 
-        float distanceToTarget = Vector3.Distance(ctx.transform.position, ctx.Player.position);
-        bool targetIsInRange = distanceToTarget <= _alertRange;
-        bool thereIsAttentionSpanLeft = _currentAttentionSpan < _attentionSpan;
+        float distanceFromTarget = Vector3.Distance(ctx.transform.position, EnemyThing.PlayerTarget.position);
+        bool targetIsInRange = distanceFromTarget <= _alertRange;
+        bool thereIsAttentionSpanLeft = _currentAttentionSpan > 0;
 
         if (targetIsInRange)
         {
-            _currentAttentionSpan = 0;
+            //reset current attention span
+            _currentAttentionSpan = _attentionSpan;
             return;
         }
 
         if (thereIsAttentionSpanLeft) return;
         //else...
 
-        _currentAttentionSpan = 0;
         ctx.SetState(ctx.IdleState);
     }
 
@@ -63,21 +60,12 @@ public class ExampleChaseState : ExampleEnemyState
         ctx.Agent.SetDestination(ctx.Target.position);
 
         float threshHold = ctx.Agent.stoppingDistance + _attackDistanceThreshold;
-        float distanceToTarget = Vector3.Distance(ctx.transform.position, ctx.Target.position);
-        bool targetIsInRange = distanceToTarget <= threshHold;
-        bool targetIsPlayer = ctx.Target == ctx.Player;
+        float distanceFromTarget = Vector3.Distance(ctx.transform.position, ctx.Target.position);
+        bool targetIsInRange = distanceFromTarget <= threshHold;
+        bool targetIsPlayer = ctx.Target == EnemyThing.PlayerTarget;
 
-        if (targetIsInRange && targetIsPlayer)
-        {
-            _currentTimeBeforeAttack += Time.deltaTime;
-
-            bool attackTimerIsNotDone = _currentTimeBeforeAttack < _timeBeforeAttack;
-            if (attackTimerIsNotDone) return;
-            //else...
-
-            _currentTimeBeforeAttack = 0;
-            ctx.SetState(ctx.AttackState);
-        }
+        if (targetIsInRange && targetIsPlayer) ctx.SetState(ctx.AttackState);
+        else if (targetIsInRange && !targetIsPlayer) ctx.SetState(ctx.IdleState);
     }
 
     #endregion

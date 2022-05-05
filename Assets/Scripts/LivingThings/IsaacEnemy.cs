@@ -5,29 +5,51 @@ using UnityEngine;
 public class IsaacEnemy : EnemyThing
 {
     private IsaacState _currentState;
-    private IsaacIdleState _idleState = new IsaacIdleState();
-    private IsaacChaseState _chaseState = new IsaacChaseState();
-    private IsaacAttackState _attackState = new IsaacAttackState();
-
-    public IsaacIdleState IdleState => _idleState;
-    public IsaacChaseState ChaseState => _chaseState;
-    public IsaacAttackState AttackState => _attackState;
+    public IsaacIdleState IdleState { get; } = new IsaacIdleState();
+    public IsaacChaseState ChaseState { get; } = new IsaacChaseState();
+    public IsaacAttackState AttackState { get; } = new IsaacAttackState();
 
     #region MonoBehaviour
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
+
         SetState(IdleState);
     }
 
     private void Update()
     {
-        _currentState.UpdateState(this);
+        _currentState?.UpdateState(this);
     }
 
     #endregion
 
     #region Public methods
+
+    #region Health and death
+
+    public override void DeathEffect()
+    {
+        //HACK: Trigger ragdoll physics when enemy is fully animated
+        _currentState = null;
+
+        Agent.enabled = false;
+        Rigidbody rb = GetComponent<Rigidbody>();
+        rb.isKinematic = false;
+    }
+
+    public override void DamageEffect()
+    {
+        bool isIdle = _currentState == IdleState;
+        if (isIdle)
+        {
+            SetTarget(PlayerTarget);
+            SetState(ChaseState);
+        }
+    }
+
+    #endregion
 
     public void SetState(IsaacState state)
     {
