@@ -2,13 +2,18 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
-[RequireComponent(typeof(Collider))]
+[RequireComponent(
+    typeof(Collider),
+    typeof(AudioSource)
+    )]
 public class Ammunition : MonoBehaviour, IInteractive
 {
     [Header("Dependencies")]
     //
     [SerializeField] private Collider interactionArea;
     [SerializeField] private string targetWeaponName;
+    private static Dialogue _dialogue;
+    private AudioSource _audioSource;
 
     [Space(10)]
     [Header("Properties")]
@@ -17,6 +22,7 @@ public class Ammunition : MonoBehaviour, IInteractive
     [SerializeField, Min(1)] private int minimumBullets = 1;
     [SerializeField, Range(0, MAX_BONUS_BULLETS)] private int maxRandomBonusBullets;
     private const int MAX_BONUS_BULLETS = 10;
+
     public int AmountOfBullets
     {
         get
@@ -34,6 +40,13 @@ public class Ammunition : MonoBehaviour, IInteractive
     private static Color _gizmoColor = new Color(0.2f, 0.4f, 1, 0.5f);
 
     #region MonoBehaviour
+
+    private void Awake()
+    {
+        if (_dialogue == null) _dialogue = FindObjectOfType<Dialogue>();
+
+        _audioSource = GetComponent<AudioSource>();
+    }
 
     private void OnDrawGizmos()
     {
@@ -74,11 +87,42 @@ public class Ammunition : MonoBehaviour, IInteractive
             bool weaponHasMagazineGunClass = weapon.TryGetComponent(out MagazinesGun mGun);
             bool weaponHasRoundsGunClass = weapon.TryGetComponent(out RoundsGun rGun);
 
-            if (weaponHasMagazineGunClass) mGun.AddMagazine(AmountOfBullets);
-            if (weaponHasRoundsGunClass) rGun.AddRounds(AmountOfBullets);
+            if (weaponHasMagazineGunClass) PickupMagazine(mGun);
+            if (weaponHasRoundsGunClass) PickupRounds(rGun);
 
+            _audioSource.Play();
             Destroy(gameObject);
         }
+    }
+
+    private void PickupRounds(RoundsGun gun)
+    {
+        string rounds = AmountOfBullets switch
+        {
+            1 => "round",
+            _ => "rounds",
+        };
+
+        string pickupMessage =
+            $"Picked up {AmountOfBullets} {ammoName} {rounds} for your {targetWeaponName}.";
+
+        _dialogue.PrintMessage(pickupMessage);
+        gun.AddRounds(AmountOfBullets);
+    }
+
+    private void PickupMagazine(MagazinesGun gun)
+    {
+        string rounds = AmountOfBullets switch
+        {
+            1 => "round",
+            _ => "rounds",
+        };
+
+        string pickupMessage = 
+            $"Picked up a {ammoName} magazine for your {targetWeaponName}\n({AmountOfBullets} {rounds}).";
+
+        _dialogue.PrintMessage(pickupMessage);
+        gun.AddMagazine(AmountOfBullets);
     }
 
     private void DrawInteractionArea()

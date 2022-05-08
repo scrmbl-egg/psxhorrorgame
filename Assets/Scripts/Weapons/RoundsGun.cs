@@ -50,8 +50,10 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
 
     #region MonoBehaviour
 
-    private void Awake()
+    public override void Awake()
     {
+        base.Awake();
+
         _camShake = GetComponentInParent<CamShake>();
     }
 
@@ -63,7 +65,27 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
 
     public virtual void MeleeAttack()
     {
-        //melee attack
+        Ray meleeRay =
+            new Ray(origin: RaycastOrigin.position,
+                    direction: RaycastOrigin.forward);
+        bool objectIsNotInRange =
+            !Physics.Raycast(ray: meleeRay,
+                             hitInfo: out RaycastHit hit,
+                             maxDistance: MeleeRange,
+                             layerMask: AttackLayers);
+
+        if (objectIsNotInRange) return;
+        //else...
+
+        PushRigidbodyFromRaycastHit(hit, MeleeForce);
+
+        bool hitDoesntHaveLivingThingsTag = !hit.transform.CompareTag("LivingThings");
+        if (hitDoesntHaveLivingThingsTag) return;
+        //else...
+
+        GetLivingThingFromTransform(hit.transform, out LivingThing target);
+        target.Health -= MeleeDamage;
+        target.BleedFromRaycastHit(hit);
     }
 
     public virtual void Fire()
@@ -80,7 +102,7 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
                     !Physics.Raycast(ray: shot,
                                      hitInfo: out RaycastHit hit,
                                      maxDistance: WeaponRange,
-                                     layerMask: RaycastLayers);
+                                     layerMask: AttackLayers);
 
                 if (objectIsNotInRange) continue;
                 //else...
@@ -127,7 +149,15 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
 
     public virtual void CheckAmmo()
     {
-        Debug.Log($"AMMO: {CurrentLoadedRounds} | {CurrentTotalAmmo}");
+        string rounds = CurrentTotalAmmo switch
+        {
+            1 => "round",
+            _ => "rounds"
+        };
+
+        string message = $"{CurrentLoadedRounds} | {CurrentTotalAmmo} {rounds}";
+
+        AmmoChecker.PrintMessage(message);
     }
 
     #endregion

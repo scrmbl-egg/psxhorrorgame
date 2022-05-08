@@ -28,6 +28,16 @@ public class ExampleEnemy : EnemyThing
 
     #region Public methods
 
+    public override void DamageEffect()
+    {
+        bool isIdle = _currentState == IdleState;
+        if (isIdle)
+        {
+            SetTarget(PlayerTarget);
+            SetState(ChaseState);
+        }
+    }
+
     public void SetState(ExampleEnemyState state)
     {
         _currentState = state;

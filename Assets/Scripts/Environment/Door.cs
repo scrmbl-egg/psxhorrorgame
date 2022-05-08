@@ -8,6 +8,7 @@ public class Door : MonoBehaviour, IInteractive
     [Header("Dependencies")]
     //
     [SerializeField] private Collider interactionArea;
+    private static Dialogue _dialogue;
 
     [Space(10)]
     [Header("Door Properties")]
@@ -15,8 +16,8 @@ public class Door : MonoBehaviour, IInteractive
     [SerializeField] private bool isLocked = false;
     [SerializeField] private bool isOpen = false;
     [SerializeField, Range(1, 100)] private int keyId;
-    [SerializeField] private string isLockedMessage;
-    [SerializeField] private string isUnlockedMessage;
+    [SerializeField, TextArea(1, 3)] private string isLockedMessage;
+    [SerializeField, TextArea(1, 3)] private string isUnlockedMessage;
     private Rigidbody _rigidBody;
 
     public int KeyID => keyId;
@@ -40,6 +41,8 @@ public class Door : MonoBehaviour, IInteractive
 
     private void Awake()
     {
+        if (_dialogue == null) _dialogue = FindObjectOfType<Dialogue>();
+        
         _rigidBody = GetComponent<Rigidbody>();
 
         _startEulerRotation = transform.eulerAngles;
@@ -116,21 +119,24 @@ public class Door : MonoBehaviour, IInteractive
             inventory.RemoveKey(keyId);
             UnlockDoor();
         }
-        else ShowLockedMessage();
+        else
+        {
+            ShowLockedMessage();
+        }
     }
 
     private void UnlockDoor()
     {
         isLocked = false;
-        Debug.Log(isUnlockedMessage);
 
+        _dialogue.PrintMessage(isUnlockedMessage);
         //TODO: Display unlock message on screen.
         //TODO: play unlock sound
     }
 
     private void ShowLockedMessage()
     {
-        Debug.Log(isLockedMessage);
+        _dialogue.PrintMessage(isLockedMessage);
 
         //TODO: Display lock message on screen.
         //TODO: play lock sound

@@ -83,8 +83,6 @@ public class EnemyThing : LivingThing
 
     public virtual void Attack()
     {
-        Debug.Log("attack");
-
         Vector3 origin = transform.position;
         float radius = 3;
 

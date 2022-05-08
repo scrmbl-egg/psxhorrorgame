@@ -72,7 +72,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""id"": ""3a2b0695-9037-44ad-8c4f-b003bcae1666"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Tap""
+                    ""interactions"": ""Tap(duration=0.6)""
                 },
                 {
                     ""name"": ""CheckAmmo"",
@@ -80,7 +80,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                     ""id"": ""7119d716-b2d5-4f56-bae5-f5b8b781b12f"",
                     ""expectedControlType"": ""Button"",
                     ""processors"": """",
-                    ""interactions"": ""Hold""
+                    ""interactions"": ""Hold(duration=0.8)""
                 },
                 {
                     ""name"": ""NavigateGuns"",
@@ -367,7 +367,7 @@ public class @PlayerInputActions : IInputActionCollection, IDisposable
                 {
                     ""name"": """",
                     ""id"": ""e592a3d6-c0f1-419a-8adc-268830f7b446"",
-                    ""path"": ""<Gamepad>/buttonSouth"",
+                    ""path"": ""<Gamepad>/buttonNorth"",
                     ""interactions"": """",
                     ""processors"": """",
                     ""groups"": ""Gamepad"",

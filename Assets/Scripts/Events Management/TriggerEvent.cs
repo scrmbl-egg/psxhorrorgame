@@ -28,11 +28,13 @@ public class TriggerEvent : MonoBehaviour
     #region MonoBehaviour
     private void OnTriggerEnter(Collider other)
     {
-        bool colliderIsNotPlayer = !other.CompareTag("Player");
+        bool colliderIsPlayer = other.CompareTag("Player");
 
-        if (colliderIsNotPlayer) return;
-        //else...
+        if (colliderIsPlayer) InvokeEvents();
+    }
 
+    private void InvokeEvents()
+    {
         if (actionIsRepeatable)
         {
             enteredThroughTrigger?.Invoke();
@@ -50,7 +52,6 @@ public class TriggerEvent : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = gizmoColor;
-
         Gizmos.DrawCube(trigger.bounds.center, trigger.bounds.size);
 
         if (showEventListeners) DrawLinesTowardEventListeners();

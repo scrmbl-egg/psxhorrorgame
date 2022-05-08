@@ -27,20 +27,21 @@ public class BaseWeapon : MonoBehaviour
     [SerializeField, Range(0f, 45f)] private float horizontalSpread;
     [SerializeField, Range(0f, 45f)] private float verticalSpread;
     [Space(2)]
-    [SerializeField] private LayerMask raycastLayers;
+    [SerializeField] private LayerMask attackLayers;
     [SerializeField] private GameObject[] hitDecals;
     [SerializeField] private GameObject[] hitParticles;
+    private static AmmoChecker _ammoChecker;
 
     public string WeaponName => weaponName;
     public Transform RaycastOrigin => raycastOrigin;
     public int PelletsPerShot => pelletsPerShot;
     public int MeleeDamage => meleeDamage;
-    public int WeaponDamage => Random.Range(minWeaponDamage, maxWeaponDamage + 1);
+    public int WeaponDamage => Random.Range(minWeaponDamage, maxWeaponDamage + 1); 
     public float MeleeRange => meeleeRange;
     public float MeleeForce => meleeForce;
     public float WeaponRange => weaponRange;
     public float WeaponForce => weaponForce;
-    public LayerMask RaycastLayers => raycastLayers;
+    public LayerMask AttackLayers => attackLayers;
     public GameObject RandomHitDecal 
     {
         get
@@ -57,6 +58,16 @@ public class BaseWeapon : MonoBehaviour
             return hitParticles[random];
         }
     }
+    public static AmmoChecker AmmoChecker => _ammoChecker;
+
+    #region MonoBehaviour
+
+    public virtual void Awake()
+    {
+        if (_ammoChecker == null) _ammoChecker = FindObjectOfType<AmmoChecker>();
+    }
+
+    #endregion
 
     #region Public methods
 
@@ -125,11 +136,9 @@ public class BaseWeapon : MonoBehaviour
             bool currentTransformIsNotLivingThing = !transform.TryGetComponent(out livingThing);
 
             if (currentTransformIsNotLivingThing)
-                //go to parent transform and reiterate loop from there
-                transform = transform.parent;
+                transform = transform.parent; //go to parent transform and reiterate loop from there
             else
-                //end loop
-                parentIsNotLivingThing = false;
+                parentIsNotLivingThing = false; //end loop
         }
     }
     #endregion

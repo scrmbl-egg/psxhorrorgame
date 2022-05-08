@@ -66,7 +66,6 @@ public class LivingThing : MonoBehaviour
     /// </summary>
     public virtual void DamageEffect()
     {
-
     }
 
     /// <summary>

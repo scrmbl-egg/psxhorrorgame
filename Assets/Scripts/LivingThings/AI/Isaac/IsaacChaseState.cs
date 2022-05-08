@@ -12,7 +12,6 @@ public class IsaacChaseState : IsaacState
     public override void EnterState(IsaacEnemy ctx)
     {
         SetupState(ctx);
-        Debug.Log("isaac chase");
     }
 
     public override void UpdateState(IsaacEnemy ctx)

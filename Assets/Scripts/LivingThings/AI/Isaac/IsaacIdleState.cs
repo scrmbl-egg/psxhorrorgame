@@ -9,7 +9,6 @@ public class IsaacIdleState : IsaacState
     public override void EnterState(IsaacEnemy ctx)
     {
         SetupState(ctx);
-        Debug.Log($"{ctx.ThingName} is now in idle state!");
     }
 
     public override void UpdateState(IsaacEnemy ctx)

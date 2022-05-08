@@ -8,11 +8,13 @@ public class Key : MonoBehaviour, IInteractive
     [Header("Dependencies")]
     //
     [SerializeField] private Collider interactionArea;
+    private static Dialogue _dialogue;
 
     [Space(10)]
     [Header("Properties")]
     //
     [SerializeField, Range(1, 100)] private int id;
+    [SerializeField, TextArea(1, 3)] private string pickupMessage;
 
     [Space(10)]
     [Header("Other")]
@@ -22,6 +24,11 @@ public class Key : MonoBehaviour, IInteractive
     [SerializeField] private Color gizmoColor;
 
     #region MonoBehaviour
+
+    private void Awake()
+    {
+        if (_dialogue == null) _dialogue = FindObjectOfType<Dialogue>();
+    }
 
     private void OnDrawGizmos()
     {
@@ -52,6 +59,8 @@ public class Key : MonoBehaviour, IInteractive
         //else...
 
         inventory.AddKey(id);
+        _dialogue.PrintMessage(pickupMessage);
+
         Destroy(gameObject);
     }
 
