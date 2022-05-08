@@ -434,7 +434,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   messageDisplay: {fileID: 1179235884}
-  charactersPerSecond: 15
+  charactersPerSecond: 50
   textDurationAfterTyping: 5
   fadeOutSpeed: 10
 --- !u!1 &231471772
@@ -1192,7 +1192,7 @@ GameObject:
   - component: {fileID: 449441907}
   - component: {fileID: 449441906}
   m_Layer: 5
-  m_Name: Image
+  m_Name: HAND ICON
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -1210,12 +1210,12 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 2014474138}
-  m_RootOrder: 3
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
   m_AnchorMin: {x: 0.5, y: 0.5}
   m_AnchorMax: {x: 0.5, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
-  m_SizeDelta: {x: 5, y: 5}
+  m_SizeDelta: {x: 15, y: 15}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &449441906
 MonoBehaviour:
@@ -1230,14 +1230,14 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   m_Material: {fileID: 0}
-  m_Color: {r: 1, g: 1, b: 1, a: 1}
+  m_Color: {r: 1, g: 1, b: 1, a: 0}
   m_RaycastTarget: 1
   m_RaycastPadding: {x: 0, y: 0, z: 0, w: 0}
   m_Maskable: 1
   m_OnCullStateChanged:
     m_PersistentCalls:
       m_Calls: []
-  m_Sprite: {fileID: 10913, guid: 0000000000000000f000000000000000, type: 0}
+  m_Sprite: {fileID: 21300000, guid: cd9f97e1f3e76f54abba04043fdea922, type: 3}
   m_Type: 0
   m_PreserveAspect: 0
   m_FillCenter: 1
@@ -1915,7 +1915,7 @@ Transform:
   m_LocalScale: {x: 0.41666663, y: 0.41666663, z: 0.41666663}
   m_Children: []
   m_Father: {fileID: 2014474138}
-  m_RootOrder: 2
+  m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!43 &663465279
 Mesh:
@@ -7714,6 +7714,8 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   playerCam: {fileID: 1260054600}
+  handIcon: {fileID: 449441906}
+  iconFadeSpeed: 20
   interactionRange: 3
   interactionLayers:
     serializedVersion: 2
@@ -7826,8 +7828,8 @@ RectTransform:
   m_Children:
   - {fileID: 1179235883}
   - {fileID: 1570704263}
-  - {fileID: 658318059}
   - {fileID: 449441905}
+  - {fileID: 658318059}
   m_Father: {fileID: 0}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}

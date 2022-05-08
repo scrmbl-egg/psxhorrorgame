@@ -8,7 +8,7 @@ public class Dialogue : MonoBehaviour
     [Header("Properties")]
     //
     [SerializeField] private TMP_Text messageDisplay;
-    [SerializeField, Min(1)] private int charactersPerSecond;
+    [SerializeField, Min(1)] private float charactersPerSecond;
     [SerializeField] private float textDurationAfterTyping;
     [SerializeField, Range(float.Epsilon, 10)] private float fadeOutSpeed;
     private const float FADE_SPEED_MULTIPLIER = 0.01f;

@@ -12,6 +12,6 @@ public class GameManager : MonoBehaviour
 
 
         //TODO: This doesn't belong in the game manager
-        DOTween.Init(true, true, LogBehaviour.Verbose).SetCapacity(200, 10);
+        DOTween.Init(true, true, LogBehaviour.Default).SetCapacity(200, 10);
     }
 }
