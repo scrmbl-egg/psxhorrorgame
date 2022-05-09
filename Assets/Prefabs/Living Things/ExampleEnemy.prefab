@@ -78,7 +78,7 @@ MonoBehaviour:
   attackLayers:
     serializedVersion: 2
     m_Bits: 8
-  alertRange: 5
+  alertRange: 15
   attentionSpan: 5
   currentTarget: {fileID: 0}
   attackDistanceThreshold: 1.38

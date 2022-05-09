@@ -27,6 +27,10 @@ public class DialogueSystem : MonoBehaviour
 
     #region Public methods
 
+    /// <summary>
+    /// Prints a message and clears the current queue.
+    /// </summary>
+    /// <param name="message">Message to print.</param>
     public void PrintMessage(string message)
     {
         StopAllCoroutines();
@@ -36,6 +40,10 @@ public class DialogueSystem : MonoBehaviour
         StartCoroutine(TypeMessage(message));
     }
 
+    /// <summary>
+    /// Queues a message for later printing.
+    /// </summary>
+    /// <param name="message">Queued message.</param>
     public void QueueMessage(string message)
     {
         _messageQueue.Enqueue(message);

@@ -66,6 +66,7 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
     public virtual void MeleeAttack()
     {
         _camShake.ShakeCamera();
+        //TODO: PLAY ANIMATION
 
         Ray meleeRay =
             new Ray(origin: RaycastOrigin.position,
@@ -95,6 +96,8 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
         bool gunHasAmmo = CurrentLoadedRounds > 0;
         if (gunHasAmmo)
         {
+            //TODO: PLAY ANIMATION
+
             for (int i = 0; i < PelletsPerShot; i++)
             {
                 Ray shot = 
