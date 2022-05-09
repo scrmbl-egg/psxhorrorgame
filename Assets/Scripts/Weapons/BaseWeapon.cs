@@ -30,7 +30,6 @@ public class BaseWeapon : MonoBehaviour
     [SerializeField] private LayerMask attackLayers;
     [SerializeField] private GameObject[] hitDecals;
     [SerializeField] private GameObject[] hitParticles;
-    private static AmmoChecker _ammoChecker;
 
     public string WeaponName => weaponName;
     public Transform RaycastOrigin => raycastOrigin;
@@ -58,13 +57,13 @@ public class BaseWeapon : MonoBehaviour
             return hitParticles[random];
         }
     }
-    public static AmmoChecker AmmoChecker => _ammoChecker;
+    public static AmmoChecker AmmoChecker { get; private set; }
 
     #region MonoBehaviour
 
     public virtual void Awake()
     {
-        if (_ammoChecker == null) _ammoChecker = FindObjectOfType<AmmoChecker>();
+        if (AmmoChecker == null) AmmoChecker = FindObjectOfType<AmmoChecker>();
     }
 
     #endregion

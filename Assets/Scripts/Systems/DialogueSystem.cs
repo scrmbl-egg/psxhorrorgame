@@ -10,7 +10,6 @@ public class DialogueSystem : MonoBehaviour
     [SerializeField] private TMP_Text messageDisplay;
     [SerializeField, Min(1)] private float charactersPerSecond;
     [SerializeField] private float textDurationAfterTyping;
-    [SerializeField] private float holdBeforeNextMessage;
     [SerializeField, Range(float.Epsilon, 25)] private float fadeOutSpeed;
     private const float FADE_SPEED_MULTIPLIER = 0.01f;
     private Queue<string> _messageQueue = new Queue<string>();
@@ -87,8 +86,6 @@ public class DialogueSystem : MonoBehaviour
             _opacity -= speed;
             yield return new WaitForEndOfFrame();
         }
-
-        yield return new WaitForSeconds(holdBeforeNextMessage);
 
         if (_messageQueue.Count > 0)
         {

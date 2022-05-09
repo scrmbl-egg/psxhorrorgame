@@ -10,7 +10,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     [SerializeField] private float recoilSpeed;
     [SerializeField] private float recoverSpeed;
     [SerializeField] private Vector3 recoil;
-    private CamShake _camShake;
+    private static CamShake _camShake;
 
     [Space(10)]
     [Header("Ammunition Settings")]
@@ -57,7 +57,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     {
         base.Awake();
 
-        _camShake = GetComponentInParent<CamShake>();
+        if (_camShake == null) _camShake = GetComponentInParent<CamShake>();
 
         Magazines.Capacity = MaxAmountOfMagazines;
 
@@ -73,6 +73,8 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
     public virtual void MeleeAttack()
     {
+        _camShake.ShakeCamera();
+
         Ray meleeRay = 
             new Ray(origin: RaycastOrigin.position,
                     direction: RaycastOrigin.forward);

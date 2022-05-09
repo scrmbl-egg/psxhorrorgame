@@ -436,7 +436,6 @@ MonoBehaviour:
   messageDisplay: {fileID: 1179235884}
   charactersPerSecond: 35
   textDurationAfterTyping: 5
-  holdBeforeNextMessage: 0.5
   fadeOutSpeed: 10
 --- !u!1 &231471772
 GameObject:
@@ -809,7 +808,7 @@ MonoBehaviour:
   cam: {fileID: 1260054600}
   defaultShakeSpeed: 8.29
   defaultRecoverSpeed: 12.33
-  defaultAnglesRange: {x: 15, y: 0, z: 20}
+  defaultAnglesRange: {x: 15, y: -2.39, z: 20}
   perlinDirectionX: 0.533
   perlinDirectionY: 0.502
 --- !u!1001 &385944334
@@ -10364,7 +10363,7 @@ PrefabInstance:
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
       propertyPath: actionIsRepeatable
-      value: 0
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
@@ -10374,7 +10373,7 @@ PrefabInstance:
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
       propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.size
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
@@ -10384,6 +10383,11 @@ PrefabInstance:
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
       propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Mode
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
+        type: 3}
+      propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Mode
       value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
@@ -10398,12 +10402,22 @@ PrefabInstance:
       objectReference: {fileID: 171569413}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
+      propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Target
+      value: 
+      objectReference: {fileID: 171569413}
+    - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
+        type: 3}
       propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
       propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_CallState
+      value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
+        type: 3}
+      propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_CallState
       value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
@@ -10418,6 +10432,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
+      propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_MethodName
+      value: QueueMessage
+      objectReference: {fileID: 0}
+    - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
+        type: 3}
       propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
       value: DialogueSystem, Assembly-CSharp
       objectReference: {fileID: 0}
@@ -10428,13 +10447,23 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
+      propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_TargetAssemblyTypeName
+      value: DialogueSystem, Assembly-CSharp
+      objectReference: {fileID: 0}
+    - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
+        type: 3}
       propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: YOU HAVE GONE THROUGH A TRIGGER
+      value: you have gone through a trigger.
       objectReference: {fileID: 0}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
       propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
-      value: this is a queued message
+      value: this is the trigger's second message.
+      objectReference: {fileID: 0}
+    - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
+        type: 3}
+      propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_StringArgument
+      value: this is the trigger's third message.
       objectReference: {fileID: 0}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
@@ -10444,6 +10473,11 @@ PrefabInstance:
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
       propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_ObjectArgumentAssemblyTypeName
+      value: UnityEngine.Object, UnityEngine
+      objectReference: {fileID: 0}
+    - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
+        type: 3}
+      propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[2].m_Arguments.m_ObjectArgumentAssemblyTypeName
       value: UnityEngine.Object, UnityEngine
       objectReference: {fileID: 0}
     m_RemovedComponents: []
