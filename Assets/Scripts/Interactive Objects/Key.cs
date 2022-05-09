@@ -8,7 +8,7 @@ public class Key : MonoBehaviour, IInteractive
     [Header("Dependencies")]
     //
     [SerializeField] private Collider interactionArea;
-    private static Dialogue _dialogue;
+    private static DialogueSystem _dialogue;
 
     [Space(10)]
     [Header("Properties")]
@@ -27,7 +27,7 @@ public class Key : MonoBehaviour, IInteractive
 
     private void Awake()
     {
-        if (_dialogue == null) _dialogue = FindObjectOfType<Dialogue>();
+        if (_dialogue == null) _dialogue = FindObjectOfType<DialogueSystem>();
     }
 
     private void OnDrawGizmos()

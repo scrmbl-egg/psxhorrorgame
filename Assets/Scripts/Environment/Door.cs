@@ -8,7 +8,7 @@ public class Door : MonoBehaviour, IInteractive
     [Header("Dependencies")]
     //
     [SerializeField] private Collider interactionArea;
-    private static Dialogue _dialogue;
+    private static DialogueSystem _dialogue;
 
     [Space(10)]
     [Header("Door Properties")]
@@ -41,7 +41,7 @@ public class Door : MonoBehaviour, IInteractive
 
     private void Awake()
     {
-        if (_dialogue == null) _dialogue = FindObjectOfType<Dialogue>();
+        if (_dialogue == null) _dialogue = FindObjectOfType<DialogueSystem>();
         
         _rigidBody = GetComponent<Rigidbody>();
 

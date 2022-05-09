@@ -401,7 +401,7 @@ GameObject:
   - component: {fileID: 171569412}
   - component: {fileID: 171569413}
   m_Layer: 0
-  m_Name: DIALOGUE
+  m_Name: DIALOGUE SYSTEM
   m_TagString: Untagged
   m_Icon: {fileID: -1412012063857583412, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
@@ -430,12 +430,13 @@ MonoBehaviour:
   m_GameObject: {fileID: 171569411}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: b2c81a2b7d38f1348aa817255da108c7, type: 3}
+  m_Script: {fileID: 11500000, guid: 06e4ba8b9e26386428dd97f18046facd, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
   messageDisplay: {fileID: 1179235884}
-  charactersPerSecond: 50
+  charactersPerSecond: 35
   textDurationAfterTyping: 5
+  holdBeforeNextMessage: 0.5
   fadeOutSpeed: 10
 --- !u!1 &231471772
 GameObject:
@@ -1923,7 +1924,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26294
+  m_Name: pb_Mesh26574
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2758,7 +2759,7 @@ Transform:
   - {fileID: 2139302976}
   - {fileID: 584324964}
   m_Father: {fileID: 0}
-  m_RootOrder: 7
+  m_RootOrder: 8
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &873607346
 PrefabInstance:
@@ -2852,7 +2853,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26384
+  m_Name: pb_Mesh26644
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -3378,7 +3379,8 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 16921345b90c717449a38821ea106a25, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  player: {fileID: 1996250478}
+  playerMovement: {fileID: 1996250478}
+  playerLook: {fileID: 1996250481}
   selectedWeapon: 0
   weaponList: []
 --- !u!1 &1020694972
@@ -5250,7 +5252,7 @@ MonoBehaviour:
   id: 12
   pickupMessage: Picked up a key.
   showDoorsWithSameKeyIds: 1
-  showInteractionArea: 1
+  showInteractionArea: 0
   gizmoColor: {r: 1, g: 0.039973527, b: 0, a: 0.49019608}
 --- !u!65 &1100993785
 BoxCollider:
@@ -5332,7 +5334,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26440
+  m_Name: pb_Mesh26700
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -6838,7 +6840,7 @@ Transform:
   - {fileID: 742437557}
   - {fileID: 1504970300}
   m_Father: {fileID: 0}
-  m_RootOrder: 6
+  m_RootOrder: 7
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &1570704262
 GameObject:
@@ -7126,7 +7128,7 @@ Transform:
   - {fileID: 1100993786}
   - {fileID: 703877998}
   m_Father: {fileID: 0}
-  m_RootOrder: 8
+  m_RootOrder: 6
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1001 &1709483370
 PrefabInstance:
@@ -7406,12 +7408,12 @@ PrefabInstance:
     - target: {fileID: 4730684265344319087, guid: 6d92a2b3326bc5746a9651a44225eccb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 8.371
+      value: 9.304
       objectReference: {fileID: 0}
     - target: {fileID: 4730684265344319087, guid: 6d92a2b3326bc5746a9651a44225eccb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.62
+      value: 3.082
       objectReference: {fileID: 0}
     - target: {fileID: 4730684265344319087, guid: 6d92a2b3326bc5746a9651a44225eccb,
         type: 3}
@@ -7421,37 +7423,37 @@ PrefabInstance:
     - target: {fileID: 4730684265344319087, guid: 6d92a2b3326bc5746a9651a44225eccb,
         type: 3}
       propertyPath: m_LocalRotation.w
-      value: 1
+      value: 0.8062737
       objectReference: {fileID: 0}
     - target: {fileID: 4730684265344319087, guid: 6d92a2b3326bc5746a9651a44225eccb,
         type: 3}
       propertyPath: m_LocalRotation.x
-      value: -0
+      value: 0.4431121
       objectReference: {fileID: 0}
     - target: {fileID: 4730684265344319087, guid: 6d92a2b3326bc5746a9651a44225eccb,
         type: 3}
       propertyPath: m_LocalRotation.y
-      value: -0
+      value: -0.34983552
       objectReference: {fileID: 0}
     - target: {fileID: 4730684265344319087, guid: 6d92a2b3326bc5746a9651a44225eccb,
         type: 3}
       propertyPath: m_LocalRotation.z
-      value: -0
+      value: 0.17660543
       objectReference: {fileID: 0}
     - target: {fileID: 4730684265344319087, guid: 6d92a2b3326bc5746a9651a44225eccb,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.x
-      value: 0
+      value: 56.941
       objectReference: {fileID: 0}
     - target: {fileID: 4730684265344319087, guid: 6d92a2b3326bc5746a9651a44225eccb,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.y
-      value: 0
+      value: -48.35
       objectReference: {fileID: 0}
     - target: {fileID: 4730684265344319087, guid: 6d92a2b3326bc5746a9651a44225eccb,
         type: 3}
       propertyPath: m_LocalEulerAnglesHint.z
-      value: 0
+      value: -2.653
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 6d92a2b3326bc5746a9651a44225eccb, type: 3}
@@ -7677,10 +7679,12 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   camHolder: {fileID: 351903926}
   orientation: {fileID: 1832893600}
-  cam: {fileID: 1260054603}
+  worldCamera: {fileID: 1260054603}
+  weaponCamera: {fileID: 1512890837}
   playerViewport: {fileID: 247729162}
   player: {fileID: 1996250478}
   additionalFovWhenRunning: 5
+  reducedFovWhenAiming: 7.5
   fovLerpingTime: 2.5
 --- !u!114 &1996250482
 MonoBehaviour:
@@ -8948,6 +8952,11 @@ PrefabInstance:
       propertyPath: m_Name
       value: IsaacEnemy
       objectReference: {fileID: 0}
+    - target: {fileID: 3032178898422368268, guid: fe06be5565b720242a9b1fbc46001f04,
+        type: 3}
+      propertyPath: attackLayers.m_Bits
+      value: 9
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: fe06be5565b720242a9b1fbc46001f04, type: 3}
 --- !u!4 &3048789891950117289
@@ -9629,12 +9638,12 @@ PrefabInstance:
     - target: {fileID: 4730684265344319087, guid: 6d92a2b3326bc5746a9651a44225eccb,
         type: 3}
       propertyPath: m_LocalPosition.x
-      value: 7.621
+      value: 8.871
       objectReference: {fileID: 0}
     - target: {fileID: 4730684265344319087, guid: 6d92a2b3326bc5746a9651a44225eccb,
         type: 3}
       propertyPath: m_LocalPosition.y
-      value: 5.37
+      value: 2.62
       objectReference: {fileID: 0}
     - target: {fileID: 4730684265344319087, guid: 6d92a2b3326bc5746a9651a44225eccb,
         type: 3}
@@ -10355,7 +10364,7 @@ PrefabInstance:
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
       propertyPath: actionIsRepeatable
-      value: 1
+      value: 0
       objectReference: {fileID: 0}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
@@ -10365,7 +10374,7 @@ PrefabInstance:
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
       propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.size
-      value: 1
+      value: 2
       objectReference: {fileID: 0}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
@@ -10386,7 +10395,7 @@ PrefabInstance:
         type: 3}
       propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Target
       value: 
-      objectReference: {fileID: 556638498}
+      objectReference: {fileID: 171569413}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
       propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
@@ -10405,17 +10414,17 @@ PrefabInstance:
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
       propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_MethodName
-      value: set_name
+      value: QueueMessage
       objectReference: {fileID: 0}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
       propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_TargetAssemblyTypeName
-      value: DialogueManager, Assembly-CSharp
+      value: DialogueSystem, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
       propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_TargetAssemblyTypeName
-      value: UnityEngine.Object, UnityEngine
+      value: DialogueSystem, Assembly-CSharp
       objectReference: {fileID: 0}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
@@ -10425,7 +10434,7 @@ PrefabInstance:
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
       propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[1].m_Arguments.m_StringArgument
-      value: 
+      value: this is a queued message
       objectReference: {fileID: 0}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}

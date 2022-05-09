@@ -3,15 +3,17 @@ using System.Collections.Generic;
 using UnityEngine;
 using TMPro;
 
-public class Dialogue : MonoBehaviour
+public class DialogueSystem : MonoBehaviour
 {
     [Header("Properties")]
     //
     [SerializeField] private TMP_Text messageDisplay;
     [SerializeField, Min(1)] private float charactersPerSecond;
     [SerializeField] private float textDurationAfterTyping;
-    [SerializeField, Range(float.Epsilon, 10)] private float fadeOutSpeed;
+    [SerializeField] private float holdBeforeNextMessage;
+    [SerializeField, Range(float.Epsilon, 25)] private float fadeOutSpeed;
     private const float FADE_SPEED_MULTIPLIER = 0.01f;
+    private Queue<string> _messageQueue = new Queue<string>();
     private string _currentText;
     private float _opacity;
 
@@ -29,7 +31,15 @@ public class Dialogue : MonoBehaviour
     public void PrintMessage(string message)
     {
         StopAllCoroutines();
+
+        if (_messageQueue.Count > 0) _messageQueue.Clear();
+
         StartCoroutine(TypeMessage(message));
+    }
+
+    public void QueueMessage(string message)
+    {
+        _messageQueue.Enqueue(message);
     }
 
     #endregion
@@ -78,7 +88,22 @@ public class Dialogue : MonoBehaviour
             yield return new WaitForEndOfFrame();
         }
 
+        yield return new WaitForSeconds(holdBeforeNextMessage);
+
+        if (_messageQueue.Count > 0)
+        {
+            PrintNextMessageInQueue();
+        }
+
         yield break;
+    }
+
+    private void PrintNextMessageInQueue()
+    {
+        StopAllCoroutines();
+
+        StartCoroutine(TypeMessage(_messageQueue.Peek()));
+        _messageQueue.Dequeue();
     }
 
     #endregion

@@ -12,7 +12,7 @@ public class Ammunition : MonoBehaviour, IInteractive
     //
     [SerializeField] private Collider interactionArea;
     [SerializeField] private string targetWeaponName;
-    private static Dialogue _dialogue;
+    private static DialogueSystem _dialogue;
     private AudioSource _audioSource;
 
     [Space(10)]
@@ -43,7 +43,7 @@ public class Ammunition : MonoBehaviour, IInteractive
 
     private void Awake()
     {
-        if (_dialogue == null) _dialogue = FindObjectOfType<Dialogue>();
+        if (_dialogue == null) _dialogue = FindObjectOfType<DialogueSystem>();
 
         _audioSource = GetComponent<AudioSource>();
     }
@@ -97,14 +97,15 @@ public class Ammunition : MonoBehaviour, IInteractive
 
     private void PickupRounds(RoundsGun gun)
     {
-        string rounds = AmountOfBullets switch
+        var clampedAmount = Mathf.Clamp(AmountOfBullets, 0, gun.MaxLoadedRounds);
+        string rounds = clampedAmount switch
         {
             1 => "round",
             _ => "rounds",
         };
 
         string pickupMessage =
-            $"Picked up {AmountOfBullets} {ammoName} {rounds} for your {targetWeaponName}.";
+            $"Picked up {clampedAmount} {ammoName} {rounds} for your {targetWeaponName}.";
 
         _dialogue.PrintMessage(pickupMessage);
         gun.AddRounds(AmountOfBullets);
@@ -112,14 +113,15 @@ public class Ammunition : MonoBehaviour, IInteractive
 
     private void PickupMagazine(MagazinesGun gun)
     {
-        string rounds = AmountOfBullets switch
+        int clampedAmount = Mathf.Clamp(AmountOfBullets, 0, gun.MaxMagazineCapacity);
+        string rounds = clampedAmount switch
         {
             1 => "round",
             _ => "rounds",
         };
 
         string pickupMessage = 
-            $"Picked up a {ammoName} magazine for your {targetWeaponName}\n({AmountOfBullets} {rounds}).";
+            $"Picked up a {ammoName} magazine for your {targetWeaponName}\n({clampedAmount} {rounds}).";
 
         _dialogue.PrintMessage(pickupMessage);
         gun.AddMagazine(AmountOfBullets);

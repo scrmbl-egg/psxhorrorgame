@@ -12,7 +12,8 @@ public class PlayerLook : MonoBehaviour
     //
     [SerializeField] private Transform camHolder;
     [SerializeField] private Transform orientation;
-    [SerializeField] Camera cam;
+    [SerializeField] private Camera worldCamera;
+    [SerializeField] private Camera weaponCamera;
     
     [Header("Rotation")]
     //
@@ -24,8 +25,12 @@ public class PlayerLook : MonoBehaviour
     //
     [SerializeField] private PlayerMovement player;
     [SerializeField, Min(float.Epsilon)] private float additionalFovWhenRunning;
+    [SerializeField, Min(float.Epsilon)] private float reducedFovWhenAiming;
+    [Space(2)]
     [SerializeField, Min(float.Epsilon)] private float fovLerpingTime;
     private float _defaultFov;
+
+    public bool IsAiming { get; set; }
 
     #region MonoBehaviour
 
@@ -39,7 +44,7 @@ public class PlayerLook : MonoBehaviour
         Cursor.visible = false;
 
         //fov
-        _defaultFov = cam.fieldOfView;
+        _defaultFov = worldCamera.fieldOfView;
     }
 
     private void OnEnable()
@@ -84,13 +89,32 @@ public class PlayerLook : MonoBehaviour
     private void ManageFov()
     {
         float runningFov = _defaultFov + additionalFovWhenRunning;
+        float aimingFov = _defaultFov - reducedFovWhenAiming;
         float t = Time.deltaTime * fovLerpingTime;
         
-        float lerpTowardsRunningFov = Mathf.Lerp(cam.fieldOfView, runningFov, t);
-        float lerpTowardsDefaultFov = Mathf.Lerp(cam.fieldOfView, _defaultFov, t);
+        float lerpTowardsRunningFov = Mathf.Lerp(worldCamera.fieldOfView, runningFov, t);
+        float lerpTowardsAimingFov = Mathf.Lerp(worldCamera.fieldOfView, aimingFov, t);
+        float lerpTowardsDefaultFov = Mathf.Lerp(worldCamera.fieldOfView, _defaultFov, t);
 
-        if (player.IsRunning) cam.fieldOfView = lerpTowardsRunningFov;
-        else cam.fieldOfView = lerpTowardsDefaultFov;
+        //if (player.IsRunning) worldCamera.fieldOfView = lerpTowardsRunningFov;
+        //else if (IsAiming) worldCamera.fieldOfView = lerpTowardsAimingFov;
+        //else worldCamera.fieldOfView = lerpTowardsDefaultFov;
+
+        if (player.IsRunning)
+        {
+            worldCamera.fieldOfView = lerpTowardsRunningFov;
+            weaponCamera.fieldOfView = lerpTowardsRunningFov;
+        }
+        else if (IsAiming)
+        {
+            worldCamera.fieldOfView = lerpTowardsAimingFov;
+            weaponCamera.fieldOfView = lerpTowardsAimingFov;
+        }
+        else
+        {
+            worldCamera.fieldOfView = lerpTowardsDefaultFov;
+            weaponCamera.fieldOfView = lerpTowardsDefaultFov;
+        }
     }
 
     private void RotateViewport()

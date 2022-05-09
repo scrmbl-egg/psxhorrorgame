@@ -10,7 +10,8 @@ public class WeaponSelector : MonoBehaviour
 
     [Header("Dependencies")]
     //
-    [SerializeField] private PlayerMovement player;
+    [SerializeField] private PlayerMovement playerMovement;
+    [SerializeField] private PlayerLook playerLook;
 
     [Header("Weapons")]
     //
@@ -79,10 +80,19 @@ public class WeaponSelector : MonoBehaviour
         //player won't be able to aim if he is running
 
         bool selectedWeaponHasWeaponInterface = weaponList[selectedWeapon].TryGetComponent(out IWeapon weapon);
-        bool isAbleToAim = !player.IsRunning && selectedWeaponHasWeaponInterface;
+        bool isAbleToAim = !playerMovement.IsRunning && selectedWeaponHasWeaponInterface;
 
-        if (ctx.performed && isAbleToAim) weapon.IsAiming = true;
-        if (ctx.canceled || !isAbleToAim) weapon.IsAiming = false;
+        if (ctx.performed && isAbleToAim)
+        {
+            weapon.IsAiming = true;
+            playerLook.IsAiming = true;
+        }
+
+        if (ctx.canceled || !isAbleToAim)
+        {
+            weapon.IsAiming = false;
+            playerLook.IsAiming = false;
+        }
     }
 
     private void FireDetection(InputAction.CallbackContext ctx)
@@ -90,8 +100,8 @@ public class WeaponSelector : MonoBehaviour
         //player must be aiming in order to shoot, if he's not aiming, then do a melee attack
 
         bool selectedWeaponHasWeaponInterface = weaponList[selectedWeapon].TryGetComponent(out IWeapon weapon);
-        bool isAbleToShoot = !player.IsRunning && selectedWeaponHasWeaponInterface && weapon.IsAiming;
-        bool isAbleToMelee = !player.IsRunning && selectedWeaponHasWeaponInterface;
+        bool isAbleToShoot = !playerMovement.IsRunning && selectedWeaponHasWeaponInterface && weapon.IsAiming;
+        bool isAbleToMelee = !playerMovement.IsRunning && selectedWeaponHasWeaponInterface;
 
         if (ctx.started && isAbleToShoot) weapon.Fire();
         else if (ctx.started && isAbleToMelee) weapon.MeleeAttack();
@@ -103,7 +113,7 @@ public class WeaponSelector : MonoBehaviour
         ///player must stop running in order to reload.
 
         bool selectedWeaponHasGunInterface = weaponList[selectedWeapon].TryGetComponent(out IGun gun);
-        bool isAbleToReload = !player.IsRunning && selectedWeaponHasGunInterface;
+        bool isAbleToReload = !playerMovement.IsRunning && selectedWeaponHasGunInterface;
 
         if (ctx.performed && isAbleToReload) gun.Reload();
     }
@@ -113,7 +123,7 @@ public class WeaponSelector : MonoBehaviour
         ///player can't run and check ammo at the same time.
         ///player must stop running in order to check ammo.
         bool selectedWeaponHasGunInterface = weaponList[selectedWeapon].TryGetComponent(out IGun gun);
-        bool isAbleToCheckAmmo = !player.IsRunning && selectedWeaponHasGunInterface;
+        bool isAbleToCheckAmmo = !playerMovement.IsRunning && selectedWeaponHasGunInterface;
 
         if (ctx.performed && isAbleToCheckAmmo) gun.CheckAmmo();
     }
@@ -125,7 +135,7 @@ public class WeaponSelector : MonoBehaviour
         ///covering disables the ability to aim, shoot, reload, and check ammo
 
         bool selectedWeaponHasWeaponInterface = weaponList[selectedWeapon].TryGetComponent(out IWeapon weapon);
-        bool isAbleToCover = !player.IsRunning && selectedWeaponHasWeaponInterface;
+        bool isAbleToCover = !playerMovement.IsRunning && selectedWeaponHasWeaponInterface;
 
         if (ctx.started && isAbleToCover) weapon.IsCovering = true;
         else if (ctx.canceled || !isAbleToCover) weapon.IsCovering = false;
