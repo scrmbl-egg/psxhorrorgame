@@ -8954,6 +8954,11 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 3032178898422368268, guid: fe06be5565b720242a9b1fbc46001f04,
         type: 3}
+      propertyPath: drawAlertRange
+      value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 3032178898422368268, guid: fe06be5565b720242a9b1fbc46001f04,
+        type: 3}
       propertyPath: attackLayers.m_Bits
       value: 9
       objectReference: {fileID: 0}
@@ -11555,6 +11560,11 @@ PrefabInstance:
   m_Modification:
     m_TransformParent: {fileID: 1314585348}
     m_Modifications:
+    - target: {fileID: 8876776553707703372, guid: ab4fb57666cc0ae44948157a45ae87a7,
+        type: 3}
+      propertyPath: drawAlertRange
+      value: 0
+      objectReference: {fileID: 0}
     - target: {fileID: 8876776553707703373, guid: ab4fb57666cc0ae44948157a45ae87a7,
         type: 3}
       propertyPath: m_RootOrder
