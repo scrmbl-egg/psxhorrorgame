@@ -97,8 +97,6 @@ public class PlayerInteraction : MonoBehaviour
                       b: handIcon.color.b,
                       a: _iconOpacity);
 
-
-
         float t = iconFadeSpeed * Time.deltaTime;
         float lerpTowardsTargetOpacity = Mathf.Lerp(_iconOpacity, TARGET_ICON_OPACITY, t);
         float lerpTowards0Opacity = Mathf.Lerp(_iconOpacity, 0, t);

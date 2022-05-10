@@ -1923,7 +1923,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26574
+  m_Name: pb_Mesh26320
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -2852,7 +2852,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26644
+  m_Name: pb_Mesh26390
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -5333,7 +5333,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26700
+  m_Name: pb_Mesh26446
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -9145,14 +9145,14 @@ Transform:
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
   m_GameObject: {fileID: 3588847962431550477}
-  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalRotation: {x: -0.30580434, y: 0.2695492, z: -0.06861241, w: 0.91055983}
   m_LocalPosition: {x: 7.304, y: 3.082, z: 2.572}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 3588847963222607383}
   m_Father: {fileID: 1674191314}
   m_RootOrder: 3
-  m_LocalEulerAnglesHint: {x: 56.941, y: -48.35, z: -2.653}
+  m_LocalEulerAnglesHint: {x: -31.327, y: 38.593, z: -19.832}
 --- !u!114 &3588847962431550474
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -9170,7 +9170,7 @@ MonoBehaviour:
   ammoName: 12 Gauge
   minimumBullets: 3
   maxRandomBonusBullets: 4
-  showInteractionArea: 0
+  showInteractionArea: 1
 --- !u!1 &3588847962431550477
 GameObject:
   m_ObjectHideFlags: 0

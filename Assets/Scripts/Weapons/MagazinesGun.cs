@@ -202,9 +202,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         bool magazineListIsFull = Magazines.Count == Magazines.Capacity;
         if (magazineListIsFull) Magazines.RemoveAt(0);
 
-        int ammo = Mathf.Clamp(bulletAmount, 0, MaxMagazineCapacity);
-
-        Magazines.Add(ammo);
+        Magazines.Add(bulletAmount);
     }
 
     #endregion

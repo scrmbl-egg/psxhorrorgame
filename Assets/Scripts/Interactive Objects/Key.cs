@@ -83,13 +83,13 @@ public class Key : MonoBehaviour, IInteractive
         Vector3 origin = interactionArea.bounds.center;
 
         Door[] doors = FindObjectsOfType<Door>();
-        for (int i = 0; i < doors.Length; i++)
+        foreach (Door door in doors)
         {
-            bool doorIDsAreNotTheSame = doors[i].KeyID != id;
+            bool doorIDsAreNotTheSame = door.KeyID != id;
             if (doorIDsAreNotTheSame) continue;
             //else...
 
-            Vector3 destination = doors[i].transform.position;
+            Vector3 destination = door.transform.position;
             Gizmos.DrawLine(origin, destination);
         }
     }

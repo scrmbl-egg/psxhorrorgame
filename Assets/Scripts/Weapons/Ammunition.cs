@@ -97,15 +97,14 @@ public class Ammunition : MonoBehaviour, IInteractive
 
     private void PickupRounds(RoundsGun gun)
     {
-        var clampedAmount = Mathf.Clamp(AmountOfBullets, 0, gun.MaxLoadedRounds);
-        string rounds = clampedAmount switch
+        string rounds = AmountOfBullets switch
         {
             1 => "round",
             _ => "rounds",
         };
 
         string pickupMessage =
-            $"Picked up {clampedAmount} {ammoName} {rounds} for your {targetWeaponName}.";
+            $"Picked up {AmountOfBullets} {ammoName} {rounds} for your {targetWeaponName}.";
 
         _dialogue.PrintMessage(pickupMessage);
         gun.AddRounds(AmountOfBullets);
@@ -113,18 +112,18 @@ public class Ammunition : MonoBehaviour, IInteractive
 
     private void PickupMagazine(MagazinesGun gun)
     {
-        int clampedAmount = Mathf.Clamp(AmountOfBullets, 0, gun.MaxMagazineCapacity);
-        string rounds = clampedAmount switch
+        int clampedAmountOfBullets = Mathf.Clamp(AmountOfBullets, 0, gun.MaxMagazineCapacity);
+        string rounds = clampedAmountOfBullets switch
         {
             1 => "round",
             _ => "rounds",
         };
 
         string pickupMessage = 
-            $"Picked up a {ammoName} magazine for your {targetWeaponName}\n({clampedAmount} {rounds}).";
+            $"Picked up a {ammoName} magazine for your {targetWeaponName}\n({clampedAmountOfBullets} {rounds}).";
 
         _dialogue.PrintMessage(pickupMessage);
-        gun.AddMagazine(AmountOfBullets);
+        gun.AddMagazine(clampedAmountOfBullets);
     }
 
     private void DrawInteractionArea()
