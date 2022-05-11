@@ -2,6 +2,7 @@ using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 
+[RequireComponent(typeof(Animator))]
 /// <summary>
 /// Basic weapon class.
 /// </summary>
@@ -57,6 +58,7 @@ public class BaseWeapon : MonoBehaviour
             return hitParticles[random];
         }
     }
+    public Animator Animator { get; private set; }
     public static AmmoChecker AmmoChecker { get; private set; }
 
     #region MonoBehaviour
@@ -64,6 +66,8 @@ public class BaseWeapon : MonoBehaviour
     public virtual void Awake()
     {
         if (AmmoChecker == null) AmmoChecker = FindObjectOfType<AmmoChecker>();
+
+        Animator = GetComponent<Animator>();
     }
 
     #endregion
