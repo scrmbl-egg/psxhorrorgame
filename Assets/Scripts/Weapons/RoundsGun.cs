@@ -65,8 +65,13 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
 
     public virtual void MeleeAttack()
     {
+        bool animatorIsNotIdleState = AnimatorController.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+
+        if (animatorIsNotIdleState) return;
+
+        AnimatorController.SetTrigger("Melee");
+
         _camShake.ShakeCamera();
-        //TODO: PLAY ANIMATION
 
         Ray meleeRay =
             new Ray(origin: RaycastOrigin.position,

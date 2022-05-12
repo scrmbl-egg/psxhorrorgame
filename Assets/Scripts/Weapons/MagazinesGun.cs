@@ -65,6 +65,12 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         FillGunWithRandomMags();
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay(RaycastOrigin.position, RaycastOrigin.forward * MeleeRange);
+    }
+
     #endregion
 
     #region Public methods
@@ -73,6 +79,11 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
     public virtual void MeleeAttack()
     {
+        if (!AnimatorController.GetCurrentAnimatorStateInfo(0).IsName("Idle")) return;
+        //else...
+
+        AnimatorController.SetTrigger("Melee");
+
         _camShake.ShakeCamera();
 
         Ray meleeRay = 
@@ -181,6 +192,11 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
     public virtual void CheckAmmo()
     {
+        if (!AnimatorController.GetCurrentAnimatorStateInfo(0).IsName("Idle")) return;
+        //else...
+
+        AnimatorController.SetTrigger("CheckAmmo");
+
         string mags = Magazines.Count switch
         {
             1 => "mag",
