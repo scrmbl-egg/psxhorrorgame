@@ -3,9 +3,6 @@ using DG.Tweening;
 
 public class GameManager : MonoBehaviour
 {
-
-
-
     private void Awake()
     {
         //animations capacity in RAM memory.
