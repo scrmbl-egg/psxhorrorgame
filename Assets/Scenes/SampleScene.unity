@@ -31952,7 +31952,7 @@ MonoBehaviour:
   recoilSpeed: 8.25
   recoverSpeed: 2.52
   recoil: {x: 10, y: 10, z: 4}
-  hasInfiniteAmmo: 0
+  hasInfiniteAmmo: 1
   currentLoadedRounds: 10
   maxMagazineCapacity: 10
   currentAmountOfMagazines: 7
