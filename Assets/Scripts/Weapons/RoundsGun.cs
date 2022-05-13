@@ -8,6 +8,8 @@ using UnityEngine;
 /// </summary>
 public class RoundsGun : BaseWeapon, IWeapon, IGun
 {
+    private bool _isAiming;
+    
     [Space(10)]
     [Header("Recoil Settings")]
     //
@@ -45,7 +47,15 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
     }
     public int MaxTotalAmmo => maxTotalAmmo;
 
-    public bool IsAiming { get; set; }
+    public bool IsAiming
+    {
+        get => _isAiming;
+        set
+        {
+            _isAiming = value;
+            AnimatorController.SetBool("Aim", value);
+        }
+    }
     public bool IsCovering { get; set; }
 
     #region MonoBehaviour
@@ -68,6 +78,7 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
         bool animatorIsNotIdleState = AnimatorController.GetCurrentAnimatorStateInfo(0).IsName("Idle");
 
         if (animatorIsNotIdleState) return;
+        //else...
 
         AnimatorController.SetTrigger("Melee");
 
@@ -101,7 +112,16 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
         bool gunHasAmmo = CurrentLoadedRounds > 0;
         if (gunHasAmmo)
         {
-            //TODO: PLAY ANIMATION
+            if (CurrentLoadedRounds == ONE_IN_THE_CHAMBER)
+            {
+                //TODO: PLAY LAST SHOT ANIMATION
+            }
+            
+            if (CurrentLoadedRounds > ONE_IN_THE_CHAMBER)
+            {
+                //TODO: PLAY REGULAR SHOT ANIMATION
+                AnimatorController.SetTrigger("Shoot");
+            }
 
             for (int i = 0; i < PelletsPerShot; i++)
             {
@@ -138,6 +158,8 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
         }
         else
         {
+            //TODO: PLAY EMPTY GUN ANIMATION
+
             //play empty sound
         }
     }

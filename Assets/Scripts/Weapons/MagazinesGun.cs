@@ -4,6 +4,8 @@ using UnityEngine;
 
 public class MagazinesGun : BaseWeapon, IWeapon, IGun
 {
+    private bool _isAiming;
+
     [Space(10)]
     [Header("Recoil Settings")]
     //
@@ -48,7 +50,15 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         set => magazines = value;
     }
 
-    public bool IsAiming { get; set; }
+    public bool IsAiming
+    {
+        get => _isAiming;
+        set
+        {
+            _isAiming = value;
+            AnimatorController.SetBool("Aim", value);
+        }
+    }
     public bool IsCovering { get; set; }
 
     #region MonoBehaviour
@@ -114,6 +124,17 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         bool thereAreBulletsInMag = CurrentLoadedRounds > 0;
         if (thereAreBulletsInMag)
         {
+            if (CurrentLoadedRounds == ONE_IN_THE_CHAMBER)
+            {
+                //TODO: PLAY LAST SHOT ANIMATION
+            }
+
+            if (CurrentLoadedRounds > ONE_IN_THE_CHAMBER)
+            {
+                //TODO: PLAY REGULAR SHOT ANIMATION
+                AnimatorController.SetTrigger("Shoot");
+            }
+
             for (int i = 0; i < PelletsPerShot; i++)
             {
                 Ray shot = 
