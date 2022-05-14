@@ -91,7 +91,8 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
             !Physics.Raycast(ray: meleeRay,
                              hitInfo: out RaycastHit hit,
                              maxDistance: MeleeRange,
-                             layerMask: AttackLayers);
+                             layerMask: AttackLayers,
+                             queryTriggerInteraction: QueryTriggerInteraction.Ignore);
 
         if (objectIsNotInRange) return;
         //else...
@@ -132,7 +133,8 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
                     !Physics.Raycast(ray: shot,
                                      hitInfo: out RaycastHit hit,
                                      maxDistance: WeaponRange,
-                                     layerMask: AttackLayers);
+                                     layerMask: AttackLayers,
+                                     QueryTriggerInteraction.Ignore);
 
                 if (objectIsNotInRange) continue;
                 //else...

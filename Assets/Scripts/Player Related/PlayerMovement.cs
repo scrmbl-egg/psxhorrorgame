@@ -33,9 +33,19 @@ public class PlayerMovement : MonoBehaviour
     [SerializeField] private CapsuleCollider capsuleCollider;
     [SerializeField] private float groundCheckRadius;
     [SerializeField] private LayerMask canWalkOver;
-    private bool IsGrounded => Physics.CheckSphere(position: groundCheck.position,
-                                                   radius: groundCheckRadius,
-                                                   layerMask: canWalkOver);
+
+    private bool IsGrounded
+    {
+        get
+        {
+            return 
+                Physics.CheckSphere(position: groundCheck.position,
+                                    radius: groundCheckRadius,
+                                    layerMask: canWalkOver,
+                                    queryTriggerInteraction: QueryTriggerInteraction.Ignore);
+        }
+    }
+
     private RaycastHit _slopeHit;
     private bool IsOnSlope
     {
@@ -46,7 +56,8 @@ public class PlayerMovement : MonoBehaviour
                                             direction: Vector3.down,
                                             hitInfo: out _slopeHit,
                                             maxDistance: (capsuleCollider.height / 2) + .25f,
-                                            layerMask: canWalkOver);
+                                            layerMask: canWalkOver,
+                                            queryTriggerInteraction: QueryTriggerInteraction.Ignore);
 
             if (!slopeRay) return false; //guard clause
             

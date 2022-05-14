@@ -89,7 +89,8 @@ public class PlayerInteraction : MonoBehaviour
             Physics.Raycast(ray: ray,
                             hitInfo: out RaycastHit hit,
                             maxDistance: interactionRange,
-                            layerMask: interactionLayers);
+                            layerMask: interactionLayers,
+                            queryTriggerInteraction: QueryTriggerInteraction.Collide);
 
         Color color = 
             new Color(r: handIcon.color.r,
