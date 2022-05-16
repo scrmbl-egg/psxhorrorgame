@@ -20,7 +20,6 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     [SerializeField] private bool hasInfiniteAmmo;
     [SerializeField] private int currentLoadedRounds;
     [SerializeField, Min(1)] private int maxMagazineCapacity;
-    [SerializeField] private int currentAmountOfMagazines;
     [SerializeField, Min(1)] private int maxAmountOfMagazines;
     [Space(2)]
     [SerializeField] private List<int> magazines = new List<int>();
@@ -38,11 +37,6 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         }
     }
     public int MaxMagazineCapacity => maxMagazineCapacity;
-    public int CurrentAmountOfMagazines
-    {
-        get => currentAmountOfMagazines;
-        set => currentAmountOfMagazines = Mathf.Clamp(value, 0, maxAmountOfMagazines);
-    }
     public int MaxAmountOfMagazines => maxAmountOfMagazines;
     public List<int> Magazines
     {
@@ -59,7 +53,6 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
             AnimatorController.SetBool("Aim", value);
         }
     }
-    public bool IsCovering { get; set; }
 
     #region MonoBehaviour
 
@@ -73,6 +66,11 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
         //TODO: Remove method when guns are completely coded
         FillGunWithRandomMags();
+    }
+
+    private void Update()
+    {
+        UpdateAnimatorControllerIntegers();
     }
 
     private void OnDrawGizmosSelected()
@@ -247,13 +245,19 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     #endregion
     #region Private methods
 
+    private void UpdateAnimatorControllerIntegers()
+    {
+        AnimatorController.SetInteger("Rounds", CurrentLoadedRounds);
+        AnimatorController.SetInteger("Magazines", Magazines.Count);
+    }
+
     private void FillGunWithRandomMags()
     {
-        bool magsShouldBeSpawned = CurrentAmountOfMagazines <= 0;
-        if (magsShouldBeSpawned) return;
+        bool magsShouldntBeSpawned = Magazines.Count > 0;
+        if (magsShouldntBeSpawned) return;
         //else...
 
-        for (int i = 0; i < CurrentAmountOfMagazines; i++)
+        for (int i = 0; i < Magazines.Capacity; i++)
         {
             int randomAmountOfBullets = Random.Range(1, MaxMagazineCapacity + 1);
             Magazines.Add(randomAmountOfBullets);

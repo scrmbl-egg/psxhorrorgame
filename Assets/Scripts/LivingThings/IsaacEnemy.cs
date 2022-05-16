@@ -31,8 +31,7 @@ public class IsaacEnemy : EnemyThing
 
     public override void DeathEffect()
     {
-        //HACK: Trigger ragdoll physics when enemy is fully animated
-        _currentState = null;
+        SetState(null);
 
         Agent.enabled = false;
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -54,7 +53,8 @@ public class IsaacEnemy : EnemyThing
     public void SetState(IsaacState state)
     {
         _currentState = state;
-        state.EnterState(this);
+
+        if (state != null) state.EnterState(this);
     }
 
     public override void Attack()

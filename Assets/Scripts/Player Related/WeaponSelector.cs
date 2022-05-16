@@ -12,6 +12,7 @@ public class WeaponSelector : MonoBehaviour
     //
     [SerializeField] private PlayerMovement playerMovement;
     [SerializeField] private PlayerLook playerLook;
+    private bool _isPressingAim;
 
     [Header("Weapons")]
     //
@@ -42,8 +43,6 @@ public class WeaponSelector : MonoBehaviour
         _playerInputActions.PlayerThing.Fire.started += FireDetection;
         _playerInputActions.PlayerThing.Reload.performed += ReloadDetection;
         _playerInputActions.PlayerThing.CheckAmmo.performed += CheckAmmoDetection;
-        _playerInputActions.PlayerThing.Cover.started += CoverDetection;
-        _playerInputActions.PlayerThing.Cover.canceled += CoverDetection;
     }
 
     private void OnDisable()
@@ -60,12 +59,11 @@ public class WeaponSelector : MonoBehaviour
         _playerInputActions.PlayerThing.Fire.started -= FireDetection;
         _playerInputActions.PlayerThing.Reload.performed -= ReloadDetection;
         _playerInputActions.PlayerThing.CheckAmmo.performed -= CheckAmmoDetection;
-        _playerInputActions.PlayerThing.Cover.started -= CoverDetection;
-        _playerInputActions.PlayerThing.Cover.canceled -= CoverDetection;
     }
 
     private void Update()
     {
+        ManageAim();
         WeaponNavigation();
     }
 
@@ -77,41 +75,8 @@ public class WeaponSelector : MonoBehaviour
 
     private void AimDetection(InputAction.CallbackContext ctx)
     {
-        //player won't be able to aim if he is running
-
         bool isPressingAim = ctx.ReadValueAsButton();
-        bool selectedWeaponDoesntHaveWeaponInterface = !weaponList[selectedWeapon].TryGetComponent(out IWeapon weapon);
-        bool isRunning = playerMovement.IsRunning;
-
-        Debug.Log($"Aiming = {isPressingAim}, Running = {isRunning}");
-
-        if (selectedWeaponDoesntHaveWeaponInterface || isRunning)
-        {
-            weapon.IsAiming = false;
-            playerLook.IsAiming = false;
-            return;
-        }
-        //else...
-
-
-        if (isPressingAim && !isRunning)
-        {
-            weapon.IsAiming = true;
-            playerLook.IsAiming = true;
-        }
-
-        if (isPressingAim && isRunning || !isPressingAim)
-        {
-            weapon.IsAiming = false;
-            playerLook.IsAiming = false;
-        }
-
-
-        //if (!isPressingAim || !selectedWeaponHasWeaponInterface || isRunning)
-        //{
-        //    weapon.IsAiming = false;
-        //    playerLook.IsAiming = false;
-        //}
+        _isPressingAim = isPressingAim;
     }
 
     private void FireDetection(InputAction.CallbackContext ctx)
@@ -147,20 +112,19 @@ public class WeaponSelector : MonoBehaviour
         if (ctx.performed && isAbleToCheckAmmo) gun.CheckAmmo();
     }
 
-    private void CoverDetection(InputAction.CallbackContext ctx)
-    {
-        ///player can't run and cover at the same time.
-        ///player must stop running in order to cover himself.
-        ///covering disables the ability to aim, shoot, reload, and check ammo
-
-        bool selectedWeaponHasWeaponInterface = weaponList[selectedWeapon].TryGetComponent(out IWeapon weapon);
-        bool isAbleToCover = !playerMovement.IsRunning && selectedWeaponHasWeaponInterface;
-
-        if (ctx.started && isAbleToCover) weapon.IsCovering = true;
-        else if (ctx.canceled || !isAbleToCover) weapon.IsCovering = false;
-    }
-
     #endregion
+
+    private void ManageAim()
+    {
+        bool canAim = _isPressingAim && !playerMovement.IsRunning;
+        bool selectedWeaponDoesntHaveWeaponInterface = !weaponList[selectedWeapon].TryGetComponent(out IWeapon weapon);
+
+        if (selectedWeaponDoesntHaveWeaponInterface) return;
+        //else...
+
+        weapon.IsAiming = canAim;
+        playerLook.IsAiming = canAim;
+    }
 
     private void GetWeaponsInWeaponsList()
     {

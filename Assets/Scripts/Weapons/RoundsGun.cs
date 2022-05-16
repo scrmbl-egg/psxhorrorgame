@@ -53,10 +53,8 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
         set
         {
             _isAiming = value;
-            AnimatorController.SetBool("Aim", value);
         }
     }
-    public bool IsCovering { get; set; }
 
     #region MonoBehaviour
 
