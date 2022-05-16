@@ -79,20 +79,39 @@ public class WeaponSelector : MonoBehaviour
     {
         //player won't be able to aim if he is running
 
-        bool selectedWeaponHasWeaponInterface = weaponList[selectedWeapon].TryGetComponent(out IWeapon weapon);
-        bool isAbleToAim = !playerMovement.IsRunning && selectedWeaponHasWeaponInterface;
+        bool isPressingAim = ctx.ReadValueAsButton();
+        bool selectedWeaponDoesntHaveWeaponInterface = !weaponList[selectedWeapon].TryGetComponent(out IWeapon weapon);
+        bool isRunning = playerMovement.IsRunning;
 
-        if (ctx.performed && isAbleToAim)
+        Debug.Log($"Aiming = {isPressingAim}, Running = {isRunning}");
+
+        if (selectedWeaponDoesntHaveWeaponInterface || isRunning)
+        {
+            weapon.IsAiming = false;
+            playerLook.IsAiming = false;
+            return;
+        }
+        //else...
+
+
+        if (isPressingAim && !isRunning)
         {
             weapon.IsAiming = true;
             playerLook.IsAiming = true;
         }
 
-        if (ctx.canceled || !isAbleToAim)
+        if (isPressingAim && isRunning || !isPressingAim)
         {
             weapon.IsAiming = false;
             playerLook.IsAiming = false;
         }
+
+
+        //if (!isPressingAim || !selectedWeaponHasWeaponInterface || isRunning)
+        //{
+        //    weapon.IsAiming = false;
+        //    playerLook.IsAiming = false;
+        //}
     }
 
     private void FireDetection(InputAction.CallbackContext ctx)
