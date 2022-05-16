@@ -70,7 +70,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
     private void Update()
     {
-        UpdateAnimatorControllerIntegers();
+        UpdateAnimatorParameters();
     }
 
     private void OnDrawGizmosSelected()
@@ -120,20 +120,11 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
     public virtual void Fire()
     {
+        AnimatorController.SetTrigger("Shoot");
+
         bool thereAreBulletsInMag = CurrentLoadedRounds > 0;
         if (thereAreBulletsInMag)
         {
-            if (CurrentLoadedRounds == ONE_IN_THE_CHAMBER)
-            {
-                //TODO: PLAY LAST SHOT ANIMATION
-            }
-
-            if (CurrentLoadedRounds > ONE_IN_THE_CHAMBER)
-            {
-                //TODO: PLAY REGULAR SHOT ANIMATION
-                AnimatorController.SetTrigger("Shoot");
-            }
-
             for (int i = 0; i < PelletsPerShot; i++)
             {
                 Ray shot = 
@@ -165,6 +156,12 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
                 }
             }
 
+            bool lastRound = CurrentLoadedRounds == 1;
+            if (lastRound)
+            {
+                AnimatorController.SetLayerWeight(1, 1);
+            }
+
             CurrentLoadedRounds--;
             _camShake.ShakeCamera(recoil, recoilSpeed, recoverSpeed);
         }
@@ -179,6 +176,12 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
     public virtual void Reload()
     {
+        bool animatorIsNotIdle = !AnimatorController.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+        if (animatorIsNotIdle) return;
+        //else...
+
+        AnimatorController.SetTrigger("Reload");
+
         bool thereAreMagazinesAvailable = Magazines.Count > 0;
         if (thereAreMagazinesAvailable)
         {
@@ -200,9 +203,16 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
             //loads magazine with most rounds
             int lastMemberOfList = Magazines.Count - 1;
 
-            if (theresStillRoundsInMag) CurrentLoadedRounds = Magazines[lastMemberOfList] + ONE_IN_THE_CHAMBER;
-            else CurrentLoadedRounds = Magazines[lastMemberOfList];
-            
+            if (theresStillRoundsInMag)
+            {
+                CurrentLoadedRounds = Magazines[lastMemberOfList] + ONE_IN_THE_CHAMBER;
+            }
+            else
+            {
+                CurrentLoadedRounds = Magazines[lastMemberOfList];
+                AnimatorController.SetLayerWeight(1, 0);
+            }
+
             Magazines.RemoveAt(lastMemberOfList);
         }
         else
@@ -213,7 +223,8 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
     public virtual void CheckAmmo()
     {
-        if (!AnimatorController.GetCurrentAnimatorStateInfo(0).IsName("Idle")) return;
+        bool animatorIsIdle = !AnimatorController.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+        if (animatorIsIdle) return;
         //else...
 
         AnimatorController.SetTrigger("CheckAmmo");
@@ -224,7 +235,11 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
             _ => "mags"
         };
 
-        string message = $"{CurrentLoadedRounds} | {Magazines.Count} {mags}";
+        string message = hasInfiniteAmmo switch
+        {
+            false => $"{CurrentLoadedRounds} | {Magazines.Count} {mags}",
+            true => "INFINITE"
+        };
 
         AmmoChecker.PrintMessage(message);
     }
@@ -245,7 +260,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     #endregion
     #region Private methods
 
-    private void UpdateAnimatorControllerIntegers()
+    private void UpdateAnimatorParameters()
     {
         AnimatorController.SetInteger("Rounds", CurrentLoadedRounds);
         AnimatorController.SetInteger("Magazines", Magazines.Count);

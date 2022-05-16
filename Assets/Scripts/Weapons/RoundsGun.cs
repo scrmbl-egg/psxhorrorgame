@@ -187,7 +187,11 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
             _ => "rounds"
         };
 
-        string message = $"{CurrentLoadedRounds} | {CurrentTotalAmmo} {rounds}";
+        string message = hasInfiniteAmmo switch
+        {
+            false => $"{CurrentLoadedRounds} | {CurrentLoadedRounds} {rounds}",
+            true => "INFINITE"
+        };
 
         AmmoChecker.PrintMessage(message);
     }
