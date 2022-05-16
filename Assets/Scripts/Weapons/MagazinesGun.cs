@@ -120,11 +120,15 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
     public virtual void Fire()
     {
-        AnimatorController.SetTrigger("Shoot");
+        bool cantFire = !AnimatorController.GetCurrentAnimatorStateInfo(0).IsTag("CanFire");
+
+        if (cantFire) return;
 
         bool thereAreBulletsInMag = CurrentLoadedRounds > 0;
         if (thereAreBulletsInMag)
         {
+            AnimatorController.SetTrigger("Shoot");
+
             for (int i = 0; i < PelletsPerShot; i++)
             {
                 Ray shot = 
@@ -167,6 +171,8 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         }
         else
         {
+            AnimatorController.SetTrigger("FailedShot");
+
             //play an empty mag sound
         }
     }
@@ -179,8 +185,6 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         bool animatorIsNotIdle = !AnimatorController.GetCurrentAnimatorStateInfo(0).IsName("Idle");
         if (animatorIsNotIdle) return;
         //else...
-
-        AnimatorController.SetTrigger("Reload");
 
         bool thereAreMagazinesAvailable = Magazines.Count > 0;
         if (thereAreMagazinesAvailable)
@@ -195,6 +199,13 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
                 ///save the used mag in pocket
 
                 if (magHasMoreThanOneRound) Magazines.Add(CurrentLoadedRounds - ONE_IN_THE_CHAMBER);
+
+                AnimatorController.SetTrigger("NoRackReload");
+            }
+            else
+            {
+                AnimatorController.SetLayerWeight(1, 0);
+                AnimatorController.SetTrigger("RackReload");
             }
             
             //sorts list from least to greatest
@@ -210,7 +221,6 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
             else
             {
                 CurrentLoadedRounds = Magazines[lastMemberOfList];
-                AnimatorController.SetLayerWeight(1, 0);
             }
 
             Magazines.RemoveAt(lastMemberOfList);
@@ -224,10 +234,10 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     public virtual void CheckAmmo()
     {
         bool animatorIsIdle = !AnimatorController.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+        bool thereAreNoRounds = AnimatorController.GetInteger("Rounds") <= 0;
+
         if (animatorIsIdle) return;
         //else...
-
-        AnimatorController.SetTrigger("CheckAmmo");
 
         string mags = Magazines.Count switch
         {
@@ -242,6 +252,10 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         };
 
         AmmoChecker.PrintMessage(message);
+
+        if (thereAreNoRounds) return;
+
+        AnimatorController.SetTrigger("CheckAmmo");
     }
 
     #endregion
