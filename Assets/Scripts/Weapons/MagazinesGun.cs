@@ -4,8 +4,6 @@ using UnityEngine;
 
 public class MagazinesGun : BaseWeapon, IWeapon, IGun
 {
-    private bool _isAiming;
-
     [Space(10)]
     [Header("Recoil Settings")]
     //
@@ -44,6 +42,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         set => magazines = value;
     }
 
+    private bool _isAiming;
     public bool IsAiming
     {
         get => _isAiming;
@@ -87,7 +86,8 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
     public virtual void MeleeAttack()
     {
-        if (!AnimatorController.GetCurrentAnimatorStateInfo(0).IsName("Idle")) return;
+        bool animatorIsNotIdle = !AnimatorController.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+        if (animatorIsNotIdle) return;
         //else...
 
         AnimatorController.SetTrigger("Melee");
@@ -102,7 +102,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
                              hitInfo: out RaycastHit hit,
                              maxDistance: MeleeRange,
                              layerMask: AttackLayers,
-                             QueryTriggerInteraction.Ignore);
+                             queryTriggerInteraction: QueryTriggerInteraction.Ignore);
 
         if (objectIsNotInRange) return;
         //else...
@@ -121,10 +121,11 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     public virtual void Fire()
     {
         bool cantFire = !AnimatorController.GetCurrentAnimatorStateInfo(0).IsTag("CanFire");
+        bool thereAreBulletsInMag = CurrentLoadedRounds > 0;
 
         if (cantFire) return;
+        //else...
 
-        bool thereAreBulletsInMag = CurrentLoadedRounds > 0;
         if (thereAreBulletsInMag)
         {
             AnimatorController.SetTrigger("Shoot");
@@ -235,25 +236,24 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     {
         bool animatorIsIdle = !AnimatorController.GetCurrentAnimatorStateInfo(0).IsName("Idle");
         bool thereAreNoRounds = AnimatorController.GetInteger("Rounds") <= 0;
-
-        if (animatorIsIdle) return;
-        //else...
-
         string mags = Magazines.Count switch
         {
             1 => "mag",
             _ => "mags"
         };
-
         string message = hasInfiniteAmmo switch
         {
             false => $"{CurrentLoadedRounds} | {Magazines.Count} {mags}",
             true => "INFINITE"
         };
 
+        if (animatorIsIdle) return;
+        //else...
+
         AmmoChecker.PrintMessage(message);
 
         if (thereAreNoRounds) return;
+        //else...
 
         AnimatorController.SetTrigger("CheckAmmo");
     }
@@ -262,12 +262,10 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
     public void AddMagazine(int bulletAmount)
     {
-        //sorts list from least to greatest.
-        Magazines.Sort();
-
         bool magazineListIsFull = Magazines.Count == Magazines.Capacity;
-        if (magazineListIsFull) Magazines.RemoveAt(0);
 
+        Magazines.Sort();
+        if (magazineListIsFull) Magazines.RemoveAt(0);
         Magazines.Add(bulletAmount);
     }
 
