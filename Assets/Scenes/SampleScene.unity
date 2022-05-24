@@ -745,7 +745,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26790
+  m_Name: pb_Mesh26792
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -4493,7 +4493,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26674
+  m_Name: pb_Mesh26676
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -10384,6 +10384,11 @@ PrefabInstance:
       propertyPath: m_LocalEulerAnglesHint.z
       value: 32.606
       objectReference: {fileID: 0}
+    - target: {fileID: -2323195290188939582, guid: 7e2ff9cad3515fe4689b159a6fd6c772,
+        type: 3}
+      propertyPath: m_TagString
+      value: LivingThings
+      objectReference: {fileID: 0}
     - target: {fileID: 919132149155446097, guid: 7e2ff9cad3515fe4689b159a6fd6c772,
         type: 3}
       propertyPath: m_Name
@@ -10399,6 +10404,11 @@ PrefabInstance:
       propertyPath: m_UpdateWhenOffscreen
       value: 1
       objectReference: {fileID: 0}
+    - target: {fileID: 7770911672109519305, guid: 7e2ff9cad3515fe4689b159a6fd6c772,
+        type: 3}
+      propertyPath: m_Materials.Array.data[0]
+      value: 
+      objectReference: {fileID: 2100000, guid: 1320f3268ac113d45a598ebe03ac3a7a, type: 2}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 7e2ff9cad3515fe4689b159a6fd6c772, type: 3}
 --- !u!4 &1665094458 stripped
@@ -11874,7 +11884,7 @@ Mesh:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInstance: {fileID: 0}
   m_PrefabAsset: {fileID: 0}
-  m_Name: pb_Mesh26530
+  m_Name: pb_Mesh26526
   serializedVersion: 10
   m_SubMeshes:
   - serializedVersion: 2
@@ -23190,7 +23200,7 @@ Animator:
   m_Controller: {fileID: 9100000, guid: 1ed798f39329f7643abe76fcf882b7ff, type: 2}
   m_CullingMode: 1
   m_UpdateMode: 0
-  m_ApplyRootMotion: 1
+  m_ApplyRootMotion: 0
   m_LinearVelocityBlending: 0
   m_WarningMessage: 
   m_HasTransformHierarchy: 1
