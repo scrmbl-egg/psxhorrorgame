@@ -93,7 +93,6 @@ public class ButtonEvent : MonoBehaviour, IInteractive
 
     public void Press()
     {
-        Debug.Log("Button pressed");
         pressedButton?.Invoke();
     }
 

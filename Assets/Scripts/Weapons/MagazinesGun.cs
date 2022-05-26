@@ -61,8 +61,6 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
         if (_camShake == null) _camShake = GetComponentInParent<CamShake>();
 
-        Magazines.Capacity = MaxAmountOfMagazines;
-
         //TODO: Remove method when guns are completely coded
         FillGunWithRandomMags();
     }
@@ -262,10 +260,15 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
     public void AddMagazine(int bulletAmount)
     {
-        bool magazineListIsFull = Magazines.Count == Magazines.Capacity;
+        bool magazineListIsFull = Magazines.Count >= MaxAmountOfMagazines;
 
         Magazines.Sort();
-        if (magazineListIsFull) Magazines.RemoveAt(0);
+
+        if (magazineListIsFull)
+        {
+            Magazines.RemoveAt(0);
+        }
+
         Magazines.Add(bulletAmount);
     }
 
