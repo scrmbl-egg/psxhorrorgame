@@ -189,6 +189,7 @@ GameObject:
   m_Component:
   - component: {fileID: 5927588315881432092}
   - component: {fileID: 6415613542290833081}
+  - component: {fileID: 8854492669781338240}
   m_Layer: 0
   m_Name: AnimatedSwitch
   m_TagString: Untagged
@@ -231,6 +232,19 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
+--- !u!65 &8854492669781338240
+BoxCollider:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInstance: {fileID: 0}
+  m_PrefabAsset: {fileID: 0}
+  m_GameObject: {fileID: 6415613542290833062}
+  m_Material: {fileID: 0}
+  m_IsTrigger: 0
+  m_Enabled: 1
+  serializedVersion: 2
+  m_Size: {x: 2.62, y: 1.21, z: 1.84}
+  m_Center: {x: 0, y: -0.12, z: 0}
 --- !u!1 &6719642112953985471
 GameObject:
   m_ObjectHideFlags: 0

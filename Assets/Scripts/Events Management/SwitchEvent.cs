@@ -40,6 +40,18 @@ public class SwitchEvent : MonoBehaviour, IInteractive
 
     #endregion
 
+    #region Public methods
+
+    #region IInteractive
+
+    public void Interact(Component sender)
+    {
+        PullInteraction();
+    }
+
+    #endregion
+
+    #endregion
     #region Private methods
 
     private void PullInteraction()
@@ -111,7 +123,7 @@ public class SwitchEvent : MonoBehaviour, IInteractive
             if (targetName != null)
             {
                 GameObject target = GameObject.Find(targetName);
-                Vector3 destination = target.transform.position + gizmoStateTwoOffset;
+                Vector3 destination = target.transform.position;
 
                 Gizmos.DrawLine(origin2, destination);
             }
@@ -119,18 +131,6 @@ public class SwitchEvent : MonoBehaviour, IInteractive
 
         #endregion
     }
-
-    #endregion
-    #region Public methods
-
-    #region IInteractive
-
-    public void Interact(Component sender)
-    {
-        PullInteraction();
-    }
-
-    #endregion
 
     #endregion
 }
