@@ -51,7 +51,7 @@ public class ButtonEvent : MonoBehaviour, IInteractive
         int listenerCount = pressedButton.GetPersistentEventCount();
         for (int i = 0; i < listenerCount; i++)
         {
-            string targetName = pressedButton?.GetPersistentTarget(i).name;
+            string targetName = pressedButton.GetPersistentTarget(i).name;
             if (targetName == null) continue;
             //else...
 
