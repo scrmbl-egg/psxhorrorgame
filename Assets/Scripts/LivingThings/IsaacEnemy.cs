@@ -15,12 +15,12 @@ public class IsaacEnemy : EnemyThing
     {
         base.Awake();
 
-        SetState(IdleState);
+        SetState( IdleState );
     }
 
     private void Update()
     {
-        _currentState?.UpdateState(this);
+        _currentState?.UpdateState( this );
     }
 
     #endregion
@@ -31,7 +31,7 @@ public class IsaacEnemy : EnemyThing
 
     public override void DeathEffect()
     {
-        SetState(null);
+        SetState( null );
 
         Agent.enabled = false;
         Rigidbody rb = GetComponent<Rigidbody>();
@@ -43,18 +43,18 @@ public class IsaacEnemy : EnemyThing
         bool isIdle = _currentState == IdleState;
         if (isIdle)
         {
-            SetTarget(PlayerTarget);
-            SetState(ChaseState);
+            SetTarget( PlayerTarget );
+            SetState( ChaseState );
         }
     }
 
     #endregion
 
-    public void SetState(IsaacState state)
+    public void SetState( IsaacState state )
     {
         _currentState = state;
 
-        if (state != null) state.EnterState(this);
+        if (state != null) state.EnterState( this );
     }
 
     public override void Attack()

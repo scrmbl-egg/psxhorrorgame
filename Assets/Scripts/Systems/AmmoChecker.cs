@@ -5,12 +5,12 @@ using TMPro;
 
 public class AmmoChecker : MonoBehaviour
 {
-    [Header("Properties")]
+    [Header( "Properties" )]
     //
     [SerializeField] private TMP_Text messageDisplay;
     [SerializeField] private float textDurationAfterPrint;
-    [SerializeField, Range(float.Epsilon, 10)] private float fadeInSpeed;
-    [SerializeField, Range(float.Epsilon, 10)] private float fadeOutSpeed;
+    [SerializeField, Range( float.Epsilon, 10 )] private float fadeInSpeed;
+    [SerializeField, Range( float.Epsilon, 10 )] private float fadeOutSpeed;
     private const float FADE_SPEED_MULTIPLIER = 0.01f;
     private string _currentText;
     private float _opacity;
@@ -26,10 +26,10 @@ public class AmmoChecker : MonoBehaviour
 
     #region Public methods
 
-    public void PrintMessage(string message)
+    public void PrintMessage( string message )
     {
         StopAllCoroutines();
-        StartCoroutine(PrintTextAndFade(message));
+        StartCoroutine( PrintTextAndFade( message ) );
     }
 
     #endregion
@@ -37,19 +37,19 @@ public class AmmoChecker : MonoBehaviour
 
     private void MessageDisplayManagement()
     {
-        _opacity = Mathf.Clamp01(_opacity);
+        _opacity = Mathf.Clamp01( _opacity );
 
-        Color textColor = 
-            new Color(r: messageDisplay.color.r,
+        Color textColor =
+            new Color( r: messageDisplay.color.r,
                       g: messageDisplay.color.g,
                       b: messageDisplay.color.b,
-                      a: _opacity);
+                      a: _opacity );
 
         messageDisplay.color = textColor;
         messageDisplay.text = _currentText;
     }
 
-    private IEnumerator PrintTextAndFade(string text)
+    private IEnumerator PrintTextAndFade( string text )
     {
         const float TARGET_OPACITY = 0.15f;
 
@@ -66,7 +66,7 @@ public class AmmoChecker : MonoBehaviour
         }
 
         //hold
-        yield return new WaitForSeconds(textDurationAfterPrint);
+        yield return new WaitForSeconds( textDurationAfterPrint );
 
         //fade out
         while (_opacity > 0)

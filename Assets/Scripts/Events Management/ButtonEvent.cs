@@ -9,10 +9,10 @@ using UnityEngine.Events;
 /// 
 /// A single (repeatable if wished) event is executed.
 /// </summary>
-[RequireComponent(typeof(Collider))]
+[RequireComponent( typeof( Collider ) )]
 public class ButtonEvent : MonoBehaviour, IInteractive
 {
-    [Header("Configuration / Dependencies")]
+    [Header( "Configuration / Dependencies" )]
     //
     [SerializeField] private bool pressIsRepeatable;
     [SerializeField] private bool showEventListeners = true;
@@ -20,8 +20,8 @@ public class ButtonEvent : MonoBehaviour, IInteractive
     [SerializeField] private Collider interactionArea;
     private bool _eventHasBeenExecuted;
 
-    [Space(10)]
-    [Header("Events")]
+    [Space( 10 )]
+    [Header( "Events" )]
     //
     [SerializeField] private UnityEvent pressedButton;
 
@@ -30,7 +30,7 @@ public class ButtonEvent : MonoBehaviour, IInteractive
     private void OnDrawGizmos()
     {
         Gizmos.color = gizmoColor;
-        Gizmos.DrawCube(interactionArea.bounds.center, interactionArea.bounds.size);
+        Gizmos.DrawCube( interactionArea.bounds.center, interactionArea.bounds.size );
 
         if (showEventListeners) DrawLinesTowardEventListeners();
     }
@@ -42,7 +42,7 @@ public class ButtonEvent : MonoBehaviour, IInteractive
     private void DrawLinesTowardEventListeners()
     {
         //pointer color removes transparency from the original gizmo color
-        Color pointerColor = new Color(gizmoColor.r, gizmoColor.g, gizmoColor.b, 1);
+        Color pointerColor = new Color( gizmoColor.r, gizmoColor.g, gizmoColor.b, 1 );
         Gizmos.color = pointerColor;
 
         //cycle through unity event targets and point towards their position
@@ -51,16 +51,14 @@ public class ButtonEvent : MonoBehaviour, IInteractive
         int listenerCount = pressedButton.GetPersistentEventCount();
         for (int i = 0; i < listenerCount; i++)
         {
-            string targetName = pressedButton.GetPersistentTarget(i).name;
-            if (targetName == null) continue;
+            Object targetObject = pressedButton.GetPersistentTarget( i );
+            if (targetObject == null) continue;
             //else...
 
-            //WARNING: EXPECT EXCEPTIONS WHEN SETTING UP IN THE INSPECTOR. IT'S COMPLETELY FINE.
-
-            GameObject target = GameObject.Find(targetName);
+            GameObject target = GameObject.Find( targetObject.name );
             Vector3 destination = target.transform.position;
 
-            Gizmos.DrawLine(origin, destination);
+            Gizmos.DrawLine( origin, destination );
         }
     }
 
@@ -69,7 +67,7 @@ public class ButtonEvent : MonoBehaviour, IInteractive
 
     #region IInteractive
 
-    public void Interact(Component sender)
+    public void Interact( Component sender )
     {
         if (pressIsRepeatable)
         {
@@ -84,7 +82,7 @@ public class ButtonEvent : MonoBehaviour, IInteractive
             }
             else
             {
-                Debug.Log("Button can't be pressed anymore");
+                Debug.Log( "Button can't be pressed anymore" );
             }
         }
     }

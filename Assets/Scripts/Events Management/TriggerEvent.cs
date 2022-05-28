@@ -72,16 +72,15 @@ public class TriggerEvent : MonoBehaviour
         int listenerCount = enteredThroughTrigger.GetPersistentEventCount();
         for (int i = 0; i < listenerCount; i++)
         {
-            //WARNING: EXPECT EXCEPTIONS WHEN SETTING UP THE INSPECTOR. IT'S COMPLETELY FINE.
+            Object targetObject = enteredThroughTrigger.GetPersistentTarget( i );
 
-            string targetName = enteredThroughTrigger.GetPersistentTarget(i).name;
-            if (targetName != null)
-            {
-                GameObject target = GameObject.Find(targetName);
-                Vector3 destination = target.transform.position;
+            if (targetObject == null) continue;
+            //else...
 
-                Gizmos.DrawLine(origin, destination);
-            }
+            GameObject target = GameObject.Find( targetObject.name );
+            Vector3 destination = target.transform.position;
+
+            Gizmos.DrawLine( origin, destination );
         }
     }
 

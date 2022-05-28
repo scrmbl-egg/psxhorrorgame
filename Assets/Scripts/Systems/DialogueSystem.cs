@@ -5,18 +5,24 @@ using TMPro;
 
 public class DialogueSystem : MonoBehaviour
 {
-    [Header("Properties")]
+    [Header( "Properties" )]
     //
     [SerializeField] private TMP_Text messageDisplay;
-    [SerializeField, Min(1)] private float charactersPerSecond;
+    [SerializeField, Min( 1 )] private float charactersPerSecond;
     [SerializeField] private float textDurationAfterTyping;
-    [SerializeField, Range(float.Epsilon, 25)] private float fadeOutSpeed;
+    [SerializeField, Range( float.Epsilon, 25 )] private float fadeOutSpeed;
     private const float FADE_SPEED_MULTIPLIER = 0.01f;
+    private AudioSource _audioSource;
     private Queue<string> _messageQueue = new Queue<string>();
     private string _currentText;
     private float _opacity;
 
     #region MonoBehaviour
+
+    private void Awake()
+    {
+        _audioSource = GetComponent<AudioSource>();
+    }
 
     private void Update()
     {
@@ -31,22 +37,35 @@ public class DialogueSystem : MonoBehaviour
     /// Prints a message and clears the current queue.
     /// </summary>
     /// <param name="message">Message to print.</param>
-    public void PrintMessage(string message)
+    public void PrintMessage( string message )
     {
         StopAllCoroutines();
 
         if (_messageQueue.Count > 0) _messageQueue.Clear();
 
-        StartCoroutine(TypeMessage(message));
+        StartCoroutine( TypeMessage( message, false ) );
+    }
+
+    /// <summary>
+    /// Prints a message with sound and clears the current queue.
+    /// </summary>
+    /// <param name="message">Message to print.</param>
+    public void PrintMessageWithSound( string message )
+    {
+        StopAllCoroutines();
+
+        if (_messageQueue.Count > 0) _messageQueue.Clear();
+
+        StartCoroutine( TypeMessage( message, true ) );
     }
 
     /// <summary>
     /// Queues a message for later printing.
     /// </summary>
     /// <param name="message">Queued message.</param>
-    public void QueueMessage(string message)
+    public void QueueMessage( string message )
     {
-        _messageQueue.Enqueue(message);
+        _messageQueue.Enqueue( message );
     }
 
     #endregion
@@ -54,19 +73,19 @@ public class DialogueSystem : MonoBehaviour
 
     private void MessageDisplayManagement()
     {
-        _opacity = Mathf.Clamp01(_opacity);
+        _opacity = Mathf.Clamp01( _opacity );
 
-        Color color = 
-            new Color(r: messageDisplay.color.r,
+        Color color =
+            new Color( r: messageDisplay.color.r,
                       g: messageDisplay.color.g,
                       b: messageDisplay.color.b,
-                      a: _opacity);
+                      a: _opacity );
 
         messageDisplay.color = color;
         messageDisplay.text = _currentText;
     }
 
-    private IEnumerator TypeMessage(string message)
+    private IEnumerator TypeMessage( string message, bool hasSound )
     {
         const float TARGET_OPACITY = 0.15f;
 
@@ -77,14 +96,23 @@ public class DialogueSystem : MonoBehaviour
         _currentText = string.Empty;
 
         //type
-        foreach (char character in characters)
+        for (int i = 0; i < characters.Length; i++)
         {
+            char character = characters[ i ];
+            bool characterIsEven = i % 2 == 0;
+
             _currentText += character;
-            yield return new WaitForSeconds(secondsPerCharacter);
+
+            if (hasSound && characterIsEven)
+            {
+                _audioSource.PlayOneShot( _audioSource.clip );
+            }
+
+            yield return new WaitForSeconds( secondsPerCharacter );
         }
 
         //hold
-        yield return new WaitForSeconds(textDurationAfterTyping);
+        yield return new WaitForSeconds( textDurationAfterTyping );
 
         //fade out
         while (_opacity > 0)
@@ -97,17 +125,17 @@ public class DialogueSystem : MonoBehaviour
 
         if (_messageQueue.Count > 0)
         {
-            PrintNextMessageInQueue();
+            PrintNextMessageInQueue( hasSound );
         }
 
         yield break;
     }
 
-    private void PrintNextMessageInQueue()
+    private void PrintNextMessageInQueue( bool willHaveSound )
     {
         StopAllCoroutines();
 
-        StartCoroutine(TypeMessage(_messageQueue.Peek()));
+        StartCoroutine( TypeMessage( _messageQueue.Peek(), willHaveSound ) );
         _messageQueue.Dequeue();
     }
 

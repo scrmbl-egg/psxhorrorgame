@@ -8,15 +8,15 @@ public class PlayerMovement : MonoBehaviour
     //input
     private PlayerInputActions _playerInputActions;
 
-    [Header("Movement")]
+    [Header( "Movement" )]
     //
     [SerializeField] private Transform orientation;
-    [Space(2)]
+    [Space( 2 )]
     [SerializeField] private float defaultMovementSpeed = 2f;
-    [Space(2)]
-    [SerializeField, Range(1, 5)] private float movementWhenRunningMultiplier;
+    [Space( 2 )]
+    [SerializeField, Range( 1, 5 )] private float movementWhenRunningMultiplier;
     [SerializeField] private float movementLerpingTime;
-    [SerializeField, Range(0, 1)] private float movementSpeedOnAirMultiplier;
+    [SerializeField, Range( 0, 1 )] private float movementSpeedOnAirMultiplier;
     [SerializeField] private float airDrag = 2f;
     private float _currentMovementSpeed;
     private float _defaultDrag;
@@ -27,7 +27,7 @@ public class PlayerMovement : MonoBehaviour
     private bool _runningIsPressed;
     public bool IsRunning { get; private set; }
 
-    [Header("Ground detection")]
+    [Header( "Ground detection" )]
     //
     [SerializeField] private Transform groundCheck;
     [SerializeField] private CapsuleCollider capsuleCollider;
@@ -38,11 +38,11 @@ public class PlayerMovement : MonoBehaviour
     {
         get
         {
-            return 
-                Physics.CheckSphere(position: groundCheck.position,
+            return
+                Physics.CheckSphere( position: groundCheck.position,
                                     radius: groundCheckRadius,
                                     layerMask: canWalkOver,
-                                    queryTriggerInteraction: QueryTriggerInteraction.Ignore);
+                                    queryTriggerInteraction: QueryTriggerInteraction.Ignore );
         }
     }
 
@@ -52,15 +52,15 @@ public class PlayerMovement : MonoBehaviour
         get
         {
             //raycast to check hitinfo/floor normal
-            bool slopeRay = Physics.Raycast(origin: transform.position,
+            bool slopeRay = Physics.Raycast( origin: transform.position,
                                             direction: Vector3.down,
                                             hitInfo: out _slopeHit,
-                                            maxDistance: (capsuleCollider.height / 2) + .25f,
+                                            maxDistance: ( capsuleCollider.height / 2 ) + .25f,
                                             layerMask: canWalkOver,
-                                            queryTriggerInteraction: QueryTriggerInteraction.Ignore);
+                                            queryTriggerInteraction: QueryTriggerInteraction.Ignore );
 
             if (!slopeRay) return false; //guard clause
-            
+
             if (_slopeHit.normal != Vector3.up) return true;
             else return false;
         }
@@ -123,7 +123,7 @@ public class PlayerMovement : MonoBehaviour
 
     #region Input
 
-    private void RunDetection(InputAction.CallbackContext ctx)
+    private void RunDetection( InputAction.CallbackContext ctx )
     {
         bool buttonIsPressed = ctx.ReadValueAsButton();
 
@@ -137,13 +137,13 @@ public class PlayerMovement : MonoBehaviour
     {
         Vector2 input = _playerInputActions.PlayerThing.Move.ReadValue<Vector2>();
 
-        _movementDirection = 
-            orientation.forward * input.y 
+        _movementDirection =
+            orientation.forward * input.y
             + orientation.right * input.x;
 
-        _movementDirectionOnSlope = 
-            Vector3.ProjectOnPlane(vector: _movementDirection,
-                                   planeNormal: _slopeHit.normal);
+        _movementDirectionOnSlope =
+            Vector3.ProjectOnPlane( vector: _movementDirection,
+                                   planeNormal: _slopeHit.normal );
     }
 
     private void ManageRunning()
@@ -160,14 +160,14 @@ public class PlayerMovement : MonoBehaviour
         float runningSpeed = defaultMovementSpeed * movementWhenRunningMultiplier;
         float t = Time.deltaTime * movementLerpingTime;
 
-        float lerpTowardsRunningSpeed = 
-            Mathf.Lerp(a: _currentMovementSpeed,
+        float lerpTowardsRunningSpeed =
+            Mathf.Lerp( a: _currentMovementSpeed,
                        b: runningSpeed,
-                       t: t);
-        float lerpTowardsDefaultSpeed = 
-            Mathf.Lerp(a: _currentMovementSpeed,
+                       t: t );
+        float lerpTowardsDefaultSpeed =
+            Mathf.Lerp( a: _currentMovementSpeed,
                        b: defaultMovementSpeed,
-                       t: t);
+                       t: t );
 
         if (IsRunning) _currentMovementSpeed = lerpTowardsRunningSpeed;
         else _currentMovementSpeed = lerpTowardsDefaultSpeed;
@@ -183,38 +183,38 @@ public class PlayerMovement : MonoBehaviour
     {
         if (IsGrounded && !IsOnSlope)
         {
-            Vector3 movement = 
+            Vector3 movement =
                 _movementDirection
-                * _currentMovementSpeed 
+                * _currentMovementSpeed
                 * MOVEMENT_SPEED_MULTIPLIER;
 
-            _rigidBody.AddForce(movement, ForceMode.Acceleration);
+            _rigidBody.AddForce( movement, ForceMode.Acceleration );
         }
         else if (IsGrounded && IsOnSlope)
         {
-            Vector3 movement = 
-                _movementDirectionOnSlope 
-                * _currentMovementSpeed 
+            Vector3 movement =
+                _movementDirectionOnSlope
+                * _currentMovementSpeed
                 * MOVEMENT_SPEED_MULTIPLIER;
 
-            _rigidBody.AddForce(movement, ForceMode.Acceleration);
+            _rigidBody.AddForce( movement, ForceMode.Acceleration );
         }
         else //player is in the air
         {
-            Vector3 movement = 
-                _movementDirection 
-                * movementSpeedOnAirMultiplier 
-                * _currentMovementSpeed 
+            Vector3 movement =
+                _movementDirection
+                * movementSpeedOnAirMultiplier
+                * _currentMovementSpeed
                 * MOVEMENT_SPEED_MULTIPLIER;
 
-            _rigidBody.AddForce(movement, ForceMode.Acceleration);
+            _rigidBody.AddForce( movement, ForceMode.Acceleration );
         }
     }
 
     private void DrawGroundCheck()
     {
         Gizmos.color = Color.red;
-        Gizmos.DrawWireSphere(groundCheck.position, groundCheckRadius);
+        Gizmos.DrawWireSphere( groundCheck.position, groundCheckRadius );
     }
 
     private void DrawMovementVector()
@@ -226,7 +226,7 @@ public class PlayerMovement : MonoBehaviour
         if (IsOnSlope) ray = _movementDirectionOnSlope;
         else ray = _movementDirection;
 
-        Gizmos.DrawRay(origin, ray.normalized);
+        Gizmos.DrawRay( origin, ray.normalized );
     }
 
     #endregion

@@ -9,23 +9,23 @@ using UnityEngine;
 public class RoundsGun : BaseWeapon, IWeapon, IGun
 {
     private bool _isAiming;
-    
-    [Space(10)]
-    [Header("Recoil Settings")]
+
+    [Space( 10 )]
+    [Header( "Recoil Settings" )]
     //
     [SerializeField] private float recoilSpeed;
     [SerializeField] private float recoverSpeed;
     [SerializeField] private Vector3 recoil;
     private static CamShake _camShake;
 
-    [Space(10)]
-    [Header("Ammunition Settings")]
+    [Space( 10 )]
+    [Header( "Ammunition Settings" )]
     //
     [SerializeField] private bool hasInfiniteAmmo;
     [SerializeField] private int currentLoadedRounds;
-    [SerializeField, Min(1)] private int maxLoadedRounds;
+    [SerializeField, Min( 1 )] private int maxLoadedRounds;
     [SerializeField] private int currentTotalAmmo;
-    [SerializeField, Min(1)] private int maxTotalAmmo;
+    [SerializeField, Min( 1 )] private int maxTotalAmmo;
     private const int ONE_IN_THE_CHAMBER = 1;
 
     public int CurrentLoadedRounds
@@ -36,14 +36,14 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
             if (hasInfiniteAmmo) return;
             //else...
 
-            currentLoadedRounds = Mathf.Clamp(value, 0, maxLoadedRounds + ONE_IN_THE_CHAMBER);
+            currentLoadedRounds = Mathf.Clamp( value, 0, maxLoadedRounds + ONE_IN_THE_CHAMBER );
         }
     }
     public int MaxLoadedRounds => maxLoadedRounds;
     public int CurrentTotalAmmo
     {
         get => currentTotalAmmo;
-        set => currentTotalAmmo = Mathf.Clamp(value, 0, maxTotalAmmo);
+        set => currentTotalAmmo = Mathf.Clamp( value, 0, maxTotalAmmo );
     }
     public int MaxTotalAmmo => maxTotalAmmo;
 
@@ -73,37 +73,37 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
 
     public virtual void MeleeAttack()
     {
-        bool animatorIsNotIdleState = AnimatorController.GetCurrentAnimatorStateInfo(0).IsName("Idle");
+        bool animatorIsNotIdleState = AnimatorController.GetCurrentAnimatorStateInfo( 0 ).IsName( "Idle" );
 
         if (animatorIsNotIdleState) return;
         //else...
 
-        AnimatorController.SetTrigger("Melee");
+        AnimatorController.SetTrigger( "Melee" );
 
         _camShake.ShakeCamera();
 
         Ray meleeRay =
-            new Ray(origin: RaycastOrigin.position,
-                    direction: RaycastOrigin.forward);
+            new Ray( origin: RaycastOrigin.position,
+                    direction: RaycastOrigin.forward );
         bool objectIsNotInRange =
-            !Physics.Raycast(ray: meleeRay,
+            !Physics.Raycast( ray: meleeRay,
                              hitInfo: out RaycastHit hit,
                              maxDistance: MeleeRange,
                              layerMask: AttackLayers,
-                             queryTriggerInteraction: QueryTriggerInteraction.Ignore);
+                             queryTriggerInteraction: QueryTriggerInteraction.Ignore );
 
         if (objectIsNotInRange) return;
         //else...
 
-        PushRigidbodyFromRaycastHit(hit, MeleeForce);
+        PushRigidbodyFromRaycastHit( hit, MeleeForce );
 
-        bool hitDoesntHaveLivingThingsTag = !hit.transform.CompareTag("LivingThings");
+        bool hitDoesntHaveLivingThingsTag = !hit.transform.CompareTag( "LivingThings" );
         if (hitDoesntHaveLivingThingsTag) return;
         //else...
 
-        GetLivingThingFromTransform(hit.transform, out LivingThing target);
+        GetLivingThingFromTransform( hit.transform, out LivingThing target );
         target.Health -= MeleeDamage;
-        target.BleedFromRaycastHit(hit);
+        target.BleedFromRaycastHit( hit );
     }
 
     public virtual void Fire()
@@ -115,46 +115,46 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
             {
                 //TODO: PLAY LAST SHOT ANIMATION
             }
-            
+
             if (CurrentLoadedRounds > ONE_IN_THE_CHAMBER)
             {
                 //TODO: PLAY REGULAR SHOT ANIMATION
-                AnimatorController.SetTrigger("Shoot");
+                AnimatorController.SetTrigger( "Shoot" );
             }
 
             for (int i = 0; i < PelletsPerShot; i++)
             {
-                Ray shot = 
-                    new Ray(origin: RaycastOrigin.position,
-                            direction: ApplySpreadToDirection(RaycastOrigin.forward));
-                bool objectIsNotInRange = 
-                    !Physics.Raycast(ray: shot,
+                Ray shot =
+                    new Ray( origin: RaycastOrigin.position,
+                            direction: ApplySpreadToDirection( RaycastOrigin.forward ) );
+                bool objectIsNotInRange =
+                    !Physics.Raycast( ray: shot,
                                      hitInfo: out RaycastHit hit,
                                      maxDistance: WeaponRange,
                                      layerMask: AttackLayers,
-                                     QueryTriggerInteraction.Ignore);
+                                     QueryTriggerInteraction.Ignore );
 
                 if (objectIsNotInRange) continue;
                 //else...
 
-                PushRigidbodyFromRaycastHit(hit, WeaponForce / PelletsPerShot);
+                PushRigidbodyFromRaycastHit( hit, WeaponForce / PelletsPerShot );
 
-                bool targetHasLivingThingTag = hit.transform.CompareTag("LivingThings");
+                bool targetHasLivingThingTag = hit.transform.CompareTag( "LivingThings" );
                 if (targetHasLivingThingTag)
                 {
-                    GetLivingThingFromTransform(hit.transform, out LivingThing target);
+                    GetLivingThingFromTransform( hit.transform, out LivingThing target );
 
                     target.Health -= WeaponDamage / PelletsPerShot;
-                    target.BleedFromRaycastHit(hit);
+                    target.BleedFromRaycastHit( hit );
                 }
                 else
                 {
-                    SpawnRandomBulletHole(hit);
+                    SpawnRandomBulletHole( hit );
                 }
             }
 
             CurrentLoadedRounds--;
-            _camShake.ShakeCamera(recoil, recoilSpeed, recoverSpeed);
+            _camShake.ShakeCamera( recoil, recoilSpeed, recoverSpeed );
         }
         else
         {
@@ -193,12 +193,12 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
             true => "INFINITE"
         };
 
-        AmmoChecker.PrintMessage(message);
+        AmmoChecker.PrintMessage( message );
     }
 
     #endregion
 
-    public void AddRounds(int amount)
+    public void AddRounds( int amount )
     {
         CurrentTotalAmmo += amount;
     }

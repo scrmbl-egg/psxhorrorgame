@@ -16,12 +16,12 @@ public class ExampleEnemy : EnemyThing
     {
         base.Awake();
 
-        SetState(IdleState);
+        SetState( IdleState );
     }
 
     private void Update()
     {
-        _currentState.UpdateState(this);
+        _currentState.UpdateState( this );
     }
 
     #endregion
@@ -33,15 +33,15 @@ public class ExampleEnemy : EnemyThing
         bool isIdle = _currentState == IdleState;
         if (isIdle)
         {
-            SetTarget(PlayerTarget);
-            SetState(ChaseState);
+            SetTarget( PlayerTarget );
+            SetState( ChaseState );
         }
     }
 
-    public void SetState(ExampleEnemyState state)
+    public void SetState( ExampleEnemyState state )
     {
         _currentState = state;
-        state.EnterState(this);
+        state.EnterState( this );
     }
 
     public override void Attack()

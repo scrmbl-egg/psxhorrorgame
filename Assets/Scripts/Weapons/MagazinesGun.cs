@@ -76,6 +76,12 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         Gizmos.DrawRay( RaycastOrigin.position, RaycastOrigin.forward * MeleeRange );
     }
 
+    #region Animation Events
+
+
+
+    #endregion
+
     #endregion
 
     #region Public methods

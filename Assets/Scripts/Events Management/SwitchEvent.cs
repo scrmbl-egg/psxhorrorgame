@@ -11,18 +11,18 @@ using UnityEngine.Events;
 /// the switch is prepared to execute the other next time it's pulled, 
 /// cycling again and again.
 /// </summary>
-[RequireComponent(typeof(Collider))]
+[RequireComponent( typeof( Collider ) )]
 public class SwitchEvent : MonoBehaviour, IInteractive
 {
-    [Header("Configuration / Dependencies")]
+    [Header( "Configuration / Dependencies" )]
     //
     [SerializeField] private bool showEventListeners = true;
     [SerializeField] private Color gizmoColor;
     [SerializeField] private Collider interactionArea;
     private bool _switchIsPulled;
 
-    [Space(10)]
-    [Header("Events")]
+    [Space( 10 )]
+    [Header( "Events" )]
     //
     [SerializeField] private UnityEvent onSwitchStateOne;
     [SerializeField] private UnityEvent onSwitchStateTwo;
@@ -33,7 +33,7 @@ public class SwitchEvent : MonoBehaviour, IInteractive
     private void OnDrawGizmos()
     {
         Gizmos.color = gizmoColor;
-        Gizmos.DrawCube(interactionArea.bounds.center, interactionArea.bounds.size);
+        Gizmos.DrawCube( interactionArea.bounds.center, interactionArea.bounds.size );
 
         if (showEventListeners) DrawLinesTowardEventListeners();
     }
@@ -44,7 +44,7 @@ public class SwitchEvent : MonoBehaviour, IInteractive
 
     #region IInteractive
 
-    public void Interact(Component sender)
+    public void Interact( Component sender )
     {
         PullInteraction();
     }
@@ -83,7 +83,7 @@ public class SwitchEvent : MonoBehaviour, IInteractive
         #region State One Listeners
 
         //first pointer color removes transparency from the original gizmo color
-        Color stateOneListenerColor = new Color(gizmoColor.r, gizmoColor.g, gizmoColor.b, 1);
+        Color stateOneListenerColor = new Color( gizmoColor.r, gizmoColor.g, gizmoColor.b, 1 );
         Gizmos.color = stateOneListenerColor;
 
         //cycle through unity event targets and point towards their position
@@ -92,23 +92,21 @@ public class SwitchEvent : MonoBehaviour, IInteractive
         int stateOneListenersCount = onSwitchStateOne.GetPersistentEventCount();
         for (int i = 0; i < stateOneListenersCount; i++)
         {
-            //WARNING: EXPECT EXCEPTIONS WHEN SETTING UP THE INSPECTOR. IT'S COMPLETELY FINE.
+            Object targetObject = onSwitchStateOne.GetPersistentTarget( i );
+            if (targetObject == null) continue;
+            //else...
 
-            string targetName = onSwitchStateOne.GetPersistentTarget(i).name;
-            if (targetName != null)
-            {
-                GameObject target = GameObject.Find(targetName);
-                Vector3 destination = target.transform.position;
+            GameObject target = GameObject.Find( targetObject.name );
+            Vector3 destination = target.transform.position;
 
-                Gizmos.DrawLine(origin1, destination);
-            }
+            Gizmos.DrawLine( origin1, destination );
         }
 
         #endregion
         #region State Two Listeners
 
         //second pointer color removes transparency from the original gizmo color and inverts it
-        Color stateTwoListenerColor = new Color(1 - gizmoColor.r, 1 - gizmoColor.g, 1 - gizmoColor.b, 1);
+        Color stateTwoListenerColor = new Color( 1 - gizmoColor.r, 1 - gizmoColor.g, 1 - gizmoColor.b, 1 );
         Gizmos.color = stateTwoListenerColor;
 
         //cycle through unity event targets and point towards their position with an offset
@@ -117,16 +115,14 @@ public class SwitchEvent : MonoBehaviour, IInteractive
         int stateTwoListenersCount = onSwitchStateTwo.GetPersistentEventCount();
         for (int i = 0; i < stateTwoListenersCount; i++)
         {
-            //WARNING: EXPECT EXCEPTIONS WHEN SETTING UP THE INSPECTOR. IT'S COMPLETELY FINE.
+            Object targetObject = onSwitchStateTwo.GetPersistentTarget( i );
+            if (targetObject == null) continue;
+            //else...
 
-            string targetName = onSwitchStateTwo.GetPersistentTarget(i).name;
-            if (targetName != null)
-            {
-                GameObject target = GameObject.Find(targetName);
-                Vector3 destination = target.transform.position;
+            GameObject target = GameObject.Find( targetObject.name );
+            Vector3 destination = target.transform.position;
 
-                Gizmos.DrawLine(origin2, destination);
-            }
+            Gizmos.DrawLine( origin2, destination );
         }
 
         #endregion
