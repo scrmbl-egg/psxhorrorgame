@@ -31,7 +31,6 @@ public class BaseWeapon : MonoBehaviour
     [SerializeField] private LayerMask attackLayers;
     [SerializeField] private GameObject[] hitDecals;
     [SerializeField] private GameObject[] hitParticles;
-
     public string WeaponName => weaponName;
     public Transform RaycastOrigin => raycastOrigin;
     public int PelletsPerShot => pelletsPerShot;
@@ -58,6 +57,34 @@ public class BaseWeapon : MonoBehaviour
             return hitParticles[ random ];
         }
     }
+
+    [Header( "Sounds" )]
+    //
+    [SerializeField] private AudioClip[] meleeSounds;
+    [SerializeField] private AudioClip[] firingSounds;
+
+    public AudioSource AudioSource { get; private set; }
+    public AudioClip RandomMeleeSound
+    {
+        get
+        {
+            if (meleeSounds.Length == 0) return null;
+            //else...
+
+            return meleeSounds[ Random.Range( 0, meleeSounds.Length ) ];
+        }
+    }
+    public AudioClip RandomFiringSound
+    {
+        get
+        {
+            if (firingSounds.Length == 0) return null;
+            //else...
+
+            return firingSounds[ Random.Range( 0, firingSounds.Length ) ];
+        }
+    }
+
     public Animator AnimatorController { get; private set; }
     public static AmmoChecker AmmoChecker { get; private set; }
 
@@ -68,6 +95,7 @@ public class BaseWeapon : MonoBehaviour
         if (AmmoChecker == null) AmmoChecker = FindObjectOfType<AmmoChecker>();
 
         AnimatorController = GetComponent<Animator>();
+        AudioSource = GetComponent<AudioSource>();
     }
 
     #endregion

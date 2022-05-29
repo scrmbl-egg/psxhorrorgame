@@ -78,7 +78,15 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
     #region Animation Events
 
+    public void MeleeSound()
+    {
+        AudioSource.PlayOneShot( RandomMeleeSound );
+    }
 
+    public void FiringSound()
+    {
+        AudioSource.PlayOneShot( RandomFiringSound );
+    }
 
     #endregion
 
@@ -163,12 +171,6 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
                 {
                     SpawnRandomBulletHole( hit );
                 }
-            }
-
-            bool lastRound = CurrentLoadedRounds == 1;
-            if (lastRound)
-            {
-                AnimatorController.SetLayerWeight( 1, 1 );
             }
 
             CurrentLoadedRounds--;
@@ -285,6 +287,12 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
     {
         AnimatorController.SetInteger( "Rounds", CurrentLoadedRounds );
         AnimatorController.SetInteger( "Magazines", Magazines.Count );
+
+        bool noRounds = AnimatorController.GetInteger( "Rounds" ) <= 0;
+        if (noRounds)
+        {
+            AnimatorController.SetLayerWeight( 1, 1 );
+        }
     }
 
     private void FillGunWithRandomMags()

@@ -14,6 +14,7 @@ public class Ammunition : MonoBehaviour, IInteractive
     [SerializeField] private string targetWeaponName;
     private static DialogueSystem _dialogue;
     private AudioSource _audioSource;
+    private AudioSource _childAudioSource;
 
     [Space( 10 )]
     [Header( "Properties" )]
@@ -34,6 +35,14 @@ public class Ammunition : MonoBehaviour, IInteractive
     }
 
     [Space( 10 )]
+    [Header( "Physics Properties" )]
+    //
+    [SerializeField] private float relativeVelocityThreshold;
+    [SerializeField] private AudioClip[] collisionClips;
+    [SerializeField] private float pitchDifference;
+    private float _defaultCollisionPitch;
+
+    [Space( 10 )]
     [Header( "Other" )]
     //
     [SerializeField] private bool showInteractionArea;
@@ -46,6 +55,24 @@ public class Ammunition : MonoBehaviour, IInteractive
         if (_dialogue == null) _dialogue = FindObjectOfType<DialogueSystem>();
 
         _audioSource = GetComponent<AudioSource>();
+        _childAudioSource = transform.GetChild( 0 ).GetComponent<AudioSource>();
+        _defaultCollisionPitch = _childAudioSource.pitch;
+    }
+
+    private void OnCollisionEnter( Collision collision )
+    {
+        bool shouldNotPlaySound = collision.relativeVelocity.magnitude < relativeVelocityThreshold;
+
+        if (shouldNotPlaySound) return;
+        //else...
+
+        AudioClip randomClip = collisionClips[ Random.Range( 0, collisionClips.Length ) ];
+        float randomPitch = _defaultCollisionPitch + Random.Range( -pitchDifference, pitchDifference );
+
+        _childAudioSource.clip = randomClip;
+        _childAudioSource.pitch = randomPitch;
+
+        _childAudioSource.Play();
     }
 
     private void OnDrawGizmos()

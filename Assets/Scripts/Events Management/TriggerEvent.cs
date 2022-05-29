@@ -9,10 +9,10 @@ using UnityEngine.Events;
 /// 
 /// A single (repeatable if wished) event is executed.
 /// </summary>
-[RequireComponent(typeof(Collider))]
+[RequireComponent( typeof( Collider ) )]
 public class TriggerEvent : MonoBehaviour
 {
-    [Header("Configuration / Dependencies")]
+    [Header( "Configuration / Dependencies" )]
     //
     [SerializeField] private bool actionIsRepeatable;
     [SerializeField] private bool showEventListeners = true;
@@ -20,15 +20,15 @@ public class TriggerEvent : MonoBehaviour
     [SerializeField] private Collider trigger;
     private bool _eventHasBeenExecuted;
 
-    [Space(10)]
-    [Header("Events")]
+    [Space( 10 )]
+    [Header( "Events" )]
     //
     [SerializeField] private UnityEvent enteredThroughTrigger;
 
     #region MonoBehaviour
-    private void OnTriggerEnter(Collider other)
+    private void OnTriggerEnter( Collider other )
     {
-        bool colliderIsPlayer = other.CompareTag("Player");
+        bool colliderIsPlayer = other.CompareTag( "Player" );
 
         if (colliderIsPlayer) InvokeEvents();
     }
@@ -52,7 +52,7 @@ public class TriggerEvent : MonoBehaviour
     private void OnDrawGizmos()
     {
         Gizmos.color = gizmoColor;
-        Gizmos.DrawCube(trigger.bounds.center, trigger.bounds.size);
+        Gizmos.DrawCube( trigger.bounds.center, trigger.bounds.size );
 
         if (showEventListeners) DrawLinesTowardEventListeners();
     }
@@ -63,7 +63,7 @@ public class TriggerEvent : MonoBehaviour
     private void DrawLinesTowardEventListeners()
     {
         //pointer color removes transparency from the original gizmo color
-        Color pointerColor = new Color(gizmoColor.r, gizmoColor.g, gizmoColor.b, 1);
+        Color pointerColor = new Color( gizmoColor.r, gizmoColor.g, gizmoColor.b, 1 );
         Gizmos.color = pointerColor;
 
         //cycle through unity event targets and point towards their position
