@@ -28,7 +28,7 @@ public class Ammunition : MonoBehaviour, IInteractive
     {
         get
         {
-            int bonus = Random.Range( 0, MAX_BONUS_BULLETS + 1 );
+            int bonus = Random.Range( 0, maxRandomBonusBullets + 1 );
 
             return minimumBullets + bonus;
         }
@@ -124,6 +124,17 @@ public class Ammunition : MonoBehaviour, IInteractive
 
     private void PickupRounds( RoundsGun gun )
     {
+        string number;
+        if (AmountOfBullets == 1)
+        {
+            if (ammoName.StartsWithVowel()) number = "an";
+            else number = "a";
+        }
+        else
+        {
+            number = AmountOfBullets.ToString();
+        }
+
         string rounds = AmountOfBullets switch
         {
             1 => "round",
@@ -131,7 +142,7 @@ public class Ammunition : MonoBehaviour, IInteractive
         };
 
         string pickupMessage =
-            $"Picked up {AmountOfBullets} {ammoName} {rounds} for your {targetWeaponName}.";
+            $"Picked up {number} {ammoName} {rounds} for your {targetWeaponName}.";
 
         _dialogue.PrintMessage( pickupMessage );
         gun.AddRounds( AmountOfBullets );
