@@ -5670,8 +5670,8 @@ Transform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 7919673528966488274}
   - {fileID: 5468587583854259390}
+  - {fileID: 7919673528966488274}
   m_Father: {fileID: 351903926}
   m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
@@ -34618,7 +34618,7 @@ GameObject:
   - component: {fileID: 2090936570352989892}
   - component: {fileID: 4661089015511840262}
   m_Layer: 7
-  m_Name: PistolAnimations
+  m_Name: Pistol
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -37754,7 +37754,7 @@ Transform:
   - {fileID: 1456354423539667998}
   - {fileID: 7288017211619053167}
   m_Father: {fileID: 1016312248}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &5483250549749496647
 GameObject:
@@ -44878,7 +44878,7 @@ GameObject:
   - component: {fileID: 7395902012047293034}
   - component: {fileID: 7395902012047293033}
   m_Layer: 7
-  m_Name: ShotgunAnimations (2)
+  m_Name: Shotgun
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -46522,7 +46522,7 @@ Transform:
   - {fileID: 4839183186575393283}
   - {fileID: 2699043392374072789}
   m_Father: {fileID: 1016312248}
-  m_RootOrder: 0
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &7921650592583130852
 GameObject:
