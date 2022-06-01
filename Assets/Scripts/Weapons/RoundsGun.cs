@@ -71,6 +71,12 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
         UpdateAnimatorParameters();
     }
 
+    private void OnDrawGizmosSelected()
+    {
+        Gizmos.color = Color.red;
+        Gizmos.DrawRay( RaycastOrigin.position, RaycastOrigin.forward * MeleeRange );
+    }
+
     #endregion
 
     #region Public methods
