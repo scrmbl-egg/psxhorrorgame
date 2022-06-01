@@ -240,7 +240,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
 
     public virtual void CheckAmmo()
     {
-        bool animatorIsIdle = !AnimatorController.GetCurrentAnimatorStateInfo( 0 ).IsName( "Idle" );
+        bool animatorIsNotIdle = !AnimatorController.GetCurrentAnimatorStateInfo( 0 ).IsName( "Idle" );
         bool thereAreNoRounds = AnimatorController.GetInteger( "Rounds" ) <= 0;
         string mags = Magazines.Count switch
         {
@@ -253,7 +253,7 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
             true => "INFINITE"
         };
 
-        if (animatorIsIdle) return;
+        if (animatorIsNotIdle) return;
         //else...
 
         AmmoChecker.PrintMessage( message );

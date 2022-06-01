@@ -53,6 +53,7 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
         set
         {
             _isAiming = value;
+            AnimatorController.SetBool( "Aim", value );
         }
     }
 
@@ -65,6 +66,11 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
         if (_camShake == null) _camShake = GetComponentInParent<CamShake>();
     }
 
+    private void Update()
+    {
+        UpdateAnimatorParameters();
+    }
+
     #endregion
 
     #region Public methods
@@ -73,7 +79,8 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
 
     public virtual void MeleeAttack()
     {
-        bool animatorIsNotIdleState = AnimatorController.GetCurrentAnimatorStateInfo( 0 ).IsName( "Idle" );
+
+        bool animatorIsNotIdleState = !AnimatorController.GetCurrentAnimatorStateInfo( 0 ).IsName( "Idle" );
 
         if (animatorIsNotIdleState) return;
         //else...
@@ -108,19 +115,15 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
 
     public virtual void Fire()
     {
+        bool animatorIsNotAiming = !AnimatorController.GetCurrentAnimatorStateInfo( 0 ).IsName( "Aim" );
         bool gunHasAmmo = CurrentLoadedRounds > 0;
+
+        if (animatorIsNotAiming) return;
+        //else...
+
         if (gunHasAmmo)
         {
-            if (CurrentLoadedRounds == ONE_IN_THE_CHAMBER)
-            {
-                //TODO: PLAY LAST SHOT ANIMATION
-            }
-
-            if (CurrentLoadedRounds > ONE_IN_THE_CHAMBER)
-            {
-                //TODO: PLAY REGULAR SHOT ANIMATION
-                AnimatorController.SetTrigger( "Shoot" );
-            }
+            AnimatorController.SetTrigger( "Shoot" );
 
             for (int i = 0; i < PelletsPerShot; i++)
             {
@@ -158,9 +161,7 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
         }
         else
         {
-            //TODO: PLAY EMPTY GUN ANIMATION
-
-            //play empty sound
+            AnimatorController.SetTrigger( "FailedShot" );
         }
     }
 
@@ -171,11 +172,26 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
     {
         bool theresAmmoLeft = CurrentTotalAmmo > 0;
         bool weaponIsNotFull = CurrentLoadedRounds < MaxLoadedRounds + ONE_IN_THE_CHAMBER;
+        bool cantReload = !( theresAmmoLeft && weaponIsNotFull );
 
-        if (theresAmmoLeft && weaponIsNotFull)
+        bool animatorIsIdle = AnimatorController.GetCurrentAnimatorStateInfo( 0 ).IsName( "Idle" );
+        bool animatorIsReloading = AnimatorController.GetCurrentAnimatorStateInfo( 0 ).IsName( "LoadedReload" );
+
+        if (cantReload) return;
+        //else...
+
+        if (animatorIsIdle || animatorIsReloading)
         {
-            CurrentTotalAmmo--;
-            CurrentLoadedRounds++;
+            bool gunHasLoadedRounds = CurrentLoadedRounds > 0;
+
+            if (gunHasLoadedRounds)
+            {
+                AnimatorController.SetTrigger( "LoadedReload" );
+            }
+            else
+            {
+                AnimatorController.SetTrigger( "EmptyChamberReload" );
+            }
         }
     }
 
@@ -189,11 +205,22 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
 
         string message = hasInfiniteAmmo switch
         {
-            false => $"{CurrentLoadedRounds} | {CurrentLoadedRounds} {rounds}",
+            false => $"{CurrentLoadedRounds} | {CurrentTotalAmmo} {rounds}",
             true => "INFINITE"
         };
 
+        bool animatorIsNotIdle = !AnimatorController.GetCurrentAnimatorStateInfo( 0 ).IsName( "Idle" );
+        bool thereAreNoRounds = AnimatorController.GetInteger( "Rounds" ) <= 0;
+
+        if (animatorIsNotIdle) return;
+        //else...
+
         AmmoChecker.PrintMessage( message );
+
+        if (thereAreNoRounds) return;
+        //else...
+
+        AnimatorController.SetTrigger( "CheckAmmo" );
     }
 
     #endregion
@@ -201,6 +228,23 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
     public void AddRounds( int amount )
     {
         CurrentTotalAmmo += amount;
+    }
+    #region AnimationEvents
+
+    public void AddRound()
+    {
+        CurrentLoadedRounds++;
+        CurrentTotalAmmo--;
+    }
+
+    #endregion
+
+    #endregion
+    #region Private methods
+
+    private void UpdateAnimatorParameters()
+    {
+        AnimatorController.SetInteger( "Rounds", CurrentLoadedRounds );
     }
 
     #endregion
