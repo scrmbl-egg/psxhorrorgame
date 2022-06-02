@@ -188,16 +188,7 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
 
         if (animatorIsIdle || animatorIsReloading)
         {
-            bool gunHasLoadedRounds = CurrentLoadedRounds > 0;
-
-            if (gunHasLoadedRounds)
-            {
-                AnimatorController.SetTrigger( "LoadedReload" );
-            }
-            else
-            {
-                AnimatorController.SetTrigger( "EmptyChamberReload" );
-            }
+            AnimatorController.SetTrigger( "Reload" );
         }
     }
 
@@ -235,6 +226,7 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
     {
         CurrentTotalAmmo += amount;
     }
+
     #region AnimationEvents
 
     public void AddRound()
