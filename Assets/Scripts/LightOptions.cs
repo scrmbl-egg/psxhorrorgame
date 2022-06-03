@@ -51,6 +51,5 @@ public class LightOptions : MonoBehaviour
     }
 
 
-
     #endregion
 }
