@@ -45,16 +45,20 @@ public class BaseWeapon : MonoBehaviour
     {
         get
         {
-            int random = Random.Range( 0, hitDecals.Length );
-            return hitDecals[ random ];
+            if (hitDecals.Length == 0) return null;
+            //else...
+
+            return hitDecals[ Random.Range( 0, hitDecals.Length ) ];
         }
     }
     public GameObject RandomHitParticle
     {
         get
         {
-            int random = Random.Range( 0, hitParticles.Length );
-            return hitParticles[ random ];
+            if (hitParticles.Length == 0) return null;
+            //else...
+            
+            return hitParticles[ Random.Range( 0, hitParticles.Length ) ];
         }
     }
 
@@ -62,6 +66,7 @@ public class BaseWeapon : MonoBehaviour
     //
     [SerializeField] private AudioClip[] meleeSounds;
     [SerializeField] private AudioClip[] firingSounds;
+    [SerializeField] private AudioClip[] rackSounds;
 
     public AudioSource AudioSource { get; private set; }
     public AudioClip RandomMeleeSound
@@ -82,6 +87,16 @@ public class BaseWeapon : MonoBehaviour
             //else...
 
             return firingSounds[ Random.Range( 0, firingSounds.Length ) ];
+        }
+    }
+    public AudioClip RandomRackSound
+    {
+        get
+        {
+            if (rackSounds.Length == 0) return null;
+            //else...
+
+            return rackSounds[ Random.Range( 0, rackSounds.Length ) ];
         }
     }
 

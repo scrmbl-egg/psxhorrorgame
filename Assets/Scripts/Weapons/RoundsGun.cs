@@ -235,6 +235,31 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
         CurrentTotalAmmo--;
     }
 
+    public void FailedShotSound()
+    {
+
+    }
+
+    public void FireSound()
+    {
+
+    }
+
+    public void Rack1Sound()
+    {
+
+    }
+
+    public void Rack2Sound()
+    {
+
+    }
+
+    public void MeleeSound()
+    {
+
+    }
+
     #endregion
 
     #endregion
