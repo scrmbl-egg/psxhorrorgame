@@ -237,12 +237,12 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
 
     public void FailedShotSound()
     {
-
+        AudioSource.PlayOneShot( RandomFailedShotSound );
     }
 
     public void FireSound()
     {
-
+        AudioSource.PlayOneShot( RandomFiringSound );
     }
 
     public void Rack1Sound()

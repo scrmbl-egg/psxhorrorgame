@@ -64,11 +64,21 @@ public class BaseWeapon : MonoBehaviour
 
     [Header( "Sounds" )]
     //
+    [SerializeField] private AudioClip[] failedShotSounds;
     [SerializeField] private AudioClip[] meleeSounds;
     [SerializeField] private AudioClip[] firingSounds;
     [SerializeField] private AudioClip[] rackSounds;
 
     public AudioSource AudioSource { get; private set; }
+    public AudioClip RandomFailedShotSound
+    {
+        get
+        {
+            if (failedShotSounds.Length == 0) return null;
+
+            return failedShotSounds[ Random.Range( 0, failedShotSounds.Length ) ];
+        }
+    }
     public AudioClip RandomMeleeSound
     {
         get
