@@ -166,7 +166,21 @@ ModelImporter:
       mirror: 0
       bodyMask: 01000000010000000100000001000000010000000100000001000000010000000100000001000000010000000100000001000000
       curves: []
-      events: []
+      events:
+      - time: 0.2850877
+        functionName: RackSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.64601773
+        functionName: RackSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
       transformMask: []
       maskType: 3
       maskSource: {instanceID: 0}
@@ -261,15 +275,22 @@ ModelImporter:
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
-      - time: 0.48518533
-        functionName: Rack1Sound
+      - time: 0.4173387
+        functionName: RackSound
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
         intParameter: 0
         messageOptions: 0
       - time: 0.77037024
-        functionName: Rack2Sound
+        functionName: RackSound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.09649149
+        functionName: TurnOffMuzzleLight
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0
@@ -342,6 +363,13 @@ ModelImporter:
       events:
       - time: 0.5721784
         functionName: AddRound
+        data: 
+        objectReferenceParameter: {instanceID: 0}
+        floatParameter: 0
+        intParameter: 0
+        messageOptions: 0
+      - time: 0.035087753
+        functionName: RackSound
         data: 
         objectReferenceParameter: {instanceID: 0}
         floatParameter: 0

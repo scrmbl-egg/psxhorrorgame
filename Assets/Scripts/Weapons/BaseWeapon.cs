@@ -13,6 +13,8 @@ public class BaseWeapon : MonoBehaviour
     [SerializeField] private string weaponName;
     [Space( 2 )]
     [SerializeField] private Transform raycastOrigin;
+    [SerializeField] private Light muzzleLight;
+    [SerializeField] private float muzzleLightIntensity;
     [Space( 2 )]
     [SerializeField, Min( 1 )] private int pelletsPerShot = 1;
     [Space( 2 )]
@@ -33,6 +35,8 @@ public class BaseWeapon : MonoBehaviour
     [SerializeField] private GameObject[] hitParticles;
     public string WeaponName => weaponName;
     public Transform RaycastOrigin => raycastOrigin;
+    public Light MuzzleLight => muzzleLight;
+    public float MuzzleLightIntensity => muzzleLightIntensity;
     public int PelletsPerShot => pelletsPerShot;
     public int MeleeDamage => meleeDamage;
     public int WeaponDamage => Random.Range( minWeaponDamage, maxWeaponDamage + 1 );
@@ -57,7 +61,7 @@ public class BaseWeapon : MonoBehaviour
         {
             if (hitParticles.Length == 0) return null;
             //else...
-            
+
             return hitParticles[ Random.Range( 0, hitParticles.Length ) ];
         }
     }
@@ -68,6 +72,7 @@ public class BaseWeapon : MonoBehaviour
     [SerializeField] private AudioClip[] meleeSounds;
     [SerializeField] private AudioClip[] firingSounds;
     [SerializeField] private AudioClip[] rackSounds;
+    [SerializeField] private AudioClip[] insertAmmoSounds;
 
     public AudioSource AudioSource { get; private set; }
     public AudioClip RandomFailedShotSound
@@ -107,6 +112,16 @@ public class BaseWeapon : MonoBehaviour
             //else...
 
             return rackSounds[ Random.Range( 0, rackSounds.Length ) ];
+        }
+    }
+    public AudioClip RandomInsertAmmoSound
+    {
+        get
+        {
+            if (insertAmmoSounds.Length == 0) return null;
+            //else...
+
+            return insertAmmoSounds[ Random.Range( 0, insertAmmoSounds.Length ) ];
         }
     }
 

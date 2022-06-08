@@ -233,6 +233,13 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
     {
         CurrentLoadedRounds++;
         CurrentTotalAmmo--;
+
+        AudioSource.PlayOneShot( RandomInsertAmmoSound );
+    }
+
+    public void MeleeSound()
+    {
+        AudioSource.PlayOneShot( RandomMeleeSound );
     }
 
     public void FailedShotSound()
@@ -242,22 +249,18 @@ public class RoundsGun : BaseWeapon, IWeapon, IGun
 
     public void FireSound()
     {
+        MuzzleLight.intensity = MuzzleLightIntensity;
         AudioSource.PlayOneShot( RandomFiringSound );
     }
 
-    public void Rack1Sound()
+    public void RackSound()
     {
-
+        AudioSource.PlayOneShot( RandomRackSound );
     }
 
-    public void Rack2Sound()
+    public void TurnOffMuzzleLight()
     {
-
-    }
-
-    public void MeleeSound()
-    {
-
+        MuzzleLight.intensity = 0;
     }
 
     #endregion

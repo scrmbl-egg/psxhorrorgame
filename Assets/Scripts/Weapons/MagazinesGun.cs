@@ -42,6 +42,33 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         set => magazines = value;
     }
 
+    [Space( 10 )]
+    [Header( "Extra Sounds" )]
+    //
+    [SerializeField] private AudioClip[] ejectMagazineSounds;
+    [SerializeField] private AudioClip[] insertMagazineSounds;
+
+    public AudioClip RandomEjectMagazineSound
+    {
+        get
+        {
+            if (ejectMagazineSounds.Length == 0) return null;
+            //else...
+
+            return ejectMagazineSounds[ Random.Range( 0, ejectMagazineSounds.Length ) ];
+        }
+    }
+    public AudioClip RandomInsertMagazineSound
+    {
+        get
+        {
+            if (insertMagazineSounds.Length == 0) return null;
+            //else...
+
+            return insertMagazineSounds[ Random.Range( 0, insertMagazineSounds.Length ) ];
+        }
+    }
+
     private bool _isAiming;
     public bool IsAiming
     {
@@ -83,9 +110,35 @@ public class MagazinesGun : BaseWeapon, IWeapon, IGun
         AudioSource.PlayOneShot( RandomMeleeSound );
     }
 
-    public void FiringSound()
+    public void FireSound()
     {
+        MuzzleLight.intensity = MuzzleLightIntensity;
         AudioSource.PlayOneShot( RandomFiringSound );
+    }
+
+    public void FailedShotSound()
+    {
+        AudioSource.PlayOneShot( RandomFailedShotSound );
+    }
+
+    public void RackSound()
+    {
+        AudioSource.PlayOneShot( RandomRackSound );
+    }
+
+    public void InsertMagSound()
+    {
+        AudioSource.PlayOneShot( RandomInsertMagazineSound );
+    }
+
+    public void EjectMagSound()
+    {
+        AudioSource.PlayOneShot( RandomEjectMagazineSound );
+    }
+
+    public void TurnOffMuzzleLight()
+    {
+        MuzzleLight.intensity = 0;
     }
 
     #endregion
