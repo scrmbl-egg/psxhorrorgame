@@ -27609,7 +27609,7 @@ PrefabInstance:
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
       propertyPath: enteredThroughTrigger.m_PersistentCalls.m_Calls.Array.data[0].m_Arguments.m_StringArgument
-      value: Welcome to GAME TITLE's concept museum
+      value: Welcome to Deepest Dawn's concept museum
       objectReference: {fileID: 0}
     - target: {fileID: 6019355035846432207, guid: 5921de21fdaa73344ad8b1c3403b4c1f,
         type: 3}
@@ -47103,7 +47103,7 @@ GameObject:
   m_Icon: {fileID: 7250588514170254948, guid: 0000000000000000d000000000000000, type: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!4 &1619879093
 Transform:
   m_ObjectHideFlags: 0
