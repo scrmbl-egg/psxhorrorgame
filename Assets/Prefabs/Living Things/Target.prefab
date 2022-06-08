@@ -290,7 +290,7 @@ MonoBehaviour:
   health: 100
   bloodPrefabs:
   - {fileID: 55515357295876153, guid: ca687d656b36cb845a2222891e9e5518, type: 3}
-  deathDuration: 10
+  deathDuration: 5
 --- !u!114 &238231983228843372
 MonoBehaviour:
   m_ObjectHideFlags: 0
