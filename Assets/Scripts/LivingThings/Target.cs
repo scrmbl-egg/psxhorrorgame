@@ -9,19 +9,20 @@ public class Target : MonoBehaviour
     //
     [SerializeField] private Transform lookingTarget;
     private LivingThing _livingThing;
-    private TMP_Text _tmpText;
+
+    [HideInInspector] public TMP_Text TMPText;
 
     #region MonoBehaviour
 
     private void Awake()
     {
         _livingThing = GetComponent<LivingThing>();
-        _tmpText = GetComponentInChildren<TMP_Text>();
+        TMPText = GetComponentInChildren<TMP_Text>();
     }
 
     private void Update()
     {
-        _tmpText.text = _livingThing.Health.ToString();
+        TMPText.text = _livingThing.Health.ToString();
     }
 
     private void LateUpdate()
